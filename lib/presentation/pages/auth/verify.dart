@@ -1,21 +1,21 @@
-import 'package:bible_compass_app/presentation/widgets/themebutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../domain/models/user/user.dart';
 import '../../widgets/inputfield.dart';
+import '../../widgets/themebutton.dart';
 
-class SignUpScreen extends ConsumerStatefulWidget {
-  const SignUpScreen({super.key});
+class VerifyUserScreen extends ConsumerStatefulWidget {
+  const VerifyUserScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _SignUpScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _VerifyUserScreenState();
 }
 
-class _SignUpScreenState extends ConsumerState<SignUpScreen> {
+class _VerifyUserScreenState extends ConsumerState<VerifyUserScreen> {
   late UserModel user;
   final _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,15 +29,12 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
         ),
         child: SingleChildScrollView(
           child: SizedBox(
-            height: MediaQuery.of(context).size.height,
+            height: 500,
             child: Form(
               key: _formKey,
               child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  InputField(
-                    hintText: " Enter your username",
-                  ),
                   InputField(
                     hintText: " Enter your email",
                   ),
