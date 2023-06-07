@@ -1,3 +1,6 @@
+import 'package:bible_compass_app/presentation/pages/auth/login.dart';
+import 'package:bible_compass_app/presentation/pages/auth/signup.dart';
+import 'package:bible_compass_app/presentation/pages/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -9,28 +12,26 @@ class MyRouter extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // GoRouter configuration
     final router = GoRouter(
-      initialLocation: '/',
+      initialLocation: '/signup',
       routes: [
         GoRoute(
-          path: '/',
-          builder: (context, state) => const Placeholder(),
+          path: '/splash',
+          builder: (context, state) => const SplashScreen(),
         ),
         GoRoute(
           path: '/signup',
-          builder: (context, state) => const Placeholder(),
+          builder: (context, state) => const SignUpScreen(),
         ),
         GoRoute(
           path: '/login',
-          builder: (context, state) => const Placeholder(),
+          builder: (context, state) => const LoginScreen(),
         ),
       ],
     );
 
-    return MaterialApp(
-      home: MaterialApp.router(
-        debugShowCheckedModeBanner: false,
-        routerConfig: router,
-      ),
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      routerConfig: router,
     );
   }
 }
