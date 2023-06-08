@@ -37,3 +37,25 @@ class ThemeButton extends StatelessWidget {
     );
   }
 }
+
+class AHref extends StatelessWidget {
+  final void Function()? onPressed;
+  final String text;
+  const AHref({
+    super.key,
+    this.onPressed,
+    required this.text,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: onPressed,
+      child: Text(
+          style: const TextStyle(
+            color: Color(0xFF0BA37F),
+          ),
+          text),
+    );
+  }
+}
