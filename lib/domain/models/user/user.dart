@@ -26,5 +26,13 @@ abstract class UserState with _$UserState {
       @Default('') String error,
       @Default(false) bool isLoggedIn}) = _UserState;
 
-  const UserState._();
+  // const UserState._();
 }
+
+// @freezed
+// abstract class AsyncValue<T> {
+//   const factory AsyncValue.data(T value) = AsyncData<T>;
+//   const factory AsyncValue.loading() = AsyncLoading<T>;
+//   const factory AsyncValue.error(Object error, {StackTrace? stackTrace}) =
+//       AsyncError<T>;
+// }

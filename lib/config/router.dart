@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../presentation/pages/dashboard/home.dart';
+
 class MyRouter extends ConsumerWidget {
   const MyRouter({super.key});
 
@@ -25,6 +27,10 @@ class MyRouter extends ConsumerWidget {
         GoRoute(
           path: '/login',
           builder: (context, state) => const LoginScreen(),
+        ),
+        GoRoute(
+          path: '/home',
+          builder: (context, state) => const HomeScreen(),
         ),
       ],
     );

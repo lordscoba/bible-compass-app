@@ -356,14 +356,13 @@ class __$$_UserStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_UserState extends _UserState {
+class _$_UserState implements _UserState {
   const _$_UserState(
       {final Map<String, dynamic> data = const {},
       this.isLoading = false,
       this.error = '',
       this.isLoggedIn = false})
-      : _data = data,
-        super._();
+      : _data = data;
 
   final Map<String, dynamic> _data;
   @override
@@ -413,13 +412,12 @@ class _$_UserState extends _UserState {
       __$$_UserStateCopyWithImpl<_$_UserState>(this, _$identity);
 }
 
-abstract class _UserState extends UserState {
+abstract class _UserState implements UserState {
   const factory _UserState(
       {final Map<String, dynamic> data,
       final bool isLoading,
       final String error,
       final bool isLoggedIn}) = _$_UserState;
-  const _UserState._() : super._();
 
   @override
   Map<String, dynamic> get data;

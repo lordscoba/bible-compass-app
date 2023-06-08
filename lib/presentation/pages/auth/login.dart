@@ -1,6 +1,8 @@
 import 'package:bible_compass_app/presentation/widgets/themebutton.dart';
+import 'package:bible_compass_app/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../domain/models/user/user.dart';
 import '../../widgets/inputfield.dart';
@@ -36,21 +38,37 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         ),
         child: SingleChildScrollView(
           child: SizedBox(
-            height: 500,
+            height: MediaQuery.of(context).size.height,
             child: Form(
               key: _formKey,
-              child: const Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  InputField(
+                  const CompassTop(
+                    width: 200,
+                  ),
+                  const InputField(
                     hintText: " Enter your email",
                   ),
-                  InputField(
+                  const InputField(
                     hintText: " Enter your password",
                   ),
-                  ThemeButton(
-                    text: 'Create Account',
+                  const ThemeButton(
+                    text: 'Login',
                   ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("You don't have an account?"),
+                      AHref(
+                        text: 'Sign up',
+                        onPressed: () {
+                          context.go("/signup");
+                        },
+                      ),
+                    ],
+                  )
                 ],
               ),
             ),
