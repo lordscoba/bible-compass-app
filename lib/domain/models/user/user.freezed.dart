@@ -23,6 +23,7 @@ mixin _$UserModel {
   String get name => throw _privateConstructorUsedError;
   String get username => throw _privateConstructorUsedError;
   String get password => throw _privateConstructorUsedError;
+  String get confirmPassword => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String get key => throw _privateConstructorUsedError;
 
@@ -41,6 +42,7 @@ abstract class $UserModelCopyWith<$Res> {
       {String name,
       String username,
       String password,
+      String confirmPassword,
       String email,
       String key});
 }
@@ -61,6 +63,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? name = null,
     Object? username = null,
     Object? password = null,
+    Object? confirmPassword = null,
     Object? email = null,
     Object? key = null,
   }) {
@@ -76,6 +79,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
       password: null == password
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
+              as String,
+      confirmPassword: null == confirmPassword
+          ? _value.confirmPassword
+          : confirmPassword // ignore: cast_nullable_to_non_nullable
               as String,
       email: null == email
           ? _value.email
@@ -100,6 +107,7 @@ abstract class _$$_UserModelCopyWith<$Res> implements $UserModelCopyWith<$Res> {
       {String name,
       String username,
       String password,
+      String confirmPassword,
       String email,
       String key});
 }
@@ -118,6 +126,7 @@ class __$$_UserModelCopyWithImpl<$Res>
     Object? name = null,
     Object? username = null,
     Object? password = null,
+    Object? confirmPassword = null,
     Object? email = null,
     Object? key = null,
   }) {
@@ -134,6 +143,10 @@ class __$$_UserModelCopyWithImpl<$Res>
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
               as String,
+      confirmPassword: null == confirmPassword
+          ? _value.confirmPassword
+          : confirmPassword // ignore: cast_nullable_to_non_nullable
+              as String,
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -147,12 +160,14 @@ class __$$_UserModelCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(fieldRename: FieldRename.snake)
 class _$_UserModel implements _UserModel {
   _$_UserModel(
       {this.name = '',
       this.username = '',
       this.password = '',
+      this.confirmPassword = '',
       this.email = '',
       this.key = ''});
 
@@ -170,6 +185,9 @@ class _$_UserModel implements _UserModel {
   final String password;
   @override
   @JsonKey()
+  final String confirmPassword;
+  @override
+  @JsonKey()
   final String email;
   @override
   @JsonKey()
@@ -177,7 +195,7 @@ class _$_UserModel implements _UserModel {
 
   @override
   String toString() {
-    return 'UserModel(name: $name, username: $username, password: $password, email: $email, key: $key)';
+    return 'UserModel(name: $name, username: $username, password: $password, confirmPassword: $confirmPassword, email: $email, key: $key)';
   }
 
   @override
@@ -190,14 +208,16 @@ class _$_UserModel implements _UserModel {
                 other.username == username) &&
             (identical(other.password, password) ||
                 other.password == password) &&
+            (identical(other.confirmPassword, confirmPassword) ||
+                other.confirmPassword == confirmPassword) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.key, key) || other.key == key));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, name, username, password, email, key);
+  int get hashCode => Object.hash(
+      runtimeType, name, username, password, confirmPassword, email, key);
 
   @JsonKey(ignore: true)
   @override
@@ -218,6 +238,7 @@ abstract class _UserModel implements UserModel {
       {final String name,
       final String username,
       final String password,
+      final String confirmPassword,
       final String email,
       final String key}) = _$_UserModel;
 
@@ -230,6 +251,8 @@ abstract class _UserModel implements UserModel {
   String get username;
   @override
   String get password;
+  @override
+  String get confirmPassword;
   @override
   String get email;
   @override

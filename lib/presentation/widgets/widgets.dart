@@ -31,3 +31,16 @@ class CompassSide extends StatelessWidget {
     );
   }
 }
+
+class HorizontalSpace extends StatelessWidget {
+  const HorizontalSpace({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox(
+      height: 15,
+    );
+  }
+}
