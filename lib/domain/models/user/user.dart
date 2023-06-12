@@ -5,10 +5,15 @@ part 'user.g.dart';
 
 @freezed
 class UserModel with _$UserModel {
+  // ignore: invalid_annotation_target
+  @JsonSerializable(
+    fieldRename: FieldRename.snake, // <---
+  )
   factory UserModel(
       {@Default('') String name,
       @Default('') String username,
       @Default('') String password,
+      @Default('') String confirmPassword,
       @Default('') String email,
       @Default('') String key
       // Add other necessary fields
@@ -28,11 +33,3 @@ abstract class UserState with _$UserState {
 
   // const UserState._();
 }
-
-// @freezed
-// abstract class AsyncValue<T> {
-//   const factory AsyncValue.data(T value) = AsyncData<T>;
-//   const factory AsyncValue.loading() = AsyncLoading<T>;
-//   const factory AsyncValue.error(Object error, {StackTrace? stackTrace}) =
-//       AsyncError<T>;
-// }

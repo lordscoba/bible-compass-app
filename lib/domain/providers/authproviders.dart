@@ -14,3 +14,8 @@ final signUpProvider =
     StateNotifierProvider.autoDispose<SignUpNotifier, UserState>((ref) {
   return SignUpNotifier();
 });
+
+final loginProvider =
+    StateNotifierProvider.autoDispose<LoginNotifier, UserState>((ref) {
+  return LoginNotifier();
+});

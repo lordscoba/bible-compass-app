@@ -13,7 +13,6 @@ class SignUpNotifier extends StateNotifier<UserState> {
       state = state.copyWith(isLoading: true, error: '');
       final dio = Dio();
 
-      // final dio = ref.watch(dioProvider);
       // Make the POST request
       final response = await dio.post(EnvironmentConfig.signUpUrl, data: ref);
       if (response.statusCode == 200 || response.statusCode == 201) {
@@ -37,50 +36,39 @@ class SignUpNotifier extends StateNotifier<UserState> {
         state = state.copyWith(isLoading: false, error: e.message.toString());
       }
     }
-
-    // return state;
   }
 }
 
-// class SignUpNotifier extends StateNotifier<UserState> {
-//   SignUpNotifier() : super(const UserState());
+class LoginNotifier extends StateNotifier<UserState> {
+  LoginNotifier() : super(const UserState());
+  Future<void> performLogin(ref) async {
+    try {
+      // Set loading state
+      state = state.copyWith(isLoading: true, error: '');
+      final dio = Dio();
 
-
-
-
-//   Future<void> perfromSignupRequest(ref) async {
-//     try {
-//       // Set loading state
-//       state = state.copyWith(isLoading: true, error: '');
-//       final dio = Dio();
-// //       final dioProvider = Provider<Dio>((ref) {
-// //   return Dio(); // Customize with your Dio configuration
-// // });
-
-//       // Make the POST request
-//       final response = await dio.post(EnvironmentConfig.signUpUrl, data: ref);
-//       if (response.statusCode == 200 || response.statusCode == 201) {
-//         // Request successful
-//         state = state.copyWith(
-//             isLoading: false,
-//             data: response.data as Map<String, dynamic>,
-//             error: '');
-//         // debugPrint(response.data.toString());
-//       }
-//     } on DioError catch (e) {
-//       // debugPrint(e.toString());
-//       if (e.response != null) {
-//         // debugPrint(e.response?.data['message'].toString());
-//         state = state.copyWith(
-//             isLoading: false, error: e.response?.data['message']);
-//       } else {
-//         // Something happened in setting up or sending the request that triggered an Error
-//         debugPrint(e.requestOptions.toString());
-//         debugPrint(e.message.toString());
-//         state = state.copyWith(isLoading: false, error: e.message.toString());
-//       }
-//     }
-
-//     // return state;
-//   }
-// }
+      // Make the POST request
+      final response = await dio.post(EnvironmentConfig.loginUpUrl, data: ref);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // Request successful
+        state = state.copyWith(
+            isLoading: false,
+            data: response.data as Map<String, dynamic>,
+            error: '');
+        // debugPrint(response.data.toString());
+      }
+    } on DioError catch (e) {
+      // debugPrint(e.toString());
+      if (e.response != null) {
+        // debugPrint(e.response?.data['message'].toString());
+        state = state.copyWith(
+            isLoading: false, error: e.response?.data['message']);
+      } else {
+        // Something happened in setting up or sending the request that triggered an Error
+        debugPrint(e.requestOptions.toString());
+        debugPrint(e.message.toString());
+        state = state.copyWith(isLoading: false, error: e.message.toString());
+      }
+    }
+  }
+}

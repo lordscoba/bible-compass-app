@@ -7,50 +7,121 @@ class Draw extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: Colors.black.withOpacity(0.6),
+      width: 300,
+      // backgroundColor: Colors.black.withOpacity(0.6),
+      backgroundColor: Colors.white,
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
-          DrawerHeader(
-              decoration: BoxDecoration(
-                color: const Color(0xFF11dce8).withOpacity(0.3),
-              ),
-              child: const Icon(Icons.home)),
-          ListTile(
-            onTap: () {
-              context.go('/');
-            },
-            contentPadding: const EdgeInsets.only(left: 50),
-            leading: const Icon(
-              Icons.home,
-              color: Colors.white,
+          const DrawerHeader(
+            decoration: BoxDecoration(
+              color: Colors.black45,
             ),
-            title: const Text(
-              'Home',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-              ),
+            child: Image(
+              width: 50,
+              image: AssetImage("assets/images/compass-top.png"),
             ),
           ),
-          ListTile(
+          DrawerPart(
+            text: 'Home',
+            icon: Icons.home,
             onTap: () {
-              context.go('/list');
+              context.go('/home');
             },
-            contentPadding: const EdgeInsets.only(left: 50),
-            leading: const Icon(
-              Icons.list,
-              color: Colors.white,
+          ),
+          DrawerPart(
+            icon: Icons.category_outlined,
+            text: 'Categories',
+            onTap: () {
+              context.go('/category');
+            },
+          ),
+          DrawerPart(
+            icon: Icons.payment,
+            text: 'Upgrade Plan',
+            onTap: () {
+              context.go('/home');
+            },
+          ),
+          DrawerPart(
+              icon: Icons.logout_outlined,
+              text: 'logout',
+              onTap: () {
+                context.go('/login');
+              }),
+        ],
+      ),
+    );
+  }
+}
+
+class AdminDraw extends StatelessWidget {
+  const AdminDraw({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      width: 300,
+      // backgroundColor: Colors.black.withOpacity(0.6),
+      backgroundColor: Colors.white,
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          const DrawerHeader(
+            decoration: BoxDecoration(
+              color: Colors.black45,
             ),
-            title: const Text(
-              'List Users',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-              ),
+            child: Image(
+              width: 50,
+              image: AssetImage("assets/images/compass-top.png"),
             ),
+          ),
+          DrawerPart(
+            text: 'Home',
+            icon: Icons.home,
+            onTap: () {
+              context.go('admin/home');
+            },
+          ),
+          DrawerPart(
+            icon: Icons.category_outlined,
+            text: 'Categories',
+            onTap: () {
+              context.go('admin/category');
+            },
           ),
         ],
+      ),
+    );
+  }
+}
+
+class DrawerPart extends StatelessWidget {
+  final String text;
+  final void Function()? onTap;
+  final IconData? icon;
+  const DrawerPart({
+    super.key,
+    required this.text,
+    this.onTap,
+    this.icon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      onTap: onTap,
+      contentPadding: const EdgeInsets.only(left: 50),
+      leading: Icon(
+        icon,
+        color: Colors.black45,
+      ),
+      title: Text(
+        text,
+        style: const TextStyle(
+          color: Colors.black54,
+          fontSize: 19,
+        ),
       ),
     );
   }

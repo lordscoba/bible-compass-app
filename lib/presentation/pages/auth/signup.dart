@@ -107,6 +107,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                     },
                   ),
                   InputField(
+                    obscureText: true,
                     hintText: " Enter your password",
                     validation: (value) {
                       if (value == null || value.isEmpty) {
@@ -116,6 +117,19 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                     },
                     onSaved: (value) {
                       user = user.copyWith(password: value!);
+                    },
+                  ),
+                  InputField(
+                    obscureText: true,
+                    hintText: " Enter your Confirm password",
+                    validation: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Enter something';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      user = user.copyWith(confirmPassword: value!);
                     },
                   ),
                   ThemeButton(
@@ -128,6 +142,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                             .read(signUpProvider.notifier)
                             .perfromSignupRequest(user.toJson());
                       }
+                      // debugPrint(user.toJson().toString());
                       message();
                     },
                   ),
