@@ -1,4 +1,4 @@
-import 'package:bible_compass_app/presentation/pages/admin/category.dart';
+import 'package:bible_compass_app/presentation/pages/admin/categories/category.dart';
 import 'package:bible_compass_app/presentation/pages/admin/home.dart';
 import 'package:bible_compass_app/presentation/pages/auth/login.dart';
 import 'package:bible_compass_app/presentation/pages/auth/signup.dart';
@@ -17,7 +17,7 @@ class MyRouter extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // GoRouter configuration
     final router = GoRouter(
-      initialLocation: '/admin',
+      initialLocation: '/admin/categories',
       routes: [
         // splash screen
         GoRoute(
@@ -55,7 +55,23 @@ class MyRouter extends ConsumerWidget {
           builder: (context, state) => const AdminHome(),
         ),
         GoRoute(
-          path: '/admin/category',
+          path: '/admin/users',
+          builder: (context, state) => const AdminCategory(),
+        ),
+        GoRoute(
+          path: '/admin/categories',
+          builder: (context, state) => const AdminCategory(),
+        ),
+        GoRoute(
+          path: '/admin/keywords',
+          builder: (context, state) => const AdminCategory(),
+        ),
+        GoRoute(
+          path: '/admin/subscription',
+          builder: (context, state) => const AdminCategory(),
+        ),
+        GoRoute(
+          path: '/admin/verses',
           builder: (context, state) => const AdminCategory(),
         ),
       ],
