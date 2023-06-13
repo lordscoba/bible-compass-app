@@ -14,7 +14,8 @@ class SignUpNotifier extends StateNotifier<UserState> {
       final dio = Dio();
 
       // Make the POST request
-      final response = await dio.post(EnvironmentConfig.signUpUrl, data: ref);
+      final response =
+          await dio.post(EnvironmentUserConfig.signUpUrl, data: ref);
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Request successful
         state = state.copyWith(
@@ -48,7 +49,8 @@ class LoginNotifier extends StateNotifier<UserState> {
       final dio = Dio();
 
       // Make the POST request
-      final response = await dio.post(EnvironmentConfig.loginUpUrl, data: ref);
+      final response =
+          await dio.post(EnvironmentUserConfig.loginUpUrl, data: ref);
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Request successful
         state = state.copyWith(

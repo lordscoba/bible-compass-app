@@ -21,7 +21,7 @@ class AdminHome extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xFF0BA37F),
         onPressed: () {
-          context.go('admin/home');
+          context.go('/admin');
         },
         child: const Icon(
           Icons.home,

@@ -7,10 +7,10 @@ class CreateCategory extends ConsumerStatefulWidget {
   const CreateCategory({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _LoginScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _CreateCategoryState();
 }
 
-class _LoginScreenState extends ConsumerState<CreateCategory> {
+class _CreateCategoryState extends ConsumerState<CreateCategory> {
   // late UserModel user;
   // late UserState userstate;
   final _formKey = GlobalKey<FormState>();
@@ -57,7 +57,7 @@ class _LoginScreenState extends ConsumerState<CreateCategory> {
     // });
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Update Category'),
+        title: const Text('Create Category'),
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () {

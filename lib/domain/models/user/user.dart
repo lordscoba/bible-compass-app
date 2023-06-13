@@ -9,15 +9,20 @@ class UserModel with _$UserModel {
   @JsonSerializable(
     fieldRename: FieldRename.snake, // <---
   )
-  factory UserModel(
-      {@Default('') String name,
-      @Default('') String username,
-      @Default('') String password,
-      @Default('') String confirmPassword,
-      @Default('') String email,
-      @Default('') String key
-      // Add other necessary fields
-      }) = _UserModel;
+  factory UserModel({
+    @Default('') String id,
+    @Default('') String name,
+    @Default('') String type,
+    @Default('') String username,
+    @Default('') String password,
+    @Default('') String confirmPassword,
+    @Default('') String email,
+    @Default('') String key,
+    @Default(0) double dateCreated,
+    @Default(0) double dateUpdated,
+    @Default(false) bool isVerified,
+    // Add other necessary fields
+  }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);
