@@ -4,10 +4,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SignUpNotifier extends StateNotifier<UserState> {
-  SignUpNotifier() : super(const UserState());
+class AdminUserNotifier extends StateNotifier<UserState> {
+  AdminUserNotifier() : super(const UserState());
 
-  Future<void> perfromSignupRequest(ref) async {
+  Future<void> perfromCreateUserRequest(ref) async {
     try {
       // Set loading state
       state = state.copyWith(isLoading: true, error: '');
@@ -15,7 +15,7 @@ class SignUpNotifier extends StateNotifier<UserState> {
 
       // Make the POST request
       final response =
-          await dio.post(EnvironmentUserConfig.signUpUrl, data: ref);
+          await dio.post(EnvironmentUserConfig.adminCreateUsersUrl, data: ref);
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Request successful
         state = state.copyWith(
@@ -38,19 +38,16 @@ class SignUpNotifier extends StateNotifier<UserState> {
       }
     }
   }
-}
 
-class LoginNotifier extends StateNotifier<UserState> {
-  LoginNotifier() : super(const UserState());
-  Future<void> performLogin(ref) async {
+  Future<void> perfromUpdateUserRequest(dynamic data, String id) async {
     try {
       // Set loading state
       state = state.copyWith(isLoading: true, error: '');
       final dio = Dio();
 
       // Make the POST request
-      final response =
-          await dio.post(EnvironmentUserConfig.loginUpUrl, data: ref);
+      final response = await dio
+          .patch(EnvironmentUserConfig.adminUpdateUsersUrl + id, data: data);
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Request successful
         state = state.copyWith(
