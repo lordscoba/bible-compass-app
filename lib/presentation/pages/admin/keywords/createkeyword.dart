@@ -7,10 +7,10 @@ class Createkeyword extends ConsumerStatefulWidget {
   const Createkeyword({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _LoginScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _CreatekeywordState();
 }
 
-class _LoginScreenState extends ConsumerState<Createkeyword> {
+class _CreatekeywordState extends ConsumerState<Createkeyword> {
   // late UserModel user;
   // late UserState userstate;
   final _formKey = GlobalKey<FormState>();
@@ -57,7 +57,7 @@ class _LoginScreenState extends ConsumerState<Createkeyword> {
     // });
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Update Category'),
+        title: const Text('Create Keywords'),
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () {

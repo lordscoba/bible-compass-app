@@ -7,10 +7,10 @@ class UpdateCategory extends ConsumerStatefulWidget {
   const UpdateCategory({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _LoginScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _UpdateCategoryState();
 }
 
-class _LoginScreenState extends ConsumerState<UpdateCategory> {
+class _UpdateCategoryState extends ConsumerState<UpdateCategory> {
   // late UserModel user;
   // late UserState userstate;
   final _formKey = GlobalKey<FormState>();

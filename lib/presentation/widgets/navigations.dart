@@ -25,7 +25,7 @@ class BottomBar extends StatelessWidget {
                 color: Colors.white,
               ),
               onPressed: () {
-                context.go('category');
+                context.go('/category');
               },
             ),
           ),
@@ -71,7 +71,7 @@ class AdminBottomBar extends StatelessWidget {
                 color: Colors.white,
               ),
               onPressed: () {
-                context.go('admin/category');
+                context.go('/admin/categories');
               },
             ),
           ),
@@ -83,7 +83,7 @@ class AdminBottomBar extends StatelessWidget {
                 color: Colors.white,
               ),
               onPressed: () {
-                Navigator.pop(context);
+                context.go('/admin/users');
               },
             ),
           ),

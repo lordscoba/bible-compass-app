@@ -7,10 +7,10 @@ class UpdateUsers extends ConsumerStatefulWidget {
   const UpdateUsers({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _LoginScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _UpdateUsersState();
 }
 
-class _LoginScreenState extends ConsumerState<UpdateUsers> {
+class _UpdateUsersState extends ConsumerState<UpdateUsers> {
   // late UserModel user;
   // late UserState userstate;
   final _formKey = GlobalKey<FormState>();
@@ -57,7 +57,7 @@ class _LoginScreenState extends ConsumerState<UpdateUsers> {
     // });
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Update Category'),
+        title: const Text('Update User'),
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () {

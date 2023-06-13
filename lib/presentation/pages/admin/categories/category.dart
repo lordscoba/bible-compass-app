@@ -5,10 +5,11 @@ import 'package:bible_compass_app/presentation/widgets/Header.dart';
 import 'package:bible_compass_app/presentation/widgets/addsomething.dart';
 import 'package:bible_compass_app/presentation/widgets/drawer.dart';
 import 'package:bible_compass_app/presentation/widgets/navigations.dart';
-import 'package:bible_compass_app/presentation/widgets/tophome.dart';
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../widgets/tophome.dart';
 
 class AdminCategory extends StatelessWidget {
   const AdminCategory({super.key});
@@ -17,13 +18,13 @@ class AdminCategory extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const AdminHeader(
-        title: 'Admin Catgories',
+        title: 'Admin Categories',
       ),
       drawer: const AdminDraw(),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xFF0BA37F),
         onPressed: () {
-          context.go('admin/home');
+          context.go('/admin');
         },
         child: const Icon(
           Icons.home,
@@ -37,7 +38,7 @@ class AdminCategory extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const TopHome(),
+              const TopHomeCategory(),
               AddSomething(
                 text: 'Want to add Category?',
                 icon: Icons.add_circle_outline,
@@ -51,7 +52,7 @@ class AdminCategory extends StatelessWidget {
                   );
                 },
               ),
-              const InnerClayList2()
+              const InnerClayListCategory()
             ],
           ),
         ),
@@ -60,8 +61,49 @@ class AdminCategory extends StatelessWidget {
   }
 }
 
-class InnerClayList2 extends StatelessWidget {
-  const InnerClayList2({
+class TopHomeCategory extends StatelessWidget {
+  const TopHomeCategory({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 18.0),
+      child: Align(
+        alignment: Alignment.center,
+        child: ClayContainer(
+          height: 180,
+          width: MediaQuery.of(context).size.width - 30,
+          borderRadius: 20,
+          child: const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              TopHomeChildren(
+                icons: Icons.category_rounded,
+                title: 'Total cat',
+                total: '86',
+              ),
+              TopHomeChildren(
+                icons: Icons.category_outlined,
+                title: 'Subed cat',
+                total: '8',
+              ),
+              TopHomeChildren(
+                icons: Icons.category_outlined,
+                title: 'Unsubed Upgrades',
+                total: '20',
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class InnerClayListCategory extends StatelessWidget {
+  const InnerClayListCategory({
     super.key,
   });
 

@@ -20,12 +20,17 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$UserModel {
+  String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  String get type => throw _privateConstructorUsedError;
   String get username => throw _privateConstructorUsedError;
   String get password => throw _privateConstructorUsedError;
   String get confirmPassword => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String get key => throw _privateConstructorUsedError;
+  double get dateCreated => throw _privateConstructorUsedError;
+  double get dateUpdated => throw _privateConstructorUsedError;
+  bool get isVerified => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -39,12 +44,17 @@ abstract class $UserModelCopyWith<$Res> {
       _$UserModelCopyWithImpl<$Res, UserModel>;
   @useResult
   $Res call(
-      {String name,
+      {String id,
+      String name,
+      String type,
       String username,
       String password,
       String confirmPassword,
       String email,
-      String key});
+      String key,
+      double dateCreated,
+      double dateUpdated,
+      bool isVerified});
 }
 
 /// @nodoc
@@ -60,17 +70,30 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? name = null,
+    Object? type = null,
     Object? username = null,
     Object? password = null,
     Object? confirmPassword = null,
     Object? email = null,
     Object? key = null,
+    Object? dateCreated = null,
+    Object? dateUpdated = null,
+    Object? isVerified = null,
   }) {
     return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
               as String,
       username: null == username
           ? _value.username
@@ -92,6 +115,18 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.key
           : key // ignore: cast_nullable_to_non_nullable
               as String,
+      dateCreated: null == dateCreated
+          ? _value.dateCreated
+          : dateCreated // ignore: cast_nullable_to_non_nullable
+              as double,
+      dateUpdated: null == dateUpdated
+          ? _value.dateUpdated
+          : dateUpdated // ignore: cast_nullable_to_non_nullable
+              as double,
+      isVerified: null == isVerified
+          ? _value.isVerified
+          : isVerified // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -104,12 +139,17 @@ abstract class _$$_UserModelCopyWith<$Res> implements $UserModelCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String name,
+      {String id,
+      String name,
+      String type,
       String username,
       String password,
       String confirmPassword,
       String email,
-      String key});
+      String key,
+      double dateCreated,
+      double dateUpdated,
+      bool isVerified});
 }
 
 /// @nodoc
@@ -123,17 +163,30 @@ class __$$_UserModelCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? name = null,
+    Object? type = null,
     Object? username = null,
     Object? password = null,
     Object? confirmPassword = null,
     Object? email = null,
     Object? key = null,
+    Object? dateCreated = null,
+    Object? dateUpdated = null,
+    Object? isVerified = null,
   }) {
     return _then(_$_UserModel(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
               as String,
       username: null == username
           ? _value.username
@@ -155,6 +208,18 @@ class __$$_UserModelCopyWithImpl<$Res>
           ? _value.key
           : key // ignore: cast_nullable_to_non_nullable
               as String,
+      dateCreated: null == dateCreated
+          ? _value.dateCreated
+          : dateCreated // ignore: cast_nullable_to_non_nullable
+              as double,
+      dateUpdated: null == dateUpdated
+          ? _value.dateUpdated
+          : dateUpdated // ignore: cast_nullable_to_non_nullable
+              as double,
+      isVerified: null == isVerified
+          ? _value.isVerified
+          : isVerified // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -164,19 +229,30 @@ class __$$_UserModelCopyWithImpl<$Res>
 @JsonSerializable(fieldRename: FieldRename.snake)
 class _$_UserModel implements _UserModel {
   _$_UserModel(
-      {this.name = '',
+      {this.id = '',
+      this.name = '',
+      this.type = '',
       this.username = '',
       this.password = '',
       this.confirmPassword = '',
       this.email = '',
-      this.key = ''});
+      this.key = '',
+      this.dateCreated = 0,
+      this.dateUpdated = 0,
+      this.isVerified = false});
 
   factory _$_UserModel.fromJson(Map<String, dynamic> json) =>
       _$$_UserModelFromJson(json);
 
   @override
   @JsonKey()
+  final String id;
+  @override
+  @JsonKey()
   final String name;
+  @override
+  @JsonKey()
+  final String type;
   @override
   @JsonKey()
   final String username;
@@ -192,10 +268,19 @@ class _$_UserModel implements _UserModel {
   @override
   @JsonKey()
   final String key;
+  @override
+  @JsonKey()
+  final double dateCreated;
+  @override
+  @JsonKey()
+  final double dateUpdated;
+  @override
+  @JsonKey()
+  final bool isVerified;
 
   @override
   String toString() {
-    return 'UserModel(name: $name, username: $username, password: $password, confirmPassword: $confirmPassword, email: $email, key: $key)';
+    return 'UserModel(id: $id, name: $name, type: $type, username: $username, password: $password, confirmPassword: $confirmPassword, email: $email, key: $key, dateCreated: $dateCreated, dateUpdated: $dateUpdated, isVerified: $isVerified)';
   }
 
   @override
@@ -203,7 +288,9 @@ class _$_UserModel implements _UserModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_UserModel &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.type, type) || other.type == type) &&
             (identical(other.username, username) ||
                 other.username == username) &&
             (identical(other.password, password) ||
@@ -211,13 +298,30 @@ class _$_UserModel implements _UserModel {
             (identical(other.confirmPassword, confirmPassword) ||
                 other.confirmPassword == confirmPassword) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.key, key) || other.key == key));
+            (identical(other.key, key) || other.key == key) &&
+            (identical(other.dateCreated, dateCreated) ||
+                other.dateCreated == dateCreated) &&
+            (identical(other.dateUpdated, dateUpdated) ||
+                other.dateUpdated == dateUpdated) &&
+            (identical(other.isVerified, isVerified) ||
+                other.isVerified == isVerified));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, name, username, password, confirmPassword, email, key);
+      runtimeType,
+      id,
+      name,
+      type,
+      username,
+      password,
+      confirmPassword,
+      email,
+      key,
+      dateCreated,
+      dateUpdated,
+      isVerified);
 
   @JsonKey(ignore: true)
   @override
@@ -235,18 +339,27 @@ class _$_UserModel implements _UserModel {
 
 abstract class _UserModel implements UserModel {
   factory _UserModel(
-      {final String name,
+      {final String id,
+      final String name,
+      final String type,
       final String username,
       final String password,
       final String confirmPassword,
       final String email,
-      final String key}) = _$_UserModel;
+      final String key,
+      final double dateCreated,
+      final double dateUpdated,
+      final bool isVerified}) = _$_UserModel;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
       _$_UserModel.fromJson;
 
   @override
+  String get id;
+  @override
   String get name;
+  @override
+  String get type;
   @override
   String get username;
   @override
@@ -257,6 +370,12 @@ abstract class _UserModel implements UserModel {
   String get email;
   @override
   String get key;
+  @override
+  double get dateCreated;
+  @override
+  double get dateUpdated;
+  @override
+  bool get isVerified;
   @override
   @JsonKey(ignore: true)
   _$$_UserModelCopyWith<_$_UserModel> get copyWith =>

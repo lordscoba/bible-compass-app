@@ -3,14 +3,14 @@ import 'package:bible_compass_app/presentation/widgets/themebutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CreateKeyword extends ConsumerStatefulWidget {
-  const CreateKeyword({super.key});
+class UpdateKeyword extends ConsumerStatefulWidget {
+  const UpdateKeyword({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _LoginScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _UpdateKeywordState();
 }
 
-class _LoginScreenState extends ConsumerState<CreateKeyword> {
+class _UpdateKeywordState extends ConsumerState<UpdateKeyword> {
   // late UserModel user;
   // late UserState userstate;
   final _formKey = GlobalKey<FormState>();
@@ -57,7 +57,7 @@ class _LoginScreenState extends ConsumerState<CreateKeyword> {
     // });
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Update Category'),
+        title: const Text('Update Keywords'),
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () {

@@ -7,10 +7,10 @@ class CreateVerses extends ConsumerStatefulWidget {
   const CreateVerses({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _LoginScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _CreateVersesState();
 }
 
-class _LoginScreenState extends ConsumerState<CreateVerses> {
+class _CreateVersesState extends ConsumerState<CreateVerses> {
   // late UserModel user;
   // late UserState userstate;
   final _formKey = GlobalKey<FormState>();
@@ -57,7 +57,7 @@ class _LoginScreenState extends ConsumerState<CreateVerses> {
     // });
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Update Category'),
+        title: const Text('Create Verse'),
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () {

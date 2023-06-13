@@ -31,7 +31,7 @@ class AddSomething extends StatelessWidget {
                       fontWeight: FontWeight.bold),
                 ),
                 IconButton(
-                    onPressed: () {},
+                    onPressed: onPressed,
                     icon: Icon(
                       icon,
                       color: Colors.black54,

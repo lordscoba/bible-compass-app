@@ -80,14 +80,35 @@ class AdminDraw extends StatelessWidget {
             text: 'Home',
             icon: Icons.home,
             onTap: () {
-              context.go('admin/home');
+              context.go('/admin');
             },
           ),
           DrawerPart(
             icon: Icons.category_outlined,
             text: 'Categories',
             onTap: () {
-              context.go('admin/category');
+              context.go('/admin/categories');
+            },
+          ),
+          DrawerPart(
+            icon: Icons.category_outlined,
+            text: 'keywords',
+            onTap: () {
+              context.go('/admin/keywords');
+            },
+          ),
+          DrawerPart(
+            icon: Icons.money,
+            text: 'Subscription',
+            onTap: () {
+              context.go('/admin/subscription');
+            },
+          ),
+          DrawerPart(
+            icon: Icons.book,
+            text: 'Verses',
+            onTap: () {
+              context.go('/admin/verses');
             },
           ),
         ],
