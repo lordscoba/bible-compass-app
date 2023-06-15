@@ -10,12 +10,12 @@ class CategoryModel with _$CategoryModel {
     fieldRename: FieldRename.snake, // <---
   )
   factory CategoryModel(
-      {@Default('') String categoryId,
+      {String? id,
       @Default('') String categoryName,
       @Default(false) bool forSubscribers,
-      @Default('') String keywords,
-      @Default(0) int dateCreated,
-      @Default(0) int dateUpdated
+      @Default([]) List<String> keywords,
+      DateTime? dateCreated,
+      DateTime? dateUpdated
       // Add other necessary fields
       }) = _CategoryModel;
 

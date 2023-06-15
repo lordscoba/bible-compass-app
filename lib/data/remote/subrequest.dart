@@ -7,15 +7,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class SubNotifier extends StateNotifier<SubscriptionState> {
   SubNotifier() : super(const SubscriptionState());
 
-  Future<void> perfromCreateSubRequest(ref) async {
+  Future<void> perfromCreateSubRequest(dynamic ref, String userId) async {
     try {
       // Set loading state
       state = state.copyWith(isLoading: true, error: '');
       final dio = Dio();
 
       // Make the POST request
-      final response = await dio
-          .post(EnvironmentSubConfig.adminCreateSubscriptionUrl, data: ref);
+      final response = await dio.post(
+          EnvironmentSubConfig.adminCreateSubscriptionUrl + userId,
+          data: ref);
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Request successful
         state = state.copyWith(

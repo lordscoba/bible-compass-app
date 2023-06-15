@@ -20,16 +20,16 @@ SubscriptionModel _$SubscriptionModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$SubscriptionModel {
-  String get subscriptionId => throw _privateConstructorUsedError;
+  String? get id => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
   String get username => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
   double get amount => throw _privateConstructorUsedError;
   bool get status => throw _privateConstructorUsedError;
   double get duration => throw _privateConstructorUsedError;
-  double get dateCreated => throw _privateConstructorUsedError;
-  double get dateExpiring => throw _privateConstructorUsedError;
-  double get dateUpdated => throw _privateConstructorUsedError;
+  DateTime? get dateCreated => throw _privateConstructorUsedError;
+  DateTime? get dateExpiring => throw _privateConstructorUsedError;
+  DateTime? get dateUpdated => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -44,16 +44,16 @@ abstract class $SubscriptionModelCopyWith<$Res> {
       _$SubscriptionModelCopyWithImpl<$Res, SubscriptionModel>;
   @useResult
   $Res call(
-      {String subscriptionId,
+      {String? id,
       String userId,
       String username,
       String type,
       double amount,
       bool status,
       double duration,
-      double dateCreated,
-      double dateExpiring,
-      double dateUpdated});
+      DateTime? dateCreated,
+      DateTime? dateExpiring,
+      DateTime? dateUpdated});
 }
 
 /// @nodoc
@@ -69,22 +69,22 @@ class _$SubscriptionModelCopyWithImpl<$Res, $Val extends SubscriptionModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? subscriptionId = null,
+    Object? id = freezed,
     Object? userId = null,
     Object? username = null,
     Object? type = null,
     Object? amount = null,
     Object? status = null,
     Object? duration = null,
-    Object? dateCreated = null,
-    Object? dateExpiring = null,
-    Object? dateUpdated = null,
+    Object? dateCreated = freezed,
+    Object? dateExpiring = freezed,
+    Object? dateUpdated = freezed,
   }) {
     return _then(_value.copyWith(
-      subscriptionId: null == subscriptionId
-          ? _value.subscriptionId
-          : subscriptionId // ignore: cast_nullable_to_non_nullable
-              as String,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -109,18 +109,18 @@ class _$SubscriptionModelCopyWithImpl<$Res, $Val extends SubscriptionModel>
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
               as double,
-      dateCreated: null == dateCreated
+      dateCreated: freezed == dateCreated
           ? _value.dateCreated
           : dateCreated // ignore: cast_nullable_to_non_nullable
-              as double,
-      dateExpiring: null == dateExpiring
+              as DateTime?,
+      dateExpiring: freezed == dateExpiring
           ? _value.dateExpiring
           : dateExpiring // ignore: cast_nullable_to_non_nullable
-              as double,
-      dateUpdated: null == dateUpdated
+              as DateTime?,
+      dateUpdated: freezed == dateUpdated
           ? _value.dateUpdated
           : dateUpdated // ignore: cast_nullable_to_non_nullable
-              as double,
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -134,16 +134,16 @@ abstract class _$$_SubscriptionModelCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String subscriptionId,
+      {String? id,
       String userId,
       String username,
       String type,
       double amount,
       bool status,
       double duration,
-      double dateCreated,
-      double dateExpiring,
-      double dateUpdated});
+      DateTime? dateCreated,
+      DateTime? dateExpiring,
+      DateTime? dateUpdated});
 }
 
 /// @nodoc
@@ -157,22 +157,22 @@ class __$$_SubscriptionModelCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? subscriptionId = null,
+    Object? id = freezed,
     Object? userId = null,
     Object? username = null,
     Object? type = null,
     Object? amount = null,
     Object? status = null,
     Object? duration = null,
-    Object? dateCreated = null,
-    Object? dateExpiring = null,
-    Object? dateUpdated = null,
+    Object? dateCreated = freezed,
+    Object? dateExpiring = freezed,
+    Object? dateUpdated = freezed,
   }) {
     return _then(_$_SubscriptionModel(
-      subscriptionId: null == subscriptionId
-          ? _value.subscriptionId
-          : subscriptionId // ignore: cast_nullable_to_non_nullable
-              as String,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -197,18 +197,18 @@ class __$$_SubscriptionModelCopyWithImpl<$Res>
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
               as double,
-      dateCreated: null == dateCreated
+      dateCreated: freezed == dateCreated
           ? _value.dateCreated
           : dateCreated // ignore: cast_nullable_to_non_nullable
-              as double,
-      dateExpiring: null == dateExpiring
+              as DateTime?,
+      dateExpiring: freezed == dateExpiring
           ? _value.dateExpiring
           : dateExpiring // ignore: cast_nullable_to_non_nullable
-              as double,
-      dateUpdated: null == dateUpdated
+              as DateTime?,
+      dateUpdated: freezed == dateUpdated
           ? _value.dateUpdated
           : dateUpdated // ignore: cast_nullable_to_non_nullable
-              as double,
+              as DateTime?,
     ));
   }
 }
@@ -218,23 +218,22 @@ class __$$_SubscriptionModelCopyWithImpl<$Res>
 @JsonSerializable(fieldRename: FieldRename.snake)
 class _$_SubscriptionModel implements _SubscriptionModel {
   _$_SubscriptionModel(
-      {this.subscriptionId = '',
+      {this.id,
       this.userId = '',
       this.username = '',
       this.type = '',
       this.amount = 0,
       this.status = false,
       this.duration = 0,
-      this.dateCreated = 0,
-      this.dateExpiring = 0,
-      this.dateUpdated = 0});
+      this.dateCreated,
+      this.dateExpiring,
+      this.dateUpdated});
 
   factory _$_SubscriptionModel.fromJson(Map<String, dynamic> json) =>
       _$$_SubscriptionModelFromJson(json);
 
   @override
-  @JsonKey()
-  final String subscriptionId;
+  final String? id;
   @override
   @JsonKey()
   final String userId;
@@ -254,18 +253,15 @@ class _$_SubscriptionModel implements _SubscriptionModel {
   @JsonKey()
   final double duration;
   @override
-  @JsonKey()
-  final double dateCreated;
+  final DateTime? dateCreated;
   @override
-  @JsonKey()
-  final double dateExpiring;
+  final DateTime? dateExpiring;
   @override
-  @JsonKey()
-  final double dateUpdated;
+  final DateTime? dateUpdated;
 
   @override
   String toString() {
-    return 'SubscriptionModel(subscriptionId: $subscriptionId, userId: $userId, username: $username, type: $type, amount: $amount, status: $status, duration: $duration, dateCreated: $dateCreated, dateExpiring: $dateExpiring, dateUpdated: $dateUpdated)';
+    return 'SubscriptionModel(id: $id, userId: $userId, username: $username, type: $type, amount: $amount, status: $status, duration: $duration, dateCreated: $dateCreated, dateExpiring: $dateExpiring, dateUpdated: $dateUpdated)';
   }
 
   @override
@@ -273,8 +269,7 @@ class _$_SubscriptionModel implements _SubscriptionModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_SubscriptionModel &&
-            (identical(other.subscriptionId, subscriptionId) ||
-                other.subscriptionId == subscriptionId) &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.username, username) ||
                 other.username == username) &&
@@ -293,8 +288,8 @@ class _$_SubscriptionModel implements _SubscriptionModel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, subscriptionId, userId, username,
-      type, amount, status, duration, dateCreated, dateExpiring, dateUpdated);
+  int get hashCode => Object.hash(runtimeType, id, userId, username, type,
+      amount, status, duration, dateCreated, dateExpiring, dateUpdated);
 
   @JsonKey(ignore: true)
   @override
@@ -313,22 +308,22 @@ class _$_SubscriptionModel implements _SubscriptionModel {
 
 abstract class _SubscriptionModel implements SubscriptionModel {
   factory _SubscriptionModel(
-      {final String subscriptionId,
+      {final String? id,
       final String userId,
       final String username,
       final String type,
       final double amount,
       final bool status,
       final double duration,
-      final double dateCreated,
-      final double dateExpiring,
-      final double dateUpdated}) = _$_SubscriptionModel;
+      final DateTime? dateCreated,
+      final DateTime? dateExpiring,
+      final DateTime? dateUpdated}) = _$_SubscriptionModel;
 
   factory _SubscriptionModel.fromJson(Map<String, dynamic> json) =
       _$_SubscriptionModel.fromJson;
 
   @override
-  String get subscriptionId;
+  String? get id;
   @override
   String get userId;
   @override
@@ -342,11 +337,11 @@ abstract class _SubscriptionModel implements SubscriptionModel {
   @override
   double get duration;
   @override
-  double get dateCreated;
+  DateTime? get dateCreated;
   @override
-  double get dateExpiring;
+  DateTime? get dateExpiring;
   @override
-  double get dateUpdated;
+  DateTime? get dateUpdated;
   @override
   @JsonKey(ignore: true)
   _$$_SubscriptionModelCopyWith<_$_SubscriptionModel> get copyWith =>

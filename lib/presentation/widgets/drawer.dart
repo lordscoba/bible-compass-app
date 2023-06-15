@@ -97,13 +97,13 @@ class AdminDraw extends StatelessWidget {
               context.go('/admin/categories');
             },
           ),
-          DrawerPart(
-            icon: Icons.category_outlined,
-            text: 'keywords',
-            onTap: () {
-              context.go('/admin/keywords');
-            },
-          ),
+          // DrawerPart(
+          //   icon: Icons.category_outlined,
+          //   text: 'keywords',
+          //   onTap: () {
+          //     context.go('/admin/keywords');
+          //   },
+          // ),
           DrawerPart(
             icon: Icons.money,
             text: 'Subscription',
@@ -111,13 +111,13 @@ class AdminDraw extends StatelessWidget {
               context.go('/admin/subscription');
             },
           ),
-          DrawerPart(
-            icon: Icons.book,
-            text: 'Verses',
-            onTap: () {
-              context.go('/admin/verses');
-            },
-          ),
+          // DrawerPart(
+          //   icon: Icons.book,
+          //   text: 'Verses',
+          //   onTap: () {
+          //     context.go('/admin/verses');
+          //   },
+          // ),
         ],
       ),
     );

@@ -7,15 +7,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class VerseNotifier extends StateNotifier<VerseState> {
   VerseNotifier() : super(const VerseState());
 
-  Future<void> perfromCreateVerseRequest(ref) async {
+  Future<void> perfromCreateVerseRequest(String keywId, dynamic ref) async {
     try {
       // Set loading state
       state = state.copyWith(isLoading: true, error: '');
       final dio = Dio();
 
       // Make the POST request
-      final response =
-          await dio.post(EnvironmentVerseConfig.adminCreateVerseUrl, data: ref);
+      final response = await dio
+          .post(EnvironmentVerseConfig.adminCreateVerseUrl + keywId, data: ref);
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Request successful
         state = state.copyWith(
@@ -39,7 +39,8 @@ class VerseNotifier extends StateNotifier<VerseState> {
     }
   }
 
-  Future<void> perfromUpdateVerseRequest(dynamic data, String id) async {
+  Future<void> perfromUpdateVerseRequest(
+      String keywId, dynamic data, String vsId) async {
     try {
       // Set loading state
       state = state.copyWith(isLoading: true, error: '');
@@ -47,7 +48,7 @@ class VerseNotifier extends StateNotifier<VerseState> {
 
       // Make the POST request
       final response = await dio.patch(
-          EnvironmentVerseConfig.adminUpdateVerseByIdUrl + id,
+          "${EnvironmentVerseConfig.adminUpdateVerseByIdUrl}$keywId/$vsId",
           data: data);
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Request successful
@@ -72,14 +73,15 @@ class VerseNotifier extends StateNotifier<VerseState> {
     }
   }
 
-  Future<VerseState> perfromGetVersesRequest() async {
+  Future<VerseState> perfromGetVersesRequest(String keywId) async {
     try {
       // Set loading state
       state = state.copyWith(isLoading: true, error: '');
       final dio = Dio();
 
       // Make the POST request
-      final response = await dio.get(EnvironmentVerseConfig.adminGetVersesUrl);
+      final response =
+          await dio.get(EnvironmentVerseConfig.adminGetVersesUrl + keywId);
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Request successful
         state = state.copyWith(
@@ -104,15 +106,16 @@ class VerseNotifier extends StateNotifier<VerseState> {
     return state;
   }
 
-  Future<VerseState> perfromGetSingleVerseRequest(String id) async {
+  Future<VerseState> perfromGetSingleVerseRequest(
+      String keywId, String vsId) async {
     try {
       // Set loading state
       state = state.copyWith(isLoading: true, error: '');
       final dio = Dio();
 
       // Make the POST request
-      final response =
-          await dio.get(EnvironmentVerseConfig.adminGetVerseByIdUrl + id);
+      final response = await dio
+          .get("${EnvironmentVerseConfig.adminGetVerseByIdUrl}$keywId/$vsId");
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Request successful
         state = state.copyWith(
@@ -137,15 +140,16 @@ class VerseNotifier extends StateNotifier<VerseState> {
     return state;
   }
 
-  Future<VerseState> performDeleteVerseRequest(String id) async {
+  Future<VerseState> performDeleteVerseRequest(
+      String keywId, String vsId) async {
     try {
       // Set loading state
       state = state.copyWith(isLoading: true, error: '');
       final dio = Dio();
 
       // Make the POST request
-      final response =
-          await dio.delete(EnvironmentVerseConfig.adminDeleteVerseByIdUrl + id);
+      final response = await dio.delete(
+          '${EnvironmentVerseConfig.adminDeleteVerseByIdUrl}$keywId/$vsId');
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Request successful
         state = state.copyWith(

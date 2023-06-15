@@ -1,7 +1,9 @@
-import 'package:bible_compass_app/presentation/pages/admin/categories/updatecategory.dart';
-import 'package:bible_compass_app/presentation/pages/admin/categories/viewcategory.dart';
+import 'package:bible_compass_app/domain/models/verse/verse.dart';
+import 'package:bible_compass_app/domain/providers/verseprovider.dart';
 import 'package:bible_compass_app/presentation/pages/admin/verses/createverse.dart';
+import 'package:bible_compass_app/presentation/pages/admin/verses/deleteverse.dart';
 import 'package:bible_compass_app/presentation/pages/admin/verses/updateverse.dart';
+import 'package:bible_compass_app/presentation/pages/admin/verses/viewverse.dart';
 import 'package:bible_compass_app/presentation/widgets/Header.dart';
 import 'package:bible_compass_app/presentation/widgets/addsomething.dart';
 import 'package:bible_compass_app/presentation/widgets/drawer.dart';
@@ -9,10 +11,12 @@ import 'package:bible_compass_app/presentation/widgets/navigations.dart';
 import 'package:bible_compass_app/presentation/widgets/tophome.dart';
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class AdminVerses extends StatelessWidget {
-  const AdminVerses({super.key});
+  final String? keywid;
+  const AdminVerses({super.key, this.keywid});
 
   @override
   Widget build(BuildContext context) {
@@ -47,12 +51,16 @@ class AdminVerses extends StatelessWidget {
                     context: context,
                     barrierDismissible: true,
                     builder: (BuildContext context) {
-                      return const CreateVerses();
+                      return CreateVerses(
+                        keywId: keywid!,
+                      );
                     },
                   );
                 },
               ),
-              const InnerClayListVerse()
+              InnerClayListVerse(
+                keywid: keywid,
+              )
             ],
           ),
         ),
@@ -102,13 +110,20 @@ class TopHomeVerse extends StatelessWidget {
   }
 }
 
-class InnerClayListVerse extends StatelessWidget {
+class InnerClayListVerse extends ConsumerWidget {
+  final String? keywid;
   const InnerClayListVerse({
+    this.keywid,
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final versefuture = Future.delayed(const Duration(seconds: 1), () {
+      final versecalled =
+          ref.watch(verseProvider.notifier).perfromGetVersesRequest(keywid!);
+      return versecalled;
+    });
     double listSize = 250;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 18.0),
@@ -129,64 +144,99 @@ class InnerClayListVerse extends StatelessWidget {
                     ),
                     SizedBox(
                       height: listSize - 50,
-                      child: ListView(
-                        // physics: const NeverScrollableScrollPhysics(),
-                        children: [
-                          ListTile(
-                            title: const Text("Spirituality"),
-                            subtitle: const Text("Not a registered user"),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                IconButton(
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      barrierDismissible: true,
-                                      builder: (BuildContext context) {
-                                        return const UpdateVerse();
-                                      },
-                                    );
-                                  },
-                                  icon: const Icon(
-                                    Icons.edit,
-                                    size: 20,
-                                  ),
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      barrierDismissible: true,
-                                      builder: (BuildContext context) {
-                                        return const UpdateCategory();
-                                      },
-                                    );
-                                  },
-                                  icon: const Icon(
-                                    Icons.delete,
-                                    size: 20,
-                                  ),
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      barrierDismissible: true,
-                                      builder: (BuildContext context) {
-                                        return const ViewCategory();
-                                      },
-                                    );
-                                  },
-                                  icon: const Icon(
-                                    Icons.arrow_forward_ios_rounded,
-                                    size: 20,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
+                      child: FutureBuilder<VerseState>(
+                        future: versefuture,
+                        builder: (BuildContext context,
+                            AsyncSnapshot<VerseState> snapshot) {
+                          if (snapshot.hasData) {
+                            // debugPrint(snapshot.data?.data['data'].toString());
+                            final fulldata = snapshot.data?.data['data'];
+                            return ListView.builder(
+                                itemCount: fulldata?.length,
+                                itemBuilder: (context, index) {
+                                  if (fulldata?[index] == null) {
+                                    // return const Text('Null Value');
+                                    return null;
+                                  }
+                                  return ListTile(
+                                    title: Text(
+                                        fulldata[index]['bible_verse'] ?? "N"),
+                                    subtitle:
+                                        const Text("Not a registered user"),
+                                    trailing: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        IconButton(
+                                          onPressed: () {
+                                            showDialog(
+                                              context: context,
+                                              barrierDismissible: true,
+                                              builder: (BuildContext context) {
+                                                return const UpdateVerse(
+                                                    // fulldata[index]['ID'],
+                                                    );
+                                              },
+                                            );
+                                          },
+                                          icon: const Icon(
+                                            Icons.edit,
+                                            size: 20,
+                                          ),
+                                        ),
+                                        IconButton(
+                                          onPressed: () {
+                                            showDialog(
+                                              context: context,
+                                              barrierDismissible: true,
+                                              builder: (BuildContext context) {
+                                                return DeleteModalVerse(keywid!,
+                                                    fulldata[index]['ID']);
+                                              },
+                                            );
+                                          },
+                                          icon: const Icon(
+                                            Icons.delete,
+                                            size: 20,
+                                          ),
+                                        ),
+                                        IconButton(
+                                          onPressed: () {
+                                            showDialog(
+                                              context: context,
+                                              barrierDismissible: true,
+                                              builder: (BuildContext context) {
+                                                return ViewVerse(keywid!,
+                                                    fulldata[index]['ID']);
+                                              },
+                                            );
+                                          },
+                                          icon: const Icon(
+                                            Icons.arrow_forward_ios_rounded,
+                                            size: 20,
+                                          ),
+                                        ),
+                                        IconButton(
+                                          onPressed: () {
+                                            context.go(
+                                                "/admin/verses/${fulldata[index]['ID']}");
+                                          },
+                                          icon: const Icon(
+                                            Icons.list_alt,
+                                            size: 20,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                });
+
+                            // return const Text("hello hasdata");
+                          } else if (snapshot.hasError) {
+                            return Text('Error: ${snapshot.error}');
+                          } else {
+                            return const CircularProgressIndicator();
+                          }
+                        },
                       ),
                     ),
                   ],

@@ -20,13 +20,13 @@ KeywordModel _$KeywordModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$KeywordModel {
-  String get keywordId => throw _privateConstructorUsedError;
+  String? get id => throw _privateConstructorUsedError;
   String get categoryId => throw _privateConstructorUsedError;
   String get keyword => throw _privateConstructorUsedError;
   bool get forSubscribers => throw _privateConstructorUsedError;
   List<VerseModel> get bibleVerse => throw _privateConstructorUsedError;
-  int get dateCreated => throw _privateConstructorUsedError;
-  int get dateUpdated => throw _privateConstructorUsedError;
+  DateTime? get dateCreated => throw _privateConstructorUsedError;
+  DateTime? get dateUpdated => throw _privateConstructorUsedError;
   bool get favorite => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -42,13 +42,13 @@ abstract class $KeywordModelCopyWith<$Res> {
       _$KeywordModelCopyWithImpl<$Res, KeywordModel>;
   @useResult
   $Res call(
-      {String keywordId,
+      {String? id,
       String categoryId,
       String keyword,
       bool forSubscribers,
       List<VerseModel> bibleVerse,
-      int dateCreated,
-      int dateUpdated,
+      DateTime? dateCreated,
+      DateTime? dateUpdated,
       bool favorite});
 }
 
@@ -65,20 +65,20 @@ class _$KeywordModelCopyWithImpl<$Res, $Val extends KeywordModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? keywordId = null,
+    Object? id = freezed,
     Object? categoryId = null,
     Object? keyword = null,
     Object? forSubscribers = null,
     Object? bibleVerse = null,
-    Object? dateCreated = null,
-    Object? dateUpdated = null,
+    Object? dateCreated = freezed,
+    Object? dateUpdated = freezed,
     Object? favorite = null,
   }) {
     return _then(_value.copyWith(
-      keywordId: null == keywordId
-          ? _value.keywordId
-          : keywordId // ignore: cast_nullable_to_non_nullable
-              as String,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
       categoryId: null == categoryId
           ? _value.categoryId
           : categoryId // ignore: cast_nullable_to_non_nullable
@@ -95,14 +95,14 @@ class _$KeywordModelCopyWithImpl<$Res, $Val extends KeywordModel>
           ? _value.bibleVerse
           : bibleVerse // ignore: cast_nullable_to_non_nullable
               as List<VerseModel>,
-      dateCreated: null == dateCreated
+      dateCreated: freezed == dateCreated
           ? _value.dateCreated
           : dateCreated // ignore: cast_nullable_to_non_nullable
-              as int,
-      dateUpdated: null == dateUpdated
+              as DateTime?,
+      dateUpdated: freezed == dateUpdated
           ? _value.dateUpdated
           : dateUpdated // ignore: cast_nullable_to_non_nullable
-              as int,
+              as DateTime?,
       favorite: null == favorite
           ? _value.favorite
           : favorite // ignore: cast_nullable_to_non_nullable
@@ -120,13 +120,13 @@ abstract class _$$_KeywordModelCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String keywordId,
+      {String? id,
       String categoryId,
       String keyword,
       bool forSubscribers,
       List<VerseModel> bibleVerse,
-      int dateCreated,
-      int dateUpdated,
+      DateTime? dateCreated,
+      DateTime? dateUpdated,
       bool favorite});
 }
 
@@ -141,20 +141,20 @@ class __$$_KeywordModelCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? keywordId = null,
+    Object? id = freezed,
     Object? categoryId = null,
     Object? keyword = null,
     Object? forSubscribers = null,
     Object? bibleVerse = null,
-    Object? dateCreated = null,
-    Object? dateUpdated = null,
+    Object? dateCreated = freezed,
+    Object? dateUpdated = freezed,
     Object? favorite = null,
   }) {
     return _then(_$_KeywordModel(
-      keywordId: null == keywordId
-          ? _value.keywordId
-          : keywordId // ignore: cast_nullable_to_non_nullable
-              as String,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
       categoryId: null == categoryId
           ? _value.categoryId
           : categoryId // ignore: cast_nullable_to_non_nullable
@@ -171,14 +171,14 @@ class __$$_KeywordModelCopyWithImpl<$Res>
           ? _value._bibleVerse
           : bibleVerse // ignore: cast_nullable_to_non_nullable
               as List<VerseModel>,
-      dateCreated: null == dateCreated
+      dateCreated: freezed == dateCreated
           ? _value.dateCreated
           : dateCreated // ignore: cast_nullable_to_non_nullable
-              as int,
-      dateUpdated: null == dateUpdated
+              as DateTime?,
+      dateUpdated: freezed == dateUpdated
           ? _value.dateUpdated
           : dateUpdated // ignore: cast_nullable_to_non_nullable
-              as int,
+              as DateTime?,
       favorite: null == favorite
           ? _value.favorite
           : favorite // ignore: cast_nullable_to_non_nullable
@@ -192,13 +192,13 @@ class __$$_KeywordModelCopyWithImpl<$Res>
 @JsonSerializable(fieldRename: FieldRename.snake)
 class _$_KeywordModel implements _KeywordModel {
   _$_KeywordModel(
-      {this.keywordId = '',
+      {this.id,
       this.categoryId = '',
       this.keyword = '',
       this.forSubscribers = false,
       final List<VerseModel> bibleVerse = const [],
-      this.dateCreated = 0,
-      this.dateUpdated = 0,
+      this.dateCreated,
+      this.dateUpdated,
       this.favorite = false})
       : _bibleVerse = bibleVerse;
 
@@ -206,8 +206,7 @@ class _$_KeywordModel implements _KeywordModel {
       _$$_KeywordModelFromJson(json);
 
   @override
-  @JsonKey()
-  final String keywordId;
+  final String? id;
   @override
   @JsonKey()
   final String categoryId;
@@ -227,18 +226,16 @@ class _$_KeywordModel implements _KeywordModel {
   }
 
   @override
-  @JsonKey()
-  final int dateCreated;
+  final DateTime? dateCreated;
   @override
-  @JsonKey()
-  final int dateUpdated;
+  final DateTime? dateUpdated;
   @override
   @JsonKey()
   final bool favorite;
 
   @override
   String toString() {
-    return 'KeywordModel(keywordId: $keywordId, categoryId: $categoryId, keyword: $keyword, forSubscribers: $forSubscribers, bibleVerse: $bibleVerse, dateCreated: $dateCreated, dateUpdated: $dateUpdated, favorite: $favorite)';
+    return 'KeywordModel(id: $id, categoryId: $categoryId, keyword: $keyword, forSubscribers: $forSubscribers, bibleVerse: $bibleVerse, dateCreated: $dateCreated, dateUpdated: $dateUpdated, favorite: $favorite)';
   }
 
   @override
@@ -246,8 +243,7 @@ class _$_KeywordModel implements _KeywordModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_KeywordModel &&
-            (identical(other.keywordId, keywordId) ||
-                other.keywordId == keywordId) &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.categoryId, categoryId) ||
                 other.categoryId == categoryId) &&
             (identical(other.keyword, keyword) || other.keyword == keyword) &&
@@ -267,7 +263,7 @@ class _$_KeywordModel implements _KeywordModel {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      keywordId,
+      id,
       categoryId,
       keyword,
       forSubscribers,
@@ -292,20 +288,20 @@ class _$_KeywordModel implements _KeywordModel {
 
 abstract class _KeywordModel implements KeywordModel {
   factory _KeywordModel(
-      {final String keywordId,
+      {final String? id,
       final String categoryId,
       final String keyword,
       final bool forSubscribers,
       final List<VerseModel> bibleVerse,
-      final int dateCreated,
-      final int dateUpdated,
+      final DateTime? dateCreated,
+      final DateTime? dateUpdated,
       final bool favorite}) = _$_KeywordModel;
 
   factory _KeywordModel.fromJson(Map<String, dynamic> json) =
       _$_KeywordModel.fromJson;
 
   @override
-  String get keywordId;
+  String? get id;
   @override
   String get categoryId;
   @override
@@ -315,9 +311,9 @@ abstract class _KeywordModel implements KeywordModel {
   @override
   List<VerseModel> get bibleVerse;
   @override
-  int get dateCreated;
+  DateTime? get dateCreated;
   @override
-  int get dateUpdated;
+  DateTime? get dateUpdated;
   @override
   bool get favorite;
   @override

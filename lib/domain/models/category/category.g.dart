@@ -8,20 +8,27 @@ part of 'category.dart';
 
 _$_CategoryModel _$$_CategoryModelFromJson(Map<String, dynamic> json) =>
     _$_CategoryModel(
-      categoryId: json['category_id'] as String? ?? '',
+      id: json['id'] as String?,
       categoryName: json['category_name'] as String? ?? '',
       forSubscribers: json['for_subscribers'] as bool? ?? false,
-      keywords: json['keywords'] as String? ?? '',
-      dateCreated: json['date_created'] as int? ?? 0,
-      dateUpdated: json['date_updated'] as int? ?? 0,
+      keywords: (json['keywords'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
+      dateCreated: json['date_created'] == null
+          ? null
+          : DateTime.parse(json['date_created'] as String),
+      dateUpdated: json['date_updated'] == null
+          ? null
+          : DateTime.parse(json['date_updated'] as String),
     );
 
 Map<String, dynamic> _$$_CategoryModelToJson(_$_CategoryModel instance) =>
     <String, dynamic>{
-      'category_id': instance.categoryId,
+      'id': instance.id,
       'category_name': instance.categoryName,
       'for_subscribers': instance.forSubscribers,
       'keywords': instance.keywords,
-      'date_created': instance.dateCreated,
-      'date_updated': instance.dateUpdated,
+      'date_created': instance.dateCreated?.toIso8601String(),
+      'date_updated': instance.dateUpdated?.toIso8601String(),
     };
