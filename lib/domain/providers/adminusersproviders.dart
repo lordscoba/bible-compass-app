@@ -6,3 +6,8 @@ final adminUserProvider =
     StateNotifierProvider.autoDispose<AdminUserNotifier, UserState>((ref) {
   return AdminUserNotifier();
 });
+
+// final adminUserProviderStatic =
+//     StateNotifierProvider<AdminUserNotifier, UserState>((ref) {
+//   return AdminUserNotifier();
+// });

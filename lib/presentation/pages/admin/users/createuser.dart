@@ -1,7 +1,12 @@
+import 'package:bible_compass_app/domain/models/user/user.dart';
+import 'package:bible_compass_app/domain/providers/adminusersproviders.dart';
+import 'package:bible_compass_app/domain/providers/authproviders.dart';
 import 'package:bible_compass_app/presentation/widgets/inputfield.dart';
+import 'package:bible_compass_app/presentation/widgets/snacksbar.dart';
 import 'package:bible_compass_app/presentation/widgets/themebutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class CreateUsers extends ConsumerStatefulWidget {
   const CreateUsers({super.key});
@@ -11,50 +16,50 @@ class CreateUsers extends ConsumerStatefulWidget {
 }
 
 class _CreateUsersState extends ConsumerState<CreateUsers> {
-  // late UserModel user;
-  // late UserState userstate;
+  late UserModel user;
+  late UserState userstate;
   final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
-    // user = UserModel();
-    // userstate = const UserState();
+    user = UserModel();
+    userstate = const UserState();
     // Initialize the variable in initState
   }
 
-  // void message() {
-  //   final String message;
-  //   final bool error;
-  //   final sucessmessage = ref.watch(successMessageProvider);
-  //   final errormessage = ref.watch(errorMessageProvider);
-  //   if (errormessage.isEmpty) {
-  //     message = sucessmessage;
-  //     error = false;
-  //   } else {
-  //     message = errormessage;
-  //     error = true;
-  //   }
-  //   var displaymessage = SnackBarClass();
-  //   // ignore: use_build_context_synchronously
-  //   displaymessage.snackBarMade(context, message, error);
-  // }
+  void message() {
+    final String message;
+    final bool error;
+    final sucessmessage = ref.watch(successMessageProvider);
+    final errormessage = ref.watch(errorMessageProvider);
+    if (errormessage.isEmpty) {
+      message = sucessmessage;
+      error = false;
+    } else {
+      message = errormessage;
+      error = true;
+    }
+    var displaymessage = SnackBarClass();
+    // ignore: use_build_context_synchronously
+    displaymessage.snackBarMade(context, message, error);
+  }
 
   @override
   Widget build(BuildContext context) {
-    // final UserState checkState = ref.watch(loginProvider);
+    final UserState checkState = ref.watch(adminUserProvider);
 
-    // ref.listen(loginProvider, (prev, next) {
-    //   if (next.error.isNotEmpty) {
-    //     ref.read(errorMessageProvider.notifier).state = next.error.toString();
-    //     // debugPrint(next.error);
-    //   }
-    //   if (!next.data['message'].toString().contains("null")) {
-    //     ref.read(successMessageProvider.notifier).state =
-    //         next.data['message'].toString();
-    //     // debugPrint(next.data['message'].toString());
-    //   }
-    // });
+    ref.listen(adminUserProvider, (prev, next) {
+      if (next.error.isNotEmpty) {
+        ref.read(errorMessageProvider.notifier).state = next.error.toString();
+        // debugPrint(next.error);
+      }
+      if (!next.data['message'].toString().contains("null")) {
+        ref.read(successMessageProvider.notifier).state =
+            next.data['message'].toString();
+        // debugPrint(next.data['message'].toString());
+      }
+    });
     return Scaffold(
       appBar: AppBar(
         title: const Text('Update Users'),
@@ -75,7 +80,7 @@ class _CreateUsersState extends ConsumerState<CreateUsers> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 InputField(
-                  hintText: " Enter category",
+                  hintText: " Enter username",
                   validation: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Enter something';
@@ -83,12 +88,24 @@ class _CreateUsersState extends ConsumerState<CreateUsers> {
                     return null;
                   },
                   onSaved: (value) {
-                    // user = user.copyWith(email: value!);
+                    user = user.copyWith(username: value!);
+                  },
+                ),
+                InputField(
+                  hintText: " Enter your email",
+                  validation: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Enter something';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    user = user.copyWith(email: value!);
                   },
                 ),
                 InputField(
                   obscureText: true,
-                  hintText: " Enter your name",
+                  hintText: " Enter your password",
                   validation: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Enter something';
@@ -96,26 +113,38 @@ class _CreateUsersState extends ConsumerState<CreateUsers> {
                     return null;
                   },
                   onSaved: (value) {
-                    // user = user.copyWith(password: value!);
+                    user = user.copyWith(password: value!);
+                  },
+                ),
+                InputField(
+                  obscureText: true,
+                  hintText: " Enter your confirm password",
+                  validation: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Enter something';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    user = user.copyWith(confirmPassword: value!);
                   },
                 ),
                 ThemeButton(
-                  // text: checkState.isLoading ? "loading..." : 'Login',
-                  text: 'Update',
+                  text: checkState.isLoading ? "loading..." : 'Login',
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState?.save();
-                      // await ref
-                      //     .read(loginProvider.notifier)
-                      //     .performLogin(user.toJson());
+                      await ref
+                          .read(adminUserProvider.notifier)
+                          .perfromCreateUserRequest(user.toJson());
                     }
                     // debugPrint(user.toJson().toString());
-                    // message();
-                    // if (ref.watch(errorMessageProvider) == "") {
-                    //   Future.delayed(const Duration(seconds: 5), () {
-                    //     context.go('/home');
-                    //   });
-                    // }
+                    message();
+                    if (ref.watch(errorMessageProvider) == "") {
+                      Future.delayed(const Duration(seconds: 5), () {
+                        context.go('/admin/users');
+                      });
+                    }
                   },
                 ),
               ],

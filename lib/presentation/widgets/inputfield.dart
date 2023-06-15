@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:select_form_field/select_form_field.dart';
 
 class InputField extends StatelessWidget {
   final String hintText;
@@ -46,6 +47,56 @@ class InputField extends StatelessWidget {
         validator: validation,
         onSaved: onSaved,
         controller: controller,
+      ),
+    );
+  }
+}
+
+class SelectField extends StatelessWidget {
+  final String label;
+  final void Function(String?)? onSaved;
+  final String initialValue;
+  final List<Map<String, dynamic>> items;
+  const SelectField({
+    super.key,
+    this.onSaved,
+    required this.label,
+    required this.initialValue,
+    required this.items,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
+      child: SelectFormField(
+        hintText: 'Is Verfied?',
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: Colors.white,
+          hintStyle: const TextStyle(
+            color: Colors.black54,
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: const BorderSide(
+              color: Color(0xFFFFFFFF),
+              width: 0.5,
+            ),
+            borderRadius: BorderRadius.circular(30),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(
+              color: Colors.black38,
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(30),
+          ),
+        ),
+        type: SelectFormFieldType.dropdown, // or can be dialog
+        initialValue: initialValue,
+        labelText: 'Shape',
+        items: items,
+        onSaved: onSaved,
       ),
     );
   }
