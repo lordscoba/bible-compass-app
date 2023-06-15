@@ -1,6 +1,9 @@
-import 'package:bible_compass_app/presentation/pages/admin/categories/updatecategory.dart';
-import 'package:bible_compass_app/presentation/pages/admin/categories/viewcategory.dart';
-import 'package:bible_compass_app/presentation/pages/admin/keywords/updatekeyword.dart';
+import 'package:bible_compass_app/domain/models/user/user.dart';
+import 'package:bible_compass_app/domain/providers/adminusersproviders.dart';
+import 'package:bible_compass_app/presentation/pages/admin/users/createuser.dart';
+import 'package:bible_compass_app/presentation/pages/admin/users/deleteuser.dart';
+import 'package:bible_compass_app/presentation/pages/admin/users/updateuser.dart';
+import 'package:bible_compass_app/presentation/pages/admin/users/viewuser.dart';
 import 'package:bible_compass_app/presentation/widgets/Header.dart';
 import 'package:bible_compass_app/presentation/widgets/addsomething.dart';
 import 'package:bible_compass_app/presentation/widgets/drawer.dart';
@@ -8,6 +11,7 @@ import 'package:bible_compass_app/presentation/widgets/navigations.dart';
 import 'package:bible_compass_app/presentation/widgets/tophome.dart';
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class AdminUsers extends StatelessWidget {
@@ -46,7 +50,7 @@ class AdminUsers extends StatelessWidget {
                     context: context,
                     barrierDismissible: true,
                     builder: (BuildContext context) {
-                      return const UpdateKeyword();
+                      return const CreateUsers();
                     },
                   );
                 },
@@ -140,13 +144,19 @@ class TopHomeChildrenCategory extends StatelessWidget {
   }
 }
 
-class InnerClayListUser extends StatelessWidget {
+class InnerClayListUser extends ConsumerWidget {
   const InnerClayListUser({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final usersfuture = Future.delayed(const Duration(seconds: 1), () {
+      final userscalled =
+          ref.watch(adminUserProvider.notifier).perfromGetUsersRequest();
+      return userscalled;
+    });
+
     double listSize = 250;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 18.0),
@@ -167,64 +177,85 @@ class InnerClayListUser extends StatelessWidget {
                     ),
                     SizedBox(
                       height: listSize - 50,
-                      child: ListView(
-                        // physics: const NeverScrollableScrollPhysics(),
-                        children: [
-                          ListTile(
-                            title: const Text("Nwokoye Chris"),
-                            subtitle: const Text("Not a registered user"),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                IconButton(
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      barrierDismissible: true,
-                                      builder: (BuildContext context) {
-                                        return const UpdateKeyword();
-                                      },
-                                    );
-                                  },
-                                  icon: const Icon(
-                                    Icons.edit,
-                                    size: 20,
+                      child: FutureBuilder<UserState>(
+                        future: usersfuture,
+                        builder: (BuildContext context,
+                            AsyncSnapshot<UserState> snapshot) {
+                          if (snapshot.hasData) {
+                            // debugPrint(snapshot.data?.data['data'].toString());
+                            final fulldata = snapshot.data?.data['data'];
+                            return ListView.builder(
+                              itemCount: fulldata.length,
+                              itemBuilder: (context, index) {
+                                return ListTile(
+                                  title: Text(fulldata[index]['username']),
+                                  subtitle: const Text("Not a registered user"),
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      IconButton(
+                                        onPressed: () {
+                                          showDialog(
+                                            context: context,
+                                            barrierDismissible: true,
+                                            builder: (BuildContext context) {
+                                              return UpdateUsers(
+                                                  fulldata[index]['ID']);
+                                            },
+                                          );
+                                        },
+                                        icon: const Icon(
+                                          Icons.edit,
+                                          size: 20,
+                                        ),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          showDialog(
+                                            context: context,
+                                            barrierDismissible: true,
+                                            builder: (BuildContext context) {
+                                              return DeleteModal(
+                                                fulldata[index]['ID'],
+                                              );
+                                            },
+                                          );
+                                        },
+                                        icon: const Icon(
+                                          Icons.delete,
+                                          size: 20,
+                                        ),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          showDialog(
+                                            context: context,
+                                            barrierDismissible: true,
+                                            builder: (BuildContext context) {
+                                              return ViewUser(
+                                                fulldata[index]['ID'],
+                                              );
+                                            },
+                                          );
+                                        },
+                                        icon: const Icon(
+                                          Icons.arrow_forward_ios_rounded,
+                                          size: 20,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      barrierDismissible: true,
-                                      builder: (BuildContext context) {
-                                        return const UpdateCategory();
-                                      },
-                                    );
-                                  },
-                                  icon: const Icon(
-                                    Icons.delete,
-                                    size: 20,
-                                  ),
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      barrierDismissible: true,
-                                      builder: (BuildContext context) {
-                                        return const ViewCategory();
-                                      },
-                                    );
-                                  },
-                                  icon: const Icon(
-                                    Icons.arrow_forward_ios_rounded,
-                                    size: 20,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
+                                );
+                              },
+                            );
+
+                            // return const Text("hello hasdata");
+                          } else if (snapshot.hasError) {
+                            return Text('Error: ${snapshot.error}');
+                          } else {
+                            return const CircularProgressIndicator();
+                          }
+                        },
                       ),
                     ),
                   ],

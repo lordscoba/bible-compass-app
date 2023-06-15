@@ -84,6 +84,13 @@ class AdminDraw extends StatelessWidget {
             },
           ),
           DrawerPart(
+            text: 'Users',
+            icon: Icons.account_circle,
+            onTap: () {
+              context.go('/admin/users');
+            },
+          ),
+          DrawerPart(
             icon: Icons.category_outlined,
             text: 'Categories',
             onTap: () {

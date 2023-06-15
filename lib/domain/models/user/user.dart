@@ -10,7 +10,7 @@ class UserModel with _$UserModel {
     fieldRename: FieldRename.snake, // <---
   )
   factory UserModel({
-    @Default('') String id,
+    String? id,
     @Default('') String name,
     @Default('') String type,
     @Default('') String username,
@@ -18,8 +18,8 @@ class UserModel with _$UserModel {
     @Default('') String confirmPassword,
     @Default('') String email,
     @Default('') String key,
-    @Default(0) double dateCreated,
-    @Default(0) double dateUpdated,
+    DateTime? dateCreated,
+    DateTime? dateUpdated,
     @Default(false) bool isVerified,
     // Add other necessary fields
   }) = _UserModel;
