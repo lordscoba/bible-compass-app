@@ -10,16 +10,16 @@ class SubscriptionModel with _$SubscriptionModel {
     fieldRename: FieldRename.snake, // <---
   )
   factory SubscriptionModel({
-    @Default('') String subscriptionId,
+    String? id,
     @Default('') String userId,
     @Default('') String username,
     @Default('') String type,
     @Default(0) double amount,
     @Default(false) bool status,
     @Default(0) double duration,
-    @Default(0) double dateCreated,
-    @Default(0) double dateExpiring,
-    @Default(0) double dateUpdated,
+    DateTime? dateCreated,
+    DateTime? dateExpiring,
+    DateTime? dateUpdated,
 
     // Add other necessary fields
   }) = _SubscriptionModel;

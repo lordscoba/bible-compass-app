@@ -7,15 +7,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class KeywordNotifier extends StateNotifier<KeywordState> {
   KeywordNotifier() : super(const KeywordState());
 
-  Future<void> perfromCreateKeywordRequest(ref) async {
+  Future<void> perfromCreateKeywordRequest(dynamic ref, String catId) async {
     try {
       // Set loading state
       state = state.copyWith(isLoading: true, error: '');
       final dio = Dio();
 
       // Make the POST request
-      final response = await dio
-          .post(EnvironmentKeywordConfig.adminCreateKeywordUrl, data: ref);
+      final response = await dio.post(
+          EnvironmentKeywordConfig.adminCreateKeywordUrl + catId,
+          data: ref);
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Request successful
         state = state.copyWith(
@@ -72,7 +73,7 @@ class KeywordNotifier extends StateNotifier<KeywordState> {
     }
   }
 
-  Future<KeywordState> perfromGetKeywordsRequest() async {
+  Future<KeywordState> perfromGetKeywordsRequest(String catId) async {
     try {
       // Set loading state
       state = state.copyWith(isLoading: true, error: '');
@@ -80,7 +81,7 @@ class KeywordNotifier extends StateNotifier<KeywordState> {
 
       // Make the POST request
       final response =
-          await dio.get(EnvironmentKeywordConfig.adminGetKeywordsUrl);
+          await dio.get(EnvironmentKeywordConfig.adminGetKeywordsUrl + catId);
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Request successful
         state = state.copyWith(

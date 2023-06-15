@@ -1,9 +1,10 @@
+import 'package:bible_compass_app/domain/providers/categoryproviders.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class DeleteModalCategory extends ConsumerWidget {
-  final String Id;
-  const DeleteModalCategory(this.Id, {super.key});
+  final String id;
+  const DeleteModalCategory(this.id, {super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -93,12 +94,12 @@ class DeleteModalCategory extends ConsumerWidget {
                         vertical: 20, horizontal: 20.0),
                   ),
                   onPressed: () {
-                    // ref
-                    //     .read(categoryProvider.notifier)
-                    // .per(userId);
+                    ref
+                        .read(categoryProvider.notifier)
+                        .performDeleteCategoryRequest(id);
                     Navigator.of(context).pop();
                     const snackBar = SnackBar(
-                      content: Text('User deleted'),
+                      content: Text('Category deleted'),
                     );
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   },

@@ -1,60 +1,77 @@
+import 'package:bible_compass_app/domain/models/verse/verse.dart';
+import 'package:bible_compass_app/domain/providers/authproviders.dart';
+import 'package:bible_compass_app/domain/providers/verseprovider.dart';
 import 'package:bible_compass_app/presentation/widgets/inputfield.dart';
+import 'package:bible_compass_app/presentation/widgets/snacksbar.dart';
 import 'package:bible_compass_app/presentation/widgets/themebutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class CreateVerses extends ConsumerStatefulWidget {
-  const CreateVerses({super.key});
+  final String keywId;
+  const CreateVerses({required this.keywId, super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _CreateVersesState();
 }
 
 class _CreateVersesState extends ConsumerState<CreateVerses> {
-  // late UserModel user;
-  // late UserState userstate;
+  late VerseModel verse;
+  late VerseState versestate;
   final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
-    // user = UserModel();
-    // userstate = const UserState();
+    verse = VerseModel();
+    versestate = const VerseState();
     // Initialize the variable in initState
   }
 
-  // void message() {
-  //   final String message;
-  //   final bool error;
-  //   final sucessmessage = ref.watch(successMessageProvider);
-  //   final errormessage = ref.watch(errorMessageProvider);
-  //   if (errormessage.isEmpty) {
-  //     message = sucessmessage;
-  //     error = false;
-  //   } else {
-  //     message = errormessage;
-  //     error = true;
-  //   }
-  //   var displaymessage = SnackBarClass();
-  //   // ignore: use_build_context_synchronously
-  //   displaymessage.snackBarMade(context, message, error);
-  // }
+  final List<Map<String, dynamic>> _items = [
+    {
+      'value': 'true',
+      'label': 'True',
+    },
+    {
+      'value': 'false',
+      'label': 'False',
+    },
+  ];
+
+  void message() {
+    final String message;
+    final bool error;
+    final sucessmessage = ref.watch(successMessageProvider);
+    final errormessage = ref.watch(errorMessageProvider);
+    if (errormessage.isEmpty) {
+      message = sucessmessage;
+      error = false;
+    } else {
+      message = errormessage;
+      error = true;
+    }
+    var displaymessage = SnackBarClass();
+    // ignore: use_build_context_synchronously
+    displaymessage.snackBarMade(context, message, error);
+  }
 
   @override
   Widget build(BuildContext context) {
-    // final UserState checkState = ref.watch(loginProvider);
+    final VerseState checkState = ref.watch(verseProvider);
 
-    // ref.listen(loginProvider, (prev, next) {
-    //   if (next.error.isNotEmpty) {
-    //     ref.read(errorMessageProvider.notifier).state = next.error.toString();
-    //     // debugPrint(next.error);
-    //   }
-    //   if (!next.data['message'].toString().contains("null")) {
-    //     ref.read(successMessageProvider.notifier).state =
-    //         next.data['message'].toString();
-    //     // debugPrint(next.data['message'].toString());
-    //   }
-    // });
+    ref.listen(verseProvider, (prev, next) {
+      if (next.error.isNotEmpty) {
+        ref.read(errorMessageProvider.notifier).state = next.error.toString();
+        // debugPrint(next.error);
+      }
+      if (!next.data['message'].toString().contains("null")) {
+        ref.read(successMessageProvider.notifier).state =
+            next.data['message'].toString();
+        // debugPrint(next.data['message'].toString());
+      }
+    });
     return Scaffold(
       appBar: AppBar(
         title: const Text('Create Verse'),
@@ -75,7 +92,7 @@ class _CreateVersesState extends ConsumerState<CreateVerses> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 InputField(
-                  hintText: " Enter category",
+                  hintText: " Enter Bible verse",
                   validation: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Enter something';
@@ -83,39 +100,49 @@ class _CreateVersesState extends ConsumerState<CreateVerses> {
                     return null;
                   },
                   onSaved: (value) {
-                    // user = user.copyWith(email: value!);
+                    verse = verse.copyWith(bibleVerse: value!);
                   },
                 ),
-                InputField(
-                  obscureText: true,
-                  hintText: " Enter your name",
-                  validation: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Enter something';
-                    }
-                    return null;
-                  },
+                SelectField(
+                  items: _items,
+                  label: 'Favourite',
+                  initialValue: 'false',
                   onSaved: (value) {
-                    // user = user.copyWith(password: value!);
+                    verse =
+                        verse.copyWith(like: value?.toLowerCase() == 'true');
+                  },
+                ),
+                TextArea(
+                  maxLines: 3,
+                  hintText: 'Enter passage',
+                  onSaved: (value) {
+                    verse = verse.copyWith(passage: value!);
+                  },
+                ),
+                TextArea(
+                  maxLines: 2,
+                  hintText: 'Enter Explanation',
+                  onSaved: (value) {
+                    verse = verse.copyWith(explanation: value!);
                   },
                 ),
                 ThemeButton(
-                  // text: checkState.isLoading ? "loading..." : 'Login',
-                  text: 'Update',
+                  text: checkState.isLoading ? "loading..." : 'Create',
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState?.save();
-                      // await ref
-                      //     .read(loginProvider.notifier)
-                      //     .performLogin(user.toJson());
+                      await ref
+                          .read(verseProvider.notifier)
+                          .perfromCreateVerseRequest(
+                              widget.keywId, verse.toJson());
                     }
-                    // debugPrint(user.toJson().toString());
-                    // message();
-                    // if (ref.watch(errorMessageProvider) == "") {
-                    //   Future.delayed(const Duration(seconds: 5), () {
-                    //     context.go('/home');
-                    //   });
-                    // }
+                    debugPrint(verse.toJson().toString());
+                    message();
+                    if (ref.watch(errorMessageProvider) == "") {
+                      Future.delayed(const Duration(seconds: 5), () {
+                        context.go('/admin/verses/${widget.keywId}');
+                      });
+                    }
                   },
                 ),
               ],

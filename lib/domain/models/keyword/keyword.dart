@@ -11,13 +11,13 @@ class KeywordModel with _$KeywordModel {
     fieldRename: FieldRename.snake, // <---
   )
   factory KeywordModel({
-    @Default('') String keywordId,
+    String? id,
     @Default('') String categoryId,
     @Default('') String keyword,
     @Default(false) bool forSubscribers,
     @Default([]) List<VerseModel> bibleVerse,
-    @Default(0) int dateCreated,
-    @Default(0) int dateUpdated,
+    DateTime? dateCreated,
+    DateTime? dateUpdated,
     @Default(false) bool favorite,
 
     // Add other necessary fields

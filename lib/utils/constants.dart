@@ -58,7 +58,7 @@ class EnvironmentKeywordConfig {
   static const String adminDeleteKeywordUrl =
       "http://localhost:3000/api/v1/admin/deletekeywords/"; //keywordId
   static const String adminGetKeywordsUrl =
-      "http://localhost:3000/api/v1/admin/getkeywords";
+      "http://localhost:3000/api/v1/admin/getkeywords/"; //category Id
   static const String adminGetKeywordByIdUrl =
       "http://localhost:3000/api/v1/admin/getkeywordsid/"; //keywordId
   static const String adminGetKeywordsInfoUrl =

@@ -21,7 +21,7 @@ class MyRouter extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // GoRouter configuration
     final router = GoRouter(
-      initialLocation: '/admin/users',
+      initialLocation: '/admin/categories',
       // initialLocation: '/signup',
       routes: [
         // splash screen
@@ -68,16 +68,24 @@ class MyRouter extends ConsumerWidget {
           builder: (context, state) => const AdminCategory(),
         ),
         GoRoute(
-          path: '/admin/keywords',
-          builder: (context, state) => const AdminKeyword(),
+          path: '/admin/keywords/:catid',
+          builder: (context, state) {
+            final catid = state.pathParameters['catid'];
+            return AdminKeyword(catId: catid);
+          },
         ),
         GoRoute(
           path: '/admin/subscription',
           builder: (context, state) => const AdminSubscription(),
         ),
         GoRoute(
-          path: '/admin/verses',
-          builder: (context, state) => const AdminVerses(),
+          path: '/admin/verses/:keywid',
+          builder: (context, state) {
+            final keywid = state.pathParameters['keywid'];
+            return AdminVerses(
+              keywid: keywid,
+            );
+          },
         ),
       ],
     );

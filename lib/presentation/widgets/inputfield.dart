@@ -101,3 +101,51 @@ class SelectField extends StatelessWidget {
     );
   }
 }
+
+class TextArea extends StatelessWidget {
+  final String hintText;
+  final void Function(String?)? onSaved;
+  final TextEditingController? controller;
+  final int? maxLines;
+  const TextArea({
+    super.key,
+    required this.hintText,
+    this.onSaved,
+    this.controller,
+    this.maxLines,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
+      child: TextField(
+        maxLines: maxLines,
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: Colors.white,
+          hintText: hintText,
+          hintStyle: const TextStyle(
+            color: Colors.black54,
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: const BorderSide(
+              color: Color(0xFFFFFFFF),
+              width: 0.5,
+            ),
+            borderRadius: BorderRadius.circular(30),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(
+              color: Colors.black38,
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(30),
+          ),
+        ),
+        onChanged: onSaved,
+        controller: controller,
+      ),
+    );
+  }
+}

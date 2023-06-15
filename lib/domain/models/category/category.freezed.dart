@@ -20,12 +20,12 @@ CategoryModel _$CategoryModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$CategoryModel {
-  String get categoryId => throw _privateConstructorUsedError;
+  String? get id => throw _privateConstructorUsedError;
   String get categoryName => throw _privateConstructorUsedError;
   bool get forSubscribers => throw _privateConstructorUsedError;
-  String get keywords => throw _privateConstructorUsedError;
-  int get dateCreated => throw _privateConstructorUsedError;
-  int get dateUpdated => throw _privateConstructorUsedError;
+  List<String> get keywords => throw _privateConstructorUsedError;
+  DateTime? get dateCreated => throw _privateConstructorUsedError;
+  DateTime? get dateUpdated => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -40,12 +40,12 @@ abstract class $CategoryModelCopyWith<$Res> {
       _$CategoryModelCopyWithImpl<$Res, CategoryModel>;
   @useResult
   $Res call(
-      {String categoryId,
+      {String? id,
       String categoryName,
       bool forSubscribers,
-      String keywords,
-      int dateCreated,
-      int dateUpdated});
+      List<String> keywords,
+      DateTime? dateCreated,
+      DateTime? dateUpdated});
 }
 
 /// @nodoc
@@ -61,18 +61,18 @@ class _$CategoryModelCopyWithImpl<$Res, $Val extends CategoryModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? categoryId = null,
+    Object? id = freezed,
     Object? categoryName = null,
     Object? forSubscribers = null,
     Object? keywords = null,
-    Object? dateCreated = null,
-    Object? dateUpdated = null,
+    Object? dateCreated = freezed,
+    Object? dateUpdated = freezed,
   }) {
     return _then(_value.copyWith(
-      categoryId: null == categoryId
-          ? _value.categoryId
-          : categoryId // ignore: cast_nullable_to_non_nullable
-              as String,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
       categoryName: null == categoryName
           ? _value.categoryName
           : categoryName // ignore: cast_nullable_to_non_nullable
@@ -84,15 +84,15 @@ class _$CategoryModelCopyWithImpl<$Res, $Val extends CategoryModel>
       keywords: null == keywords
           ? _value.keywords
           : keywords // ignore: cast_nullable_to_non_nullable
-              as String,
-      dateCreated: null == dateCreated
+              as List<String>,
+      dateCreated: freezed == dateCreated
           ? _value.dateCreated
           : dateCreated // ignore: cast_nullable_to_non_nullable
-              as int,
-      dateUpdated: null == dateUpdated
+              as DateTime?,
+      dateUpdated: freezed == dateUpdated
           ? _value.dateUpdated
           : dateUpdated // ignore: cast_nullable_to_non_nullable
-              as int,
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -106,12 +106,12 @@ abstract class _$$_CategoryModelCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String categoryId,
+      {String? id,
       String categoryName,
       bool forSubscribers,
-      String keywords,
-      int dateCreated,
-      int dateUpdated});
+      List<String> keywords,
+      DateTime? dateCreated,
+      DateTime? dateUpdated});
 }
 
 /// @nodoc
@@ -125,18 +125,18 @@ class __$$_CategoryModelCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? categoryId = null,
+    Object? id = freezed,
     Object? categoryName = null,
     Object? forSubscribers = null,
     Object? keywords = null,
-    Object? dateCreated = null,
-    Object? dateUpdated = null,
+    Object? dateCreated = freezed,
+    Object? dateUpdated = freezed,
   }) {
     return _then(_$_CategoryModel(
-      categoryId: null == categoryId
-          ? _value.categoryId
-          : categoryId // ignore: cast_nullable_to_non_nullable
-              as String,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
       categoryName: null == categoryName
           ? _value.categoryName
           : categoryName // ignore: cast_nullable_to_non_nullable
@@ -146,17 +146,17 @@ class __$$_CategoryModelCopyWithImpl<$Res>
           : forSubscribers // ignore: cast_nullable_to_non_nullable
               as bool,
       keywords: null == keywords
-          ? _value.keywords
+          ? _value._keywords
           : keywords // ignore: cast_nullable_to_non_nullable
-              as String,
-      dateCreated: null == dateCreated
+              as List<String>,
+      dateCreated: freezed == dateCreated
           ? _value.dateCreated
           : dateCreated // ignore: cast_nullable_to_non_nullable
-              as int,
-      dateUpdated: null == dateUpdated
+              as DateTime?,
+      dateUpdated: freezed == dateUpdated
           ? _value.dateUpdated
           : dateUpdated // ignore: cast_nullable_to_non_nullable
-              as int,
+              as DateTime?,
     ));
   }
 }
@@ -166,38 +166,42 @@ class __$$_CategoryModelCopyWithImpl<$Res>
 @JsonSerializable(fieldRename: FieldRename.snake)
 class _$_CategoryModel implements _CategoryModel {
   _$_CategoryModel(
-      {this.categoryId = '',
+      {this.id,
       this.categoryName = '',
       this.forSubscribers = false,
-      this.keywords = '',
-      this.dateCreated = 0,
-      this.dateUpdated = 0});
+      final List<String> keywords = const [],
+      this.dateCreated,
+      this.dateUpdated})
+      : _keywords = keywords;
 
   factory _$_CategoryModel.fromJson(Map<String, dynamic> json) =>
       _$$_CategoryModelFromJson(json);
 
   @override
-  @JsonKey()
-  final String categoryId;
+  final String? id;
   @override
   @JsonKey()
   final String categoryName;
   @override
   @JsonKey()
   final bool forSubscribers;
+  final List<String> _keywords;
   @override
   @JsonKey()
-  final String keywords;
+  List<String> get keywords {
+    if (_keywords is EqualUnmodifiableListView) return _keywords;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_keywords);
+  }
+
   @override
-  @JsonKey()
-  final int dateCreated;
+  final DateTime? dateCreated;
   @override
-  @JsonKey()
-  final int dateUpdated;
+  final DateTime? dateUpdated;
 
   @override
   String toString() {
-    return 'CategoryModel(categoryId: $categoryId, categoryName: $categoryName, forSubscribers: $forSubscribers, keywords: $keywords, dateCreated: $dateCreated, dateUpdated: $dateUpdated)';
+    return 'CategoryModel(id: $id, categoryName: $categoryName, forSubscribers: $forSubscribers, keywords: $keywords, dateCreated: $dateCreated, dateUpdated: $dateUpdated)';
   }
 
   @override
@@ -205,14 +209,12 @@ class _$_CategoryModel implements _CategoryModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_CategoryModel &&
-            (identical(other.categoryId, categoryId) ||
-                other.categoryId == categoryId) &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.categoryName, categoryName) ||
                 other.categoryName == categoryName) &&
             (identical(other.forSubscribers, forSubscribers) ||
                 other.forSubscribers == forSubscribers) &&
-            (identical(other.keywords, keywords) ||
-                other.keywords == keywords) &&
+            const DeepCollectionEquality().equals(other._keywords, _keywords) &&
             (identical(other.dateCreated, dateCreated) ||
                 other.dateCreated == dateCreated) &&
             (identical(other.dateUpdated, dateUpdated) ||
@@ -221,8 +223,8 @@ class _$_CategoryModel implements _CategoryModel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, categoryId, categoryName,
-      forSubscribers, keywords, dateCreated, dateUpdated);
+  int get hashCode => Object.hash(runtimeType, id, categoryName, forSubscribers,
+      const DeepCollectionEquality().hash(_keywords), dateCreated, dateUpdated);
 
   @JsonKey(ignore: true)
   @override
@@ -240,28 +242,28 @@ class _$_CategoryModel implements _CategoryModel {
 
 abstract class _CategoryModel implements CategoryModel {
   factory _CategoryModel(
-      {final String categoryId,
+      {final String? id,
       final String categoryName,
       final bool forSubscribers,
-      final String keywords,
-      final int dateCreated,
-      final int dateUpdated}) = _$_CategoryModel;
+      final List<String> keywords,
+      final DateTime? dateCreated,
+      final DateTime? dateUpdated}) = _$_CategoryModel;
 
   factory _CategoryModel.fromJson(Map<String, dynamic> json) =
       _$_CategoryModel.fromJson;
 
   @override
-  String get categoryId;
+  String? get id;
   @override
   String get categoryName;
   @override
   bool get forSubscribers;
   @override
-  String get keywords;
+  List<String> get keywords;
   @override
-  int get dateCreated;
+  DateTime? get dateCreated;
   @override
-  int get dateUpdated;
+  DateTime? get dateUpdated;
   @override
   @JsonKey(ignore: true)
   _$$_CategoryModelCopyWith<_$_CategoryModel> get copyWith =>

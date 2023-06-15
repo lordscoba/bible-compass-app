@@ -10,13 +10,13 @@ class VerseModel with _$VerseModel {
     fieldRename: FieldRename.snake, // <---
   )
   factory VerseModel({
-    @Default('') String verseId,
+    String? id,
     @Default('') String bibleVerse,
     @Default([]) List relatedVerses,
     @Default('') String passage,
     @Default('') String explanation,
     @Default(false) bool like,
-    @Default(0.0) double dateCreated,
+    DateTime? dateCreated,
 
     // Add other necessary fields
   }) = _VerseModel;

@@ -20,13 +20,13 @@ VerseModel _$VerseModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$VerseModel {
-  String get verseId => throw _privateConstructorUsedError;
+  String? get id => throw _privateConstructorUsedError;
   String get bibleVerse => throw _privateConstructorUsedError;
   List<dynamic> get relatedVerses => throw _privateConstructorUsedError;
   String get passage => throw _privateConstructorUsedError;
   String get explanation => throw _privateConstructorUsedError;
   bool get like => throw _privateConstructorUsedError;
-  double get dateCreated => throw _privateConstructorUsedError;
+  DateTime? get dateCreated => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -41,13 +41,13 @@ abstract class $VerseModelCopyWith<$Res> {
       _$VerseModelCopyWithImpl<$Res, VerseModel>;
   @useResult
   $Res call(
-      {String verseId,
+      {String? id,
       String bibleVerse,
       List<dynamic> relatedVerses,
       String passage,
       String explanation,
       bool like,
-      double dateCreated});
+      DateTime? dateCreated});
 }
 
 /// @nodoc
@@ -63,19 +63,19 @@ class _$VerseModelCopyWithImpl<$Res, $Val extends VerseModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? verseId = null,
+    Object? id = freezed,
     Object? bibleVerse = null,
     Object? relatedVerses = null,
     Object? passage = null,
     Object? explanation = null,
     Object? like = null,
-    Object? dateCreated = null,
+    Object? dateCreated = freezed,
   }) {
     return _then(_value.copyWith(
-      verseId: null == verseId
-          ? _value.verseId
-          : verseId // ignore: cast_nullable_to_non_nullable
-              as String,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
       bibleVerse: null == bibleVerse
           ? _value.bibleVerse
           : bibleVerse // ignore: cast_nullable_to_non_nullable
@@ -96,10 +96,10 @@ class _$VerseModelCopyWithImpl<$Res, $Val extends VerseModel>
           ? _value.like
           : like // ignore: cast_nullable_to_non_nullable
               as bool,
-      dateCreated: null == dateCreated
+      dateCreated: freezed == dateCreated
           ? _value.dateCreated
           : dateCreated // ignore: cast_nullable_to_non_nullable
-              as double,
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -113,13 +113,13 @@ abstract class _$$_VerseModelCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String verseId,
+      {String? id,
       String bibleVerse,
       List<dynamic> relatedVerses,
       String passage,
       String explanation,
       bool like,
-      double dateCreated});
+      DateTime? dateCreated});
 }
 
 /// @nodoc
@@ -133,19 +133,19 @@ class __$$_VerseModelCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? verseId = null,
+    Object? id = freezed,
     Object? bibleVerse = null,
     Object? relatedVerses = null,
     Object? passage = null,
     Object? explanation = null,
     Object? like = null,
-    Object? dateCreated = null,
+    Object? dateCreated = freezed,
   }) {
     return _then(_$_VerseModel(
-      verseId: null == verseId
-          ? _value.verseId
-          : verseId // ignore: cast_nullable_to_non_nullable
-              as String,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
       bibleVerse: null == bibleVerse
           ? _value.bibleVerse
           : bibleVerse // ignore: cast_nullable_to_non_nullable
@@ -166,10 +166,10 @@ class __$$_VerseModelCopyWithImpl<$Res>
           ? _value.like
           : like // ignore: cast_nullable_to_non_nullable
               as bool,
-      dateCreated: null == dateCreated
+      dateCreated: freezed == dateCreated
           ? _value.dateCreated
           : dateCreated // ignore: cast_nullable_to_non_nullable
-              as double,
+              as DateTime?,
     ));
   }
 }
@@ -179,21 +179,20 @@ class __$$_VerseModelCopyWithImpl<$Res>
 @JsonSerializable(fieldRename: FieldRename.snake)
 class _$_VerseModel implements _VerseModel {
   _$_VerseModel(
-      {this.verseId = '',
+      {this.id,
       this.bibleVerse = '',
       final List<dynamic> relatedVerses = const [],
       this.passage = '',
       this.explanation = '',
       this.like = false,
-      this.dateCreated = 0.0})
+      this.dateCreated})
       : _relatedVerses = relatedVerses;
 
   factory _$_VerseModel.fromJson(Map<String, dynamic> json) =>
       _$$_VerseModelFromJson(json);
 
   @override
-  @JsonKey()
-  final String verseId;
+  final String? id;
   @override
   @JsonKey()
   final String bibleVerse;
@@ -216,12 +215,11 @@ class _$_VerseModel implements _VerseModel {
   @JsonKey()
   final bool like;
   @override
-  @JsonKey()
-  final double dateCreated;
+  final DateTime? dateCreated;
 
   @override
   String toString() {
-    return 'VerseModel(verseId: $verseId, bibleVerse: $bibleVerse, relatedVerses: $relatedVerses, passage: $passage, explanation: $explanation, like: $like, dateCreated: $dateCreated)';
+    return 'VerseModel(id: $id, bibleVerse: $bibleVerse, relatedVerses: $relatedVerses, passage: $passage, explanation: $explanation, like: $like, dateCreated: $dateCreated)';
   }
 
   @override
@@ -229,7 +227,7 @@ class _$_VerseModel implements _VerseModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_VerseModel &&
-            (identical(other.verseId, verseId) || other.verseId == verseId) &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.bibleVerse, bibleVerse) ||
                 other.bibleVerse == bibleVerse) &&
             const DeepCollectionEquality()
@@ -246,7 +244,7 @@ class _$_VerseModel implements _VerseModel {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      verseId,
+      id,
       bibleVerse,
       const DeepCollectionEquality().hash(_relatedVerses),
       passage,
@@ -270,19 +268,19 @@ class _$_VerseModel implements _VerseModel {
 
 abstract class _VerseModel implements VerseModel {
   factory _VerseModel(
-      {final String verseId,
+      {final String? id,
       final String bibleVerse,
       final List<dynamic> relatedVerses,
       final String passage,
       final String explanation,
       final bool like,
-      final double dateCreated}) = _$_VerseModel;
+      final DateTime? dateCreated}) = _$_VerseModel;
 
   factory _VerseModel.fromJson(Map<String, dynamic> json) =
       _$_VerseModel.fromJson;
 
   @override
-  String get verseId;
+  String? get id;
   @override
   String get bibleVerse;
   @override
@@ -294,7 +292,7 @@ abstract class _VerseModel implements VerseModel {
   @override
   bool get like;
   @override
-  double get dateCreated;
+  DateTime? get dateCreated;
   @override
   @JsonKey(ignore: true)
   _$$_VerseModelCopyWith<_$_VerseModel> get copyWith =>

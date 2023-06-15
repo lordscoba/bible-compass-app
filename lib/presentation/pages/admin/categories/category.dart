@@ -1,4 +1,7 @@
+import 'package:bible_compass_app/domain/models/category/category.dart';
+import 'package:bible_compass_app/domain/providers/categoryproviders.dart';
 import 'package:bible_compass_app/presentation/pages/admin/categories/createcategory.dart';
+import 'package:bible_compass_app/presentation/pages/admin/categories/deletecategory.dart';
 import 'package:bible_compass_app/presentation/pages/admin/categories/updatecategory.dart';
 import 'package:bible_compass_app/presentation/pages/admin/categories/viewcategory.dart';
 import 'package:bible_compass_app/presentation/widgets/Header.dart';
@@ -7,6 +10,7 @@ import 'package:bible_compass_app/presentation/widgets/drawer.dart';
 import 'package:bible_compass_app/presentation/widgets/navigations.dart';
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../widgets/tophome.dart';
@@ -102,13 +106,18 @@ class TopHomeCategory extends StatelessWidget {
   }
 }
 
-class InnerClayListCategory extends StatelessWidget {
+class InnerClayListCategory extends ConsumerWidget {
   const InnerClayListCategory({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final catsfuture = Future.delayed(const Duration(seconds: 1), () {
+      final catscalled =
+          ref.watch(categoryProvider.notifier).perfromGetCatgeoriesRequest();
+      return catscalled;
+    });
     double listSize = 250;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 18.0),
@@ -129,64 +138,96 @@ class InnerClayListCategory extends StatelessWidget {
                     ),
                     SizedBox(
                       height: listSize - 50,
-                      child: ListView(
-                        // physics: const NeverScrollableScrollPhysics(),
-                        children: [
-                          ListTile(
-                            title: const Text("Spirituality"),
-                            subtitle: const Text("Not a registered user"),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                IconButton(
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      barrierDismissible: true,
-                                      builder: (BuildContext context) {
-                                        return const UpdateCategory();
-                                      },
-                                    );
-                                  },
-                                  icon: const Icon(
-                                    Icons.edit,
-                                    size: 20,
+                      child: FutureBuilder<CategoryState>(
+                        future: catsfuture,
+                        builder: (BuildContext context,
+                            AsyncSnapshot<CategoryState> snapshot) {
+                          if (snapshot.hasData) {
+                            // debugPrint(snapshot.data?.data['data'].toString());
+                            final fulldata = snapshot.data?.data['data'];
+                            return ListView.builder(
+                              itemCount: fulldata.length,
+                              itemBuilder: (context, index) {
+                                return ListTile(
+                                  title: Text(fulldata[index]['category_name']),
+                                  subtitle: const Text("Not a registered user"),
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      IconButton(
+                                        onPressed: () {
+                                          showDialog(
+                                            context: context,
+                                            barrierDismissible: true,
+                                            builder: (BuildContext context) {
+                                              return const UpdateCategory(
+                                                  // fulldata[index]['ID'],
+                                                  );
+                                            },
+                                          );
+                                        },
+                                        icon: const Icon(
+                                          Icons.edit,
+                                          size: 20,
+                                        ),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          showDialog(
+                                            context: context,
+                                            barrierDismissible: true,
+                                            builder: (BuildContext context) {
+                                              return DeleteModalCategory(
+                                                fulldata[index]['ID'],
+                                              );
+                                            },
+                                          );
+                                        },
+                                        icon: const Icon(
+                                          Icons.delete,
+                                          size: 20,
+                                        ),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          showDialog(
+                                            context: context,
+                                            barrierDismissible: true,
+                                            builder: (BuildContext context) {
+                                              return const ViewCategory(
+                                                  // fulldata[index]['ID'],
+                                                  );
+                                            },
+                                          );
+                                        },
+                                        icon: const Icon(
+                                          Icons.arrow_forward_ios_rounded,
+                                          size: 20,
+                                        ),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          context.go(
+                                              "/admin/keywords/${fulldata[index]['ID']}");
+                                        },
+                                        icon: const Icon(
+                                          Icons.list_alt,
+                                          size: 20,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      barrierDismissible: true,
-                                      builder: (BuildContext context) {
-                                        return const UpdateCategory();
-                                      },
-                                    );
-                                  },
-                                  icon: const Icon(
-                                    Icons.delete,
-                                    size: 20,
-                                  ),
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      barrierDismissible: true,
-                                      builder: (BuildContext context) {
-                                        return const ViewCategory();
-                                      },
-                                    );
-                                  },
-                                  icon: const Icon(
-                                    Icons.arrow_forward_ios_rounded,
-                                    size: 20,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
+                                );
+                              },
+                            );
+
+                            // return const Text("hello hasdata");
+                          } else if (snapshot.hasError) {
+                            return Text('Error: ${snapshot.error}');
+                          } else {
+                            return const CircularProgressIndicator();
+                          }
+                        },
                       ),
                     ),
                   ],
