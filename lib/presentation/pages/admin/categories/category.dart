@@ -194,9 +194,9 @@ class InnerClayListCategory extends ConsumerWidget {
                                             context: context,
                                             barrierDismissible: true,
                                             builder: (BuildContext context) {
-                                              return const ViewCategory(
-                                                  // fulldata[index]['ID'],
-                                                  );
+                                              return ViewCategory(
+                                                fulldata[index]['ID'],
+                                              );
                                             },
                                           );
                                         },

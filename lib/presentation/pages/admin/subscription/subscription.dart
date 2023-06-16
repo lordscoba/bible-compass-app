@@ -1,4 +1,3 @@
-import 'package:bible_compass_app/presentation/pages/admin/categories/viewcategory.dart';
 import 'package:bible_compass_app/presentation/pages/admin/subscription/updatesubscirption.dart';
 import 'package:bible_compass_app/presentation/widgets/Header.dart';
 import 'package:bible_compass_app/presentation/widgets/drawer.dart';
@@ -158,7 +157,7 @@ class InnerClayListSubscription extends StatelessWidget {
                                       context: context,
                                       barrierDismissible: true,
                                       builder: (BuildContext context) {
-                                        return const ViewCategory();
+                                        return const Placeholder();
                                       },
                                     );
                                   },
