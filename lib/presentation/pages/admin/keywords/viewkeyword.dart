@@ -50,6 +50,14 @@ class ViewKeyword extends ConsumerWidget {
                         title: const Text("For Subscribers:"),
                         trailing: Text(fulldata['for_subscribers'].toString()),
                       ),
+                      ListTile(
+                        title: const Text("Date Created:"),
+                        trailing: Text(fulldata['date_created'].toString()),
+                      ),
+                      ListTile(
+                        title: const Text("Date Updated:"),
+                        trailing: Text(fulldata['date_updated'].toString()),
+                      ),
                     ],
                   ),
                 );
