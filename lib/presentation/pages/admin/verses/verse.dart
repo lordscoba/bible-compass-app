@@ -172,9 +172,10 @@ class InnerClayListVerse extends ConsumerWidget {
                                               context: context,
                                               barrierDismissible: true,
                                               builder: (BuildContext context) {
-                                                return const UpdateVerse(
-                                                    // fulldata[index]['ID'],
-                                                    );
+                                                return UpdateVerse(
+                                                  vId: fulldata[index]['ID'],
+                                                  keyId: keywid!,
+                                                );
                                               },
                                             );
                                           },

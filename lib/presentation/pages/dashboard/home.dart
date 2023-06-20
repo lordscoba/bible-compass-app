@@ -1,16 +1,29 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:bible_compass_app/domain/models/user/user.dart';
+import 'package:bible_compass_app/domain/providers/authproviders.dart';
 import 'package:bible_compass_app/presentation/widgets/Header.dart';
 import 'package:bible_compass_app/presentation/widgets/drawer.dart';
 import 'package:bible_compass_app/presentation/widgets/navigations.dart';
 import 'package:bible_compass_app/presentation/widgets/widgets.dart';
 import 'package:clay_containers/widgets/clay_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final AuthState auth = ref.watch(loginProvider);
+    var authData = auth.data['data'];
+    // debugPrint(authData.toString());
+
+    () async {
+      final prefs = await ref.watch(sharedPrefProvider);
+      final String? username = prefs.getString('username');
+
+      debugPrint(username);
+    }();
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: const Header(
@@ -59,7 +72,12 @@ class HomeScreen extends StatelessWidget {
                       child: AnimatedTextKit(
                         animatedTexts: [
                           WavyAnimatedText('Hi Chris'),
-                          WavyAnimatedText('Welcome'),
+                          !(authData.toString() == 'null')
+                              ? WavyAnimatedText(
+                                  authData['username'].toString())
+                              : WavyAnimatedText("No name"),
+
+                          //   WavyAnimatedText('Welcome'),
                         ],
                         isRepeatingAnimation: true,
                       ),

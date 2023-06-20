@@ -1,13 +1,22 @@
+import 'package:bible_compass_app/domain/models/category/category.dart';
+import 'package:bible_compass_app/domain/providers/categoryproviders.dart';
 import 'package:bible_compass_app/presentation/widgets/Header.dart';
 import 'package:bible_compass_app/presentation/widgets/drawer.dart';
 import 'package:bible_compass_app/presentation/widgets/navigations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
-class CategoryPage extends StatelessWidget {
-  CategoryPage({super.key});
+class CategoryPage extends ConsumerWidget {
+  const CategoryPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final catsfuture = Future.delayed(const Duration(seconds: 1), () {
+      final catscalled =
+          ref.watch(categoryProvider.notifier).perfromGetCatgeoriesRequest();
+      return catscalled;
+    });
     return Scaffold(
       // extendBodyBehindAppBar: true,
       appBar: const Header(
@@ -36,41 +45,71 @@ class CategoryPage extends StatelessWidget {
         child: SingleChildScrollView(
           child: SizedBox(
             height: MediaQuery.of(context).size.height - 80,
-            child: ListView.builder(
-              itemCount: items.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 3, horizontal: 10),
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Colors.black26,
-                        Colors.black38,
-                        Colors.black54,
-                        Colors.black87
-                      ],
-                    ),
-                  ),
-                  child: ListTile(
-                    title: Text(
-                      items[index],
-                      style: const TextStyle(color: Colors.white, fontSize: 25),
-                    ),
-                    trailing: const Icon(
-                      Icons.arrow_forward_ios,
-                      color: Colors.white,
-                      size: 30,
-                    ),
-                    onTap: () {},
-                    contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 20),
-                    enabled: true,
-                  ),
-                );
+            child: FutureBuilder<CategoryState>(
+              future: catsfuture,
+              builder: (BuildContext context,
+                  AsyncSnapshot<CategoryState> snapshot) {
+                if (snapshot.hasData) {
+                  // debugPrint(snapshot.data?.data['data'].toString());
+                  final fulldata = snapshot.data?.data['data'];
+                  return ListView.builder(
+                    itemCount: fulldata.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 3, horizontal: 10),
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Color(0xFF0BA37F),
+                              Color.fromARGB(255, 9, 144, 99),
+                              Color.fromARGB(255, 3, 47, 34),
+                            ],
+                          ),
+                        ),
+                        child: ListTile(
+                          title: Text(
+                            fulldata[index]['category_name'],
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 25),
+                          ),
+                          trailing: IconButton(
+                            onPressed: () {
+                              debugPrint(fulldata[index]['ID']);
+                              context.go("/keywords/${fulldata[index]['ID']}");
+                              // showDialog(
+                              //   context: context,
+                              //   barrierDismissible: true,
+                              //   builder: (BuildContext context) {
+                              //     return ViewCategory(
+                              //       fulldata[index]['ID'],
+                              //     );
+                              //   },
+                              // );
+                            },
+                            icon: const Icon(
+                              Icons.arrow_forward_ios,
+                              color: Colors.white,
+                              size: 30,
+                            ),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 16.0, vertical: 20),
+                          enabled: true,
+                        ),
+                      );
+                    },
+                  );
+
+                  // return const Text("hello hasdata");
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  return const CircularProgressIndicator();
+                }
               },
             ),
           ),
@@ -78,23 +117,4 @@ class CategoryPage extends StatelessWidget {
       ),
     );
   }
-
-  final List<String> items = [
-    'Item 1',
-    'Item 2',
-    'Item 3',
-    'Item 4',
-    'Item 5',
-    'Item 6',
-    'Item 7',
-    'Item 8',
-    'Item 8',
-    'Item 8',
-    'Item r',
-    'Item r',
-    'Item r',
-    'Item r',
-    'Item 8',
-    'Item 9',
-  ];
 }

@@ -7,6 +7,11 @@ import 'package:bible_compass_app/presentation/pages/admin/verses/verse.dart';
 import 'package:bible_compass_app/presentation/pages/auth/login.dart';
 import 'package:bible_compass_app/presentation/pages/auth/signup.dart';
 import 'package:bible_compass_app/presentation/pages/dashboard/category.dart';
+import 'package:bible_compass_app/presentation/pages/dashboard/favorite.dart';
+import 'package:bible_compass_app/presentation/pages/dashboard/keywords.dart';
+import 'package:bible_compass_app/presentation/pages/dashboard/profile.dart';
+import 'package:bible_compass_app/presentation/pages/dashboard/sub.dart';
+import 'package:bible_compass_app/presentation/pages/dashboard/userverse.dart';
 import 'package:bible_compass_app/presentation/pages/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,7 +26,7 @@ class MyRouter extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // GoRouter configuration
     final router = GoRouter(
-      initialLocation: '/admin/categories',
+      initialLocation: '/login',
       // initialLocation: '/signup',
       routes: [
         // splash screen
@@ -51,7 +56,37 @@ class MyRouter extends ConsumerWidget {
         ),
         GoRoute(
           path: '/category',
-          builder: (context, state) => CategoryPage(),
+          builder: (context, state) => const CategoryPage(),
+        ),
+        GoRoute(
+          path: '/keywords/:catid',
+          builder: (context, state) {
+            final catid = state.pathParameters['catid'];
+            return KeywordPage(
+              catId: catid!,
+            );
+          },
+        ),
+        GoRoute(
+          path: '/verse/:keywid',
+          builder: (context, state) {
+            final keywid = state.pathParameters['keywid'];
+            return UserVersePage(
+              keywId: keywid!,
+            );
+          },
+        ),
+        GoRoute(
+          path: '/profile',
+          builder: (context, state) => const ProfilePage(),
+        ),
+        GoRoute(
+          path: '/sub',
+          builder: (context, state) => const SubPage(),
+        ),
+        GoRoute(
+          path: '/favorite',
+          builder: (context, state) => const FavouritePage(),
         ),
 
         // admin screen

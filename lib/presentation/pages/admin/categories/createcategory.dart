@@ -6,7 +6,6 @@ import 'package:bible_compass_app/presentation/widgets/snacksbar.dart';
 import 'package:bible_compass_app/presentation/widgets/themebutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 class CreateCategory extends ConsumerStatefulWidget {
   const CreateCategory({super.key});
@@ -125,7 +124,8 @@ class _CreateCategoryState extends ConsumerState<CreateCategory> {
                     message();
                     if (ref.watch(errorMessageProvider) == "") {
                       Future.delayed(const Duration(seconds: 5), () {
-                        context.go('/admin/category');
+                        // context.go('/admin/category');
+                        Navigator.of(context).pop();
                       });
                     }
                   },
