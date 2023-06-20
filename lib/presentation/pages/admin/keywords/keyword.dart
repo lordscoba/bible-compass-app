@@ -166,9 +166,9 @@ class InnerClayListKeyword extends ConsumerWidget {
                                             context: context,
                                             barrierDismissible: true,
                                             builder: (BuildContext context) {
-                                              return const UpdateKeyword(
-                                                  // fulldata[index]['ID'],
-                                                  );
+                                              return UpdateKeyword(
+                                                keyId: fulldata[index]['ID'],
+                                              );
                                             },
                                           );
                                         },

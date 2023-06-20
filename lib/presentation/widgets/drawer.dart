@@ -1,11 +1,13 @@
+import 'package:bible_compass_app/domain/providers/authproviders.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class Draw extends StatelessWidget {
+class Draw extends ConsumerWidget {
   const Draw({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Drawer(
       width: 300,
       // backgroundColor: Colors.black.withOpacity(0.6),
@@ -40,15 +42,37 @@ class Draw extends StatelessWidget {
             icon: Icons.payment,
             text: 'Upgrade Plan',
             onTap: () {
-              context.go('/home');
+              context.go('/sub');
             },
           ),
           DrawerPart(
-              icon: Icons.logout_outlined,
-              text: 'logout',
-              onTap: () {
-                context.go('/login');
-              }),
+            icon: Icons.favorite_border,
+            text: 'favorite',
+            onTap: () {
+              context.go('/favorite');
+            },
+          ),
+          DrawerPart(
+            icon: Icons.account_circle_outlined,
+            text: 'profile',
+            onTap: () {
+              context.go('/profile');
+            },
+          ),
+          DrawerPart(
+            icon: Icons.logout_outlined,
+            text: 'logout',
+            onTap: () async {
+              ref.invalidate(loginProvider);
+              context.go('/login');
+              // final SharedPreferences prefs =
+              //     await SharedPreferences.getInstance();
+              final prefs = await ref.watch(sharedPrefProvider);
+              await prefs.clear();
+              final String? username = prefs.getString('username');
+              debugPrint(username);
+            },
+          ),
         ],
       ),
     );

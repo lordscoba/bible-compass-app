@@ -6,7 +6,6 @@ import 'package:bible_compass_app/presentation/widgets/snacksbar.dart';
 import 'package:bible_compass_app/presentation/widgets/themebutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 class CreateUsers extends ConsumerStatefulWidget {
   const CreateUsers({super.key});
@@ -130,7 +129,7 @@ class _CreateUsersState extends ConsumerState<CreateUsers> {
                   },
                 ),
                 ThemeButton(
-                  text: checkState.isLoading ? "loading..." : 'Login',
+                  text: checkState.isLoading ? "loading..." : 'Create',
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState?.save();
@@ -142,7 +141,7 @@ class _CreateUsersState extends ConsumerState<CreateUsers> {
                     message();
                     if (ref.watch(errorMessageProvider) == "") {
                       Future.delayed(const Duration(seconds: 5), () {
-                        context.go('/admin/users');
+                        Navigator.of(context).pop();
                       });
                     }
                   },

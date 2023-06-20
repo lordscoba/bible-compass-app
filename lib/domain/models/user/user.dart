@@ -29,6 +29,15 @@ class UserModel with _$UserModel {
 }
 
 @freezed
+abstract class AuthState with _$AuthState {
+  const factory AuthState(
+      {@Default({}) Map<String, dynamic> data,
+      @Default(false) bool isLoading,
+      @Default('') String error,
+      @Default(false) bool isLoggedIn}) = _AuthState;
+}
+
+@freezed
 abstract class UserState with _$UserState {
   const factory UserState(
       {@Default({}) Map<String, dynamic> data,

@@ -3,6 +3,7 @@ import 'package:bible_compass_app/utils/constants.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpNotifier extends StateNotifier<UserState> {
   SignUpNotifier() : super(const UserState());
@@ -40,8 +41,8 @@ class SignUpNotifier extends StateNotifier<UserState> {
   }
 }
 
-class LoginNotifier extends StateNotifier<UserState> {
-  LoginNotifier() : super(const UserState());
+class LoginNotifier extends StateNotifier<AuthState> {
+  LoginNotifier() : super(const AuthState());
   Future<void> performLogin(ref) async {
     try {
       // Set loading state
@@ -57,7 +58,23 @@ class LoginNotifier extends StateNotifier<UserState> {
             isLoading: false,
             data: response.data as Map<String, dynamic>,
             error: '');
-        // debugPrint(response.data.toString());
+        debugPrint(response.data.toString());
+
+        // set login state
+        // final prefs = await ref.watch(sharedPrefProvider);
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+        await prefs.setString(
+            'email', response.data['data']['email'].toString());
+        await prefs.setString(
+            'username', response.data['data']['username'].toString());
+        await prefs.setString(
+            'token', response.data['data']['token'].toString());
+        await prefs.setString('type', response.data['data']['type'].toString());
+        await prefs.setString(
+            'token_type', response.data['data']['token_type'].toString());
+
+        // end set login state
       }
     } on DioException catch (e) {
       // debugPrint(e.toString());
@@ -73,4 +90,14 @@ class LoginNotifier extends StateNotifier<UserState> {
       }
     }
   }
+
+  // Future<void> performLogout(ref) async {
+  //   try {
+  //     // Set loading state
+  //     state = state.copyWith(isLoading: true, error: '');
+
+  //   } catch (e) {
+  //     debugPrint(e.toString());
+  //   }
+  // }
 }

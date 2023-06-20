@@ -6,7 +6,6 @@ import 'package:bible_compass_app/presentation/widgets/snacksbar.dart';
 import 'package:bible_compass_app/presentation/widgets/themebutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 class UpdateUsers extends ConsumerStatefulWidget {
   final String userId;
@@ -203,7 +202,8 @@ class _UpdateUsersState extends ConsumerState<UpdateUsers> {
                           message();
                           if (ref.watch(errorMessageProvider) == "") {
                             Future.delayed(const Duration(seconds: 5), () {
-                              context.go('/admin/users');
+                              // context.go('/admin/users');
+                              Navigator.of(context).pop();
                             });
                           }
                           await ref

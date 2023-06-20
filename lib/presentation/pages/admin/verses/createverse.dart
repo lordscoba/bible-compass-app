@@ -6,7 +6,6 @@ import 'package:bible_compass_app/presentation/widgets/snacksbar.dart';
 import 'package:bible_compass_app/presentation/widgets/themebutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 class CreateVerses extends ConsumerStatefulWidget {
   final String keywId;
@@ -140,7 +139,8 @@ class _CreateVersesState extends ConsumerState<CreateVerses> {
                     message();
                     if (ref.watch(errorMessageProvider) == "") {
                       Future.delayed(const Duration(seconds: 5), () {
-                        context.go('/admin/verses/${widget.keywId}');
+                        // context.go('/admin/verses/${widget.keywId}');
+                        Navigator.of(context).pop();
                       });
                     }
                   },

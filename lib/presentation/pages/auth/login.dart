@@ -48,7 +48,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final UserState checkState = ref.watch(loginProvider);
+    final AuthState checkState = ref.watch(loginProvider);
 
     ref.listen(loginProvider, (prev, next) {
       if (next.error.isNotEmpty) {
@@ -61,6 +61,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         // debugPrint(next.data['message'].toString());
       }
     });
+
     return Scaffold(
       body: Container(
         height: double.infinity,
@@ -115,11 +116,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             .read(loginProvider.notifier)
                             .performLogin(user.toJson());
                       }
-                      debugPrint(user.toJson().toString());
+                      // debugPrint(user.toJson().toString());
                       message();
+
                       if (ref.watch(errorMessageProvider) == "") {
-                        Future.delayed(const Duration(seconds: 5), () {
-                          context.go('/home');
+                        Future.delayed(const Duration(seconds: 3), () {
+                          if (ref
+                                  .watch(loginProvider)
+                                  .data['data']['Type']
+                                  .toString() ==
+                              "admin") {
+                            context.go('/admin');
+                          } else {
+                            context.go('/home');
+                          }
                         });
                       }
                     },
