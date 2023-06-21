@@ -123,7 +123,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         Future.delayed(const Duration(seconds: 3), () {
                           if (ref
                                   .watch(loginProvider)
-                                  .data['data']['Type']
+                                  .data['data']['type']
                                   .toString() ==
                               "admin") {
                             context.go('/admin');

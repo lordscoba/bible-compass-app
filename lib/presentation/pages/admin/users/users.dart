@@ -200,7 +200,7 @@ class InnerClayListUser extends ConsumerWidget {
                                             barrierDismissible: true,
                                             builder: (BuildContext context) {
                                               return UpdateUsers(
-                                                  fulldata[index]['ID']);
+                                                  fulldata[index]['id']);
                                             },
                                           );
                                         },
@@ -216,7 +216,7 @@ class InnerClayListUser extends ConsumerWidget {
                                             barrierDismissible: true,
                                             builder: (BuildContext context) {
                                               return DeleteModal(
-                                                fulldata[index]['ID'],
+                                                fulldata[index]['id'],
                                               );
                                             },
                                           );
@@ -233,7 +233,7 @@ class InnerClayListUser extends ConsumerWidget {
                                             barrierDismissible: true,
                                             builder: (BuildContext context) {
                                               return ViewUser(
-                                                fulldata[index]['ID'],
+                                                fulldata[index]['id'],
                                               );
                                             },
                                           );
