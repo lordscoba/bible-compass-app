@@ -3,6 +3,6 @@ import 'package:bible_compass_app/domain/models/user/user.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final profileProvider =
-    StateNotifierProvider.autoDispose<ProfileNotifier, UserState>((ref) {
+    StateNotifierProvider<ProfileNotifier, AuthState>((ref) {
   return ProfileNotifier();
 });

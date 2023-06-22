@@ -167,7 +167,7 @@ class InnerClayListKeyword extends ConsumerWidget {
                                             barrierDismissible: true,
                                             builder: (BuildContext context) {
                                               return UpdateKeyword(
-                                                keyId: fulldata[index]['ID'],
+                                                keyId: fulldata[index]['id'],
                                               );
                                             },
                                           );
@@ -184,7 +184,7 @@ class InnerClayListKeyword extends ConsumerWidget {
                                             barrierDismissible: true,
                                             builder: (BuildContext context) {
                                               return DeleteModalKeywords(
-                                                fulldata[index]['ID'],
+                                                fulldata[index]['id'],
                                               );
                                             },
                                           );
@@ -201,7 +201,7 @@ class InnerClayListKeyword extends ConsumerWidget {
                                             barrierDismissible: true,
                                             builder: (BuildContext context) {
                                               return ViewKeyword(
-                                                fulldata[index]['ID'],
+                                                fulldata[index]['id'],
                                               );
                                             },
                                           );
@@ -214,7 +214,7 @@ class InnerClayListKeyword extends ConsumerWidget {
                                       IconButton(
                                         onPressed: () {
                                           context.go(
-                                              "/admin/verses/${fulldata[index]['ID']}");
+                                              "/admin/verses/${fulldata[index]['id']}");
                                         },
                                         icon: const Icon(
                                           Icons.list_alt,

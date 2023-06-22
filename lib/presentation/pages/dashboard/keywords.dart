@@ -1,4 +1,8 @@
+import 'package:bible_compass_app/domain/models/favourites/favorite.dart';
 import 'package:bible_compass_app/domain/models/keyword/keyword.dart';
+import 'package:bible_compass_app/domain/models/user/user.dart';
+import 'package:bible_compass_app/domain/providers/authproviders.dart';
+import 'package:bible_compass_app/domain/providers/favproviders.dart';
 import 'package:bible_compass_app/domain/providers/keywordproviders.dart';
 import 'package:bible_compass_app/presentation/widgets/Header.dart';
 import 'package:bible_compass_app/presentation/widgets/drawer.dart';
@@ -13,14 +17,15 @@ class KeywordPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final keywfuture = Future.delayed(const Duration(seconds: 3), () {
+    final AuthState auth = ref.watch(loginProvider);
+    var authData = auth.data['data'];
+    final keywfuture = Future.delayed(const Duration(seconds: 1), () {
       final keywcalled =
           ref.watch(keywordProvider.notifier).perfromGetKeywordsRequest(catId);
       return keywcalled;
     });
     // debugPrint(keywfuture.toString());
     return Scaffold(
-      // extendBodyBehindAppBar: true,
       appBar: const Header(
         title: 'Keywords',
       ),
@@ -56,6 +61,7 @@ class KeywordPage extends ConsumerWidget {
                   if (snapshot.hasData) {
                     // debugPrint(snapshot.data?.data['data'].toString());
                     final fulldata = snapshot.data?.data['data'];
+
                     return Wrap(
                       spacing: 5.0, // horizontal spacing between items
                       runSpacing: 5.0, // vertical spacing between lines
@@ -64,8 +70,14 @@ class KeywordPage extends ConsumerWidget {
                             (item) => MyChip(
                               text: item['keyword'].toString(),
                               onTap: () {
-                                context.go("/verse/${item['ID']}");
+                                // debugPrint(item['keyword']);
+                                // debugPrint(authData['email']);
+                                context.go("/verse/${item['id']}");
                               },
+                              favButton: LikeButton(
+                                email: authData['email'],
+                                keyword: item['keyword'],
+                              ),
                             ),
                           )
                           .toList(),
@@ -85,13 +97,70 @@ class KeywordPage extends ConsumerWidget {
   }
 }
 
+class LikeButton extends ConsumerWidget {
+  final String keyword;
+  final String email;
+  const LikeButton({
+    required this.keyword,
+    required this.email,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final statsfuture = Future.delayed(const Duration(seconds: 1), () {
+      final statscalled = ref
+          .watch(favProviderstatus.notifier)
+          .perfromGetStatusRequest(keyword, email);
+      return statscalled;
+    });
+    return FutureBuilder<FavoriteState>(
+      future: statsfuture,
+      builder: (BuildContext context, AsyncSnapshot<FavoriteState> snapshot) {
+        if (snapshot.hasData) {
+          debugPrint(snapshot.data?.data['data'].toString());
+          final fulldata = snapshot.data?.data['data'];
+          return IconButton(
+            onPressed: () async {
+              if (!fulldata['status']) {
+                await ref
+                    .read(favProvider.notifier)
+                    .perfromLikeRequest(keyword, email);
+              } else {
+                await ref
+                    .read(favProvider.notifier)
+                    .perfromUnLikeRequest(keyword, email);
+              }
+              await ref
+                  .refresh(favProviderstatus.notifier)
+                  .perfromGetStatusRequest(keyword, email);
+            },
+            icon: fulldata['status']
+                ? const Icon(
+                    Icons.favorite,
+                    color: Colors.white,
+                  )
+                : const Icon(Icons.favorite_border),
+          );
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else {
+          return const CircularProgressIndicator();
+        }
+      },
+    );
+  }
+}
+
 class MyChip extends StatelessWidget {
   final String text;
   final void Function()? onTap;
+  final Widget? favButton;
   const MyChip({
     super.key,
     required this.text,
     this.onTap,
+    this.favButton,
   });
 
   @override
@@ -126,13 +195,7 @@ class MyChip extends StatelessWidget {
                     color: Colors.white,
                     fontSize: 18),
               ),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.favorite_border,
-                  color: Colors.white,
-                ),
-              )
+              favButton!,
             ],
           ),
         ),

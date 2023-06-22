@@ -173,7 +173,7 @@ class InnerClayListVerse extends ConsumerWidget {
                                               barrierDismissible: true,
                                               builder: (BuildContext context) {
                                                 return UpdateVerse(
-                                                  vId: fulldata[index]['ID'],
+                                                  vId: fulldata[index]['id'],
                                                   keyId: keywid!,
                                                 );
                                               },
@@ -191,7 +191,7 @@ class InnerClayListVerse extends ConsumerWidget {
                                               barrierDismissible: true,
                                               builder: (BuildContext context) {
                                                 return DeleteModalVerse(keywid!,
-                                                    fulldata[index]['ID']);
+                                                    fulldata[index]['id']);
                                               },
                                             );
                                           },
@@ -207,7 +207,7 @@ class InnerClayListVerse extends ConsumerWidget {
                                               barrierDismissible: true,
                                               builder: (BuildContext context) {
                                                 return ViewVerse(keywid!,
-                                                    fulldata[index]['ID']);
+                                                    fulldata[index]['id']);
                                               },
                                             );
                                           },
@@ -219,7 +219,7 @@ class InnerClayListVerse extends ConsumerWidget {
                                         IconButton(
                                           onPressed: () {
                                             context.go(
-                                                "/admin/verses/${fulldata[index]['ID']}");
+                                                "/admin/verses/${fulldata[index]['id']}");
                                           },
                                           icon: const Icon(
                                             Icons.list_alt,

@@ -79,11 +79,11 @@ class Draw extends ConsumerWidget {
   }
 }
 
-class AdminDraw extends StatelessWidget {
+class AdminDraw extends ConsumerWidget {
   const AdminDraw({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Drawer(
       width: 300,
       // backgroundColor: Colors.black.withOpacity(0.6),
@@ -135,13 +135,20 @@ class AdminDraw extends StatelessWidget {
               context.go('/admin/subscription');
             },
           ),
-          // DrawerPart(
-          //   icon: Icons.book,
-          //   text: 'Verses',
-          //   onTap: () {
-          //     context.go('/admin/verses');
-          //   },
-          // ),
+          DrawerPart(
+            icon: Icons.logout_outlined,
+            text: 'logout',
+            onTap: () async {
+              ref.invalidate(loginProvider);
+              context.go('/login');
+              // final SharedPreferences prefs =
+              //     await SharedPreferences.getInstance();
+              final prefs = await ref.watch(sharedPrefProvider);
+              await prefs.clear();
+              final String? username = prefs.getString('username');
+              debugPrint(username);
+            },
+          ),
         ],
       ),
     );

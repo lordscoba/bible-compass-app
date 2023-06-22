@@ -78,14 +78,14 @@ class CategoryPage extends ConsumerWidget {
                           ),
                           trailing: IconButton(
                             onPressed: () {
-                              debugPrint(fulldata[index]['ID']);
-                              context.go("/keywords/${fulldata[index]['ID']}");
+                              // debugPrint(fulldata[index]['id']);
+                              context.go("/keywords/${fulldata[index]['id']}");
                               // showDialog(
                               //   context: context,
                               //   barrierDismissible: true,
                               //   builder: (BuildContext context) {
                               //     return ViewCategory(
-                              //       fulldata[index]['ID'],
+                              //       fulldata[index]['id'],
                               //     );
                               //   },
                               // );

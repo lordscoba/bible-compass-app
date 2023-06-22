@@ -1,57 +1,21 @@
-import 'package:bible_compass_app/domain/models/user/user.dart';
+import 'package:bible_compass_app/domain/models/favourites/favorite.dart';
 import 'package:bible_compass_app/utils/constants.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class SignUpNotifier extends StateNotifier<UserState> {
-  SignUpNotifier() : super(const UserState());
+class FavoriteNotifier extends StateNotifier<FavoriteState> {
+  FavoriteNotifier() : super(const FavoriteState());
 
-  Future<void> perfromSignupRequest(ref) async {
+  Future<FavoriteState> perfromLikeRequest(String keyword, String email) async {
     try {
       // Set loading state
       state = state.copyWith(isLoading: true, error: '');
       final dio = Dio();
 
       // Make the POST request
-      final response =
-          await dio.post(EnvironmentUserConfig.signUpUrl, data: ref);
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        // Request successful
-        state = state.copyWith(
-            isLoading: false,
-            data: response.data as Map<String, dynamic>,
-            error: '');
-        // debugPrint(response.data.toString());
-      }
-    } on DioException catch (e) {
-      // debugPrint(e.toString());
-      if (e.response != null) {
-        // debugPrint(e.response?.data['message'].toString());
-        state = state.copyWith(
-            isLoading: false, error: e.response?.data['message']);
-      } else {
-        // Something happened in setting up or sending the request that triggered an Error
-        debugPrint(e.requestOptions.toString());
-        debugPrint(e.message.toString());
-        state = state.copyWith(isLoading: false, error: e.message.toString());
-      }
-    }
-  }
-}
-
-class LoginNotifier extends StateNotifier<AuthState> {
-  LoginNotifier() : super(const AuthState());
-  Future<void> performLogin(ref) async {
-    try {
-      // Set loading state
-      state = state.copyWith(isLoading: true, error: '');
-      final dio = Dio();
-
-      // Make the POST request
-      final response =
-          await dio.post(EnvironmentUserConfig.loginUpUrl, data: ref);
+      final response = await dio
+          .get("${EnvironmentFavConfig.userLikeKeyword}$keyword/$email");
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Request successful
         state = state.copyWith(
@@ -59,22 +23,6 @@ class LoginNotifier extends StateNotifier<AuthState> {
             data: response.data as Map<String, dynamic>,
             error: '');
         debugPrint(response.data.toString());
-
-        // set login state
-        // final prefs = await ref.watch(sharedPrefProvider);
-        final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-        await prefs.setString(
-            'email', response.data['data']['email'].toString());
-        await prefs.setString(
-            'username', response.data['data']['username'].toString());
-        await prefs.setString(
-            'token', response.data['data']['token'].toString());
-        await prefs.setString('type', response.data['data']['type'].toString());
-        await prefs.setString(
-            'token_type', response.data['data']['token_type'].toString());
-
-        // end set login state
       }
     } on DioException catch (e) {
       // debugPrint(e.toString());
@@ -89,18 +37,57 @@ class LoginNotifier extends StateNotifier<AuthState> {
         state = state.copyWith(isLoading: false, error: e.message.toString());
       }
     }
+    return state;
   }
 
-  Future<void> performgetUser(String id) async {
+  Future<FavoriteState> perfromUnLikeRequest(
+      String keyword, String email) async {
     try {
       // Set loading state
       state = state.copyWith(isLoading: true, error: '');
       final dio = Dio();
 
       // Make the POST request
+      final response = await dio
+          .get("${EnvironmentFavConfig.userUnlikeKeyword}$keyword/$email");
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // Request successful
+        state = state.copyWith(
+            isLoading: false,
+            data: response.data as Map<String, dynamic>,
+            error: '');
+        debugPrint(response.data.toString());
+      }
+    } on DioException catch (e) {
+      // debugPrint(e.toString());
+      if (e.response != null) {
+        // debugPrint(e.response?.data['message'].toString());
+        state = state.copyWith(
+            isLoading: false, error: e.response?.data['message']);
+      } else {
+        // Something happened in setting up or sending the request that triggered an Error
+        debugPrint(e.requestOptions.toString());
+        debugPrint(e.message.toString());
+        state = state.copyWith(isLoading: false, error: e.message.toString());
+      }
+    }
+    return state;
+  }
+
+  Future<FavoriteState> perfromGetStatusRequest(
+      String keyword, String email) async {
+    try {
+      // Set loading state
+      state = state.copyWith(isLoading: true, error: '');
+      final dio = Dio();
+      // debugPrint(keyword);
+      // debugPrint(email);
+      // debugPrint(
+      //     "${EnvironmentFavConfig.userGetFavStatus}$keyword/${email.trim()}");
+
+      // Make the POST request
       final response = await dio.get(
-        EnvironmentUserConfig.getProfileByIdUrl + id,
-      );
+          "${EnvironmentFavConfig.userGetFavStatus}$keyword/${email.trim()}");
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Request successful
         state = state.copyWith(
@@ -122,15 +109,39 @@ class LoginNotifier extends StateNotifier<AuthState> {
         state = state.copyWith(isLoading: false, error: e.message.toString());
       }
     }
+    return state;
   }
 
-  // Future<void> performLogout(ref) async {
-  //   try {
-  //     // Set loading state
-  //     state = state.copyWith(isLoading: true, error: '');
+  Future<FavoriteState> perfromGetFavsRequest(String email) async {
+    try {
+      // Set loading state
+      state = state.copyWith(isLoading: true, error: '');
+      final dio = Dio();
 
-  //   } catch (e) {
-  //     debugPrint(e.toString());
-  //   }
-  // }
+      // Make the POST request
+      final response =
+          await dio.get("${EnvironmentFavConfig.userGetKeywords}$email");
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // Request successful
+        state = state.copyWith(
+            isLoading: false,
+            data: response.data as Map<String, dynamic>,
+            error: '');
+        debugPrint(response.data.toString());
+      }
+    } on DioException catch (e) {
+      // debugPrint(e.toString());
+      if (e.response != null) {
+        // debugPrint(e.response?.data['message'].toString());
+        state = state.copyWith(
+            isLoading: false, error: e.response?.data['message']);
+      } else {
+        // Something happened in setting up or sending the request that triggered an Error
+        debugPrint(e.requestOptions.toString());
+        debugPrint(e.message.toString());
+        state = state.copyWith(isLoading: false, error: e.message.toString());
+      }
+    }
+    return state;
+  }
 }

@@ -1,6 +1,8 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:bible_compass_app/domain/models/favourites/favorite.dart';
 import 'package:bible_compass_app/domain/models/user/user.dart';
 import 'package:bible_compass_app/domain/providers/authproviders.dart';
+import 'package:bible_compass_app/domain/providers/favproviders.dart';
 import 'package:bible_compass_app/presentation/widgets/Header.dart';
 import 'package:bible_compass_app/presentation/widgets/drawer.dart';
 import 'package:bible_compass_app/presentation/widgets/navigations.dart';
@@ -8,6 +10,7 @@ import 'package:bible_compass_app/presentation/widgets/widgets.dart';
 import 'package:clay_containers/widgets/clay_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -24,6 +27,16 @@ class HomeScreen extends ConsumerWidget {
 
       debugPrint(username);
     }();
+
+    // debugPrint(authData["email"]);
+
+    final favsfuture = Future.delayed(const Duration(seconds: 1), () {
+      final favscalled = ref
+          .watch(favProvider.notifier)
+          .perfromGetFavsRequest(authData["email"]);
+      return favscalled;
+    });
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: const Header(
@@ -132,39 +145,48 @@ class HomeScreen extends ConsumerWidget {
                 child: ClayContainer(
                   height: 300,
                   borderRadius: 30,
-                  child: ListView(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 16),
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          "Favourites",
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      ListTile(
-                        title: Text("Spirituality"),
-                        subtitle: Text("Spirituality"),
-                        trailing: Icon(Icons.favorite_border_outlined),
-                      ),
-                      ListTile(
-                        title: Text("Spirituality"),
-                        subtitle: Text("Spirituality"),
-                        trailing: Icon(Icons.favorite_border_outlined),
-                      ),
-                      ListTile(
-                        title: Text("Spirituality"),
-                        subtitle: Text("Spirituality"),
-                        trailing: Icon(Icons.favorite_border_outlined),
-                      ),
-                      ListTile(
-                        title: Text("Spirituality"),
-                        subtitle: Text("Spirituality"),
-                        trailing: Icon(Icons.favorite_border_outlined),
-                      ),
-                    ],
+                  child: FutureBuilder<FavoriteState>(
+                    future: favsfuture,
+                    builder: (BuildContext context,
+                        AsyncSnapshot<FavoriteState> snapshot) {
+                      if (snapshot.hasData) {
+                        // debugPrint(snapshot.data?.data['data'].toString());
+                        final fulldata = snapshot.data?.data['data'];
+                        // debugPrint(fulldata.toString());
+                        return ListView.builder(
+                          itemCount: fulldata.length,
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                              title: Text(
+                                fulldata[index]['keyword'],
+                                style: const TextStyle(
+                                    color: Colors.black54, fontSize: 25),
+                              ),
+                              trailing: IconButton(
+                                onPressed: () async {
+                                  // debugPrint(fulldata[index]['keyword']);
+                                  context.go("/verse/${fulldata[index]['id']}");
+                                },
+                                icon: const Icon(
+                                  Icons.arrow_forward_ios,
+                                  color: Colors.black87,
+                                  size: 30,
+                                ),
+                              ),
+                              // contentPadding: const EdgeInsets.symmetric(
+                              //     horizontal: 16.0, vertical: 20),
+                              enabled: true,
+                            );
+                          },
+                        );
+
+                        // return const Text("hello hasdata");
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        return const CircularProgressIndicator();
+                      }
+                    },
                   ),
                 ),
               )

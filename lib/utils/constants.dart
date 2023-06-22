@@ -20,9 +20,9 @@ class EnvironmentUserConfig {
       "http://localhost:3000/api/v1/admin/verifyuser";
 
   // user profile
-  static const String getProfilByIdUrl =
+  static const String updateProfilByIdUrl =
       "http://localhost:3000/api/v1/profile/"; //user id
-  static const String updateProfileByIdUrl =
+  static const String getProfileByIdUrl =
       "http://localhost:3000/api/v1/profiledetails/"; //user id
 }
 
@@ -95,4 +95,16 @@ class EnvironmentVerseConfig {
       "http://localhost:3000/api/v1/admin/verseinfo/"; //keyword id
   static const String adminDeleteVerseByIdUrl =
       "http://localhost:3000/api/v1/admin/deleteverse/"; //keyword id && Bible Verse Id
+}
+
+class EnvironmentFavConfig {
+  // verses
+  static const String userLikeKeyword =
+      "http://localhost:3000/api/v1/like/"; //keyword && email
+  static const String userUnlikeKeyword =
+      "http://localhost:3000/api/v1/unlike/"; //keyword && email
+  static const String userGetFavStatus =
+      "http://localhost:3000/api/v1/favstatus/"; //keyword && email
+  static const String userGetKeywords =
+      "http://localhost:3000/api/v1/getfavs/"; //email
 }

@@ -161,7 +161,7 @@ class InnerClayListCategory extends ConsumerWidget {
                                             barrierDismissible: true,
                                             builder: (BuildContext context) {
                                               return UpdateCategory(
-                                                catId: fulldata[index]['ID'],
+                                                catId: fulldata[index]['id'],
                                               );
                                             },
                                           );
@@ -178,7 +178,7 @@ class InnerClayListCategory extends ConsumerWidget {
                                             barrierDismissible: true,
                                             builder: (BuildContext context) {
                                               return DeleteModalCategory(
-                                                fulldata[index]['ID'],
+                                                fulldata[index]['id'],
                                               );
                                             },
                                           );
@@ -195,7 +195,7 @@ class InnerClayListCategory extends ConsumerWidget {
                                             barrierDismissible: true,
                                             builder: (BuildContext context) {
                                               return ViewCategory(
-                                                fulldata[index]['ID'],
+                                                fulldata[index]['id'],
                                               );
                                             },
                                           );
@@ -208,7 +208,7 @@ class InnerClayListCategory extends ConsumerWidget {
                                       IconButton(
                                         onPressed: () {
                                           context.go(
-                                              "/admin/keywords/${fulldata[index]['ID']}");
+                                              "/admin/keywords/${fulldata[index]['id']}");
                                         },
                                         icon: const Icon(
                                           Icons.list_alt,
