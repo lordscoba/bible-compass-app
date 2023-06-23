@@ -25,7 +25,7 @@ class BottomBar extends StatelessWidget {
                 color: Colors.white,
               ),
               onPressed: () {
-                context.go('/category');
+                context.push('/category');
               },
             ),
           ),
@@ -33,11 +33,11 @@ class BottomBar extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: IconButton(
               icon: const Icon(
-                Icons.favorite_border_outlined,
+                Icons.favorite,
                 color: Colors.white,
               ),
               onPressed: () {
-                Navigator.pop(context);
+                context.push("/favorite");
               },
             ),
           ),

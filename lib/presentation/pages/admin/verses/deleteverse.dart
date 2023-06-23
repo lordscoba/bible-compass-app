@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class DeleteModalVerse extends ConsumerWidget {
-  final String KwId;
-  final String VsId;
-  const DeleteModalVerse(this.KwId, this.VsId, {super.key});
+  final String kwId;
+  final String vsId;
+  const DeleteModalVerse(this.kwId, this.vsId, {super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -97,7 +97,7 @@ class DeleteModalVerse extends ConsumerWidget {
                   onPressed: () {
                     ref
                         .read(verseProvider.notifier)
-                        .performDeleteVerseRequest(KwId, VsId);
+                        .performDeleteVerseRequest(kwId, vsId);
                     Navigator.of(context).pop();
                     const snackBar = SnackBar(
                       content: Text('Verse deleted'),

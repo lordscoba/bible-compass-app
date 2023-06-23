@@ -4,10 +4,11 @@ import 'package:bible_compass_app/domain/models/user/user.dart';
 import 'package:bible_compass_app/domain/providers/authproviders.dart';
 import 'package:bible_compass_app/domain/providers/favproviders.dart';
 import 'package:bible_compass_app/domain/providers/keywordproviders.dart';
-import 'package:bible_compass_app/presentation/widgets/Header.dart';
 import 'package:bible_compass_app/presentation/widgets/drawer.dart';
+import 'package:bible_compass_app/presentation/widgets/header.dart';
 import 'package:bible_compass_app/presentation/widgets/navigations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -19,7 +20,7 @@ class KeywordPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final AuthState auth = ref.watch(loginProvider);
     var authData = auth.data['data'];
-    final keywfuture = Future.delayed(const Duration(seconds: 1), () {
+    final keywfuture = Future.delayed(const Duration(milliseconds: 100), () {
       final keywcalled =
           ref.watch(keywordProvider.notifier).perfromGetKeywordsRequest(catId);
       return keywcalled;
@@ -32,7 +33,9 @@ class KeywordPage extends ConsumerWidget {
       drawer: const Draw(),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xFF0BA37F),
-        onPressed: () {},
+        onPressed: () {
+          context.go("/home");
+        },
         child: const Icon(
           Icons.home,
         ),
@@ -65,22 +68,28 @@ class KeywordPage extends ConsumerWidget {
                     return Wrap(
                       spacing: 5.0, // horizontal spacing between items
                       runSpacing: 5.0, // vertical spacing between lines
-                      children: fulldata
-                          .map<Widget>(
-                            (item) => MyChip(
+                      children: fulldata.map<Widget>(
+                        (item) {
+                          final idx = fulldata.indexOf(item);
+                          return FadeIn(
+                            duration: Duration(
+                                milliseconds: 300 + (300 * idx as int)),
+                            curve: Curves.easeIn,
+                            child: MyChip(
                               text: item['keyword'].toString(),
                               onTap: () {
                                 // debugPrint(item['keyword']);
                                 // debugPrint(authData['email']);
-                                context.go("/verse/${item['id']}");
+                                context.push("/verse/${item['id']}");
                               },
                               favButton: LikeButton(
                                 email: authData['email'],
                                 keyword: item['keyword'],
                               ),
                             ),
-                          )
-                          .toList(),
+                          );
+                        },
+                      ).toList(),
                     );
                   } else if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
@@ -108,7 +117,7 @@ class LikeButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final statsfuture = Future.delayed(const Duration(seconds: 1), () {
+    final statsfuture = Future.delayed(const Duration(milliseconds: 100), () {
       final statscalled = ref
           .watch(favProviderstatus.notifier)
           .perfromGetStatusRequest(keyword, email);
@@ -140,7 +149,10 @@ class LikeButton extends ConsumerWidget {
                     Icons.favorite,
                     color: Colors.white,
                   )
-                : const Icon(Icons.favorite_border),
+                : const Icon(
+                    Icons.favorite_border,
+                    color: Colors.white,
+                  ),
           );
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
@@ -170,7 +182,7 @@ class MyChip extends StatelessWidget {
       child: IntrinsicWidth(
         child: Container(
           decoration: BoxDecoration(
-            border: Border.all(color: Colors.black87, width: 2),
+            border: Border.all(color: Colors.black26, width: 3),
             borderRadius: const BorderRadius.all(Radius.circular(30.0)),
             gradient: const LinearGradient(
               begin: Alignment.topCenter,
@@ -184,7 +196,7 @@ class MyChip extends StatelessWidget {
           ),
           width: double.infinity,
           // color: Colors.black38,
-          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5),
+          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [

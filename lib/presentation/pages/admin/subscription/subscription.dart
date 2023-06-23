@@ -1,10 +1,15 @@
+import 'package:bible_compass_app/domain/models/subscription/subscription.dart';
+import 'package:bible_compass_app/domain/providers/subproviders.dart';
+import 'package:bible_compass_app/presentation/pages/admin/subscription/deletesub.dart';
 import 'package:bible_compass_app/presentation/pages/admin/subscription/updatesubscirption.dart';
-import 'package:bible_compass_app/presentation/widgets/Header.dart';
+import 'package:bible_compass_app/presentation/pages/admin/subscription/viewsubscription.dart';
 import 'package:bible_compass_app/presentation/widgets/drawer.dart';
+import 'package:bible_compass_app/presentation/widgets/header.dart';
 import 'package:bible_compass_app/presentation/widgets/navigations.dart';
 import 'package:bible_compass_app/presentation/widgets/tophome.dart';
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class AdminSubscription extends StatelessWidget {
@@ -85,13 +90,17 @@ class TopHomeSubscription extends StatelessWidget {
   }
 }
 
-class InnerClayListSubscription extends StatelessWidget {
+class InnerClayListSubscription extends ConsumerWidget {
   const InnerClayListSubscription({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final subfuture = Future.delayed(const Duration(seconds: 1), () {
+      final subcalled = ref.watch(subProvider.notifier).perfromGetSubsRequest();
+      return subcalled;
+    });
     double listSize = 250;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 18.0),
@@ -112,64 +121,82 @@ class InnerClayListSubscription extends StatelessWidget {
                     ),
                     SizedBox(
                       height: listSize - 50,
-                      child: ListView(
-                        // physics: const NeverScrollableScrollPhysics(),
-                        children: [
-                          ListTile(
-                            title: const Text("Spirituality"),
-                            subtitle: const Text("Not a registered user"),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                IconButton(
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      barrierDismissible: true,
-                                      builder: (BuildContext context) {
-                                        return const UpdateSubscriprion();
-                                      },
-                                    );
-                                  },
-                                  icon: const Icon(
-                                    Icons.edit,
-                                    size: 20,
+                      child: FutureBuilder<SubscriptionState>(
+                        future: subfuture,
+                        builder: (BuildContext context,
+                            AsyncSnapshot<SubscriptionState> snapshot) {
+                          if (snapshot.hasData) {
+                            // debugPrint(snapshot.data?.data['data'].toString());
+                            final fulldata = snapshot.data?.data['data'];
+                            return ListView.builder(
+                              itemCount: fulldata.length,
+                              itemBuilder: (context, index) {
+                                return ListTile(
+                                  title: Text(fulldata[index]['type']),
+                                  subtitle: Text(
+                                      fulldata[index]['amount'].toString()),
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      IconButton(
+                                        onPressed: () {
+                                          showDialog(
+                                            context: context,
+                                            barrierDismissible: true,
+                                            builder: (BuildContext context) {
+                                              return AdminUpdateSubscriprion(
+                                                  fulldata[index]['id']);
+                                            },
+                                          );
+                                        },
+                                        icon: const Icon(
+                                          Icons.edit,
+                                          size: 20,
+                                        ),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          showDialog(
+                                            context: context,
+                                            barrierDismissible: true,
+                                            builder: (BuildContext context) {
+                                              return DeleteModalSub(
+                                                  fulldata[index]['id']);
+                                            },
+                                          );
+                                        },
+                                        icon: const Icon(
+                                          Icons.delete,
+                                          size: 20,
+                                        ),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          showDialog(
+                                            context: context,
+                                            barrierDismissible: true,
+                                            builder: (BuildContext context) {
+                                              return AdminViewSub(
+                                                  fulldata[index]['id']);
+                                            },
+                                          );
+                                        },
+                                        icon: const Icon(
+                                          Icons.arrow_forward_ios_rounded,
+                                          size: 20,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      barrierDismissible: true,
-                                      builder: (BuildContext context) {
-                                        return const UpdateSubscriprion();
-                                      },
-                                    );
-                                  },
-                                  icon: const Icon(
-                                    Icons.delete,
-                                    size: 20,
-                                  ),
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      barrierDismissible: true,
-                                      builder: (BuildContext context) {
-                                        return const Placeholder();
-                                      },
-                                    );
-                                  },
-                                  icon: const Icon(
-                                    Icons.arrow_forward_ios_rounded,
-                                    size: 20,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
+                                );
+                              },
+                            );
+                          } else if (snapshot.hasError) {
+                            return Text('Error: ${snapshot.error}');
+                          } else {
+                            return const CircularProgressIndicator();
+                          }
+                        },
                       ),
                     ),
                   ],

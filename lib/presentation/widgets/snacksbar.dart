@@ -9,7 +9,7 @@ class SnackBarClass {
         elevation: 0,
         behavior: SnackBarBehavior.floating,
         backgroundColor: Colors.transparent,
-        duration: const Duration(seconds: 9),
+        duration: const Duration(seconds: 2),
         content: AwesomeSnackbarContent(
           title: "Oh! snap",
           message: message,
@@ -28,7 +28,7 @@ class SnackBarClass {
         elevation: 0,
         behavior: SnackBarBehavior.floating,
         backgroundColor: Colors.transparent,
-        duration: const Duration(seconds: 9),
+        duration: const Duration(seconds: 2),
         content: AwesomeSnackbarContent(
           title: "Congrats",
           message: message,

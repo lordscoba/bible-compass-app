@@ -79,6 +79,8 @@ class EnvironmentSubConfig {
       "http://localhost:3000/api/v1/admin/getsubscriptionid/"; // subscription id
   static const String adminGetSubscriptionInfoUrl =
       "http://localhost:3000/api/v1/admin/subscriptioninfo";
+  static const String adminGetUserSubscriptions =
+      "http://localhost:3000/api/v1/admin/getusersub/"; //userid
 }
 
 class EnvironmentVerseConfig {

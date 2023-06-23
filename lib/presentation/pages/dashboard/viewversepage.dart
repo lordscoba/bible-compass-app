@@ -1,5 +1,6 @@
 import 'package:bible_compass_app/domain/models/verse/verse.dart';
 import 'package:bible_compass_app/domain/providers/verseprovider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -65,7 +66,7 @@ class ViewVerseDetails extends ConsumerWidget {
                 return Text('Error: ${snapshot.error}');
               } else {
                 return const Scaffold(
-                    body: Center(child: CircularProgressIndicator()));
+                    body: Center(child: CupertinoActivityIndicator()));
               }
             },
           ),

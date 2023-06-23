@@ -3,11 +3,12 @@ import 'package:bible_compass_app/domain/models/favourites/favorite.dart';
 import 'package:bible_compass_app/domain/models/user/user.dart';
 import 'package:bible_compass_app/domain/providers/authproviders.dart';
 import 'package:bible_compass_app/domain/providers/favproviders.dart';
-import 'package:bible_compass_app/presentation/widgets/Header.dart';
 import 'package:bible_compass_app/presentation/widgets/drawer.dart';
+import 'package:bible_compass_app/presentation/widgets/header.dart';
 import 'package:bible_compass_app/presentation/widgets/navigations.dart';
 import 'package:bible_compass_app/presentation/widgets/widgets.dart';
 import 'package:clay_containers/widgets/clay_container.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -19,7 +20,7 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final AuthState auth = ref.watch(loginProvider);
     var authData = auth.data['data'];
-    // debugPrint(authData.toString());
+    debugPrint(authData.toString());
 
     () async {
       final prefs = await ref.watch(sharedPrefProvider);
@@ -30,7 +31,7 @@ class HomeScreen extends ConsumerWidget {
 
     // debugPrint(authData["email"]);
 
-    final favsfuture = Future.delayed(const Duration(seconds: 1), () {
+    final favsfuture = Future.delayed(const Duration(milliseconds: 100), () {
       final favscalled = ref
           .watch(favProvider.notifier)
           .perfromGetFavsRequest(authData["email"]);
@@ -45,7 +46,9 @@ class HomeScreen extends ConsumerWidget {
       drawer: const Draw(),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xFF0BA37F),
-        onPressed: () {},
+        onPressed: () {
+          context.go("/home");
+        },
         child: const Icon(
           Icons.home,
         ),
@@ -84,12 +87,10 @@ class HomeScreen extends ConsumerWidget {
                           fontWeight: FontWeight.w800),
                       child: AnimatedTextKit(
                         animatedTexts: [
-                          WavyAnimatedText('Hi Chris'),
                           !(authData.toString() == 'null')
-                              ? WavyAnimatedText(
-                                  authData['username'].toString())
+                              ? WavyAnimatedText("Hi ${authData['username']}")
                               : WavyAnimatedText("No name"),
-
+                          WavyAnimatedText('Welcome'),
                           //   WavyAnimatedText('Welcome'),
                         ],
                         isRepeatingAnimation: true,
@@ -110,33 +111,44 @@ class HomeScreen extends ConsumerWidget {
               ),
               const HorizontalSpace(),
               const HorizontalSpace(),
-              const Wrap(
+              Wrap(
                 spacing: 15,
                 runSpacing: 15,
                 children: [
                   HomeNavBody(
-                    bodyText: 'the the the the the the the the the the the the',
-                    color: Color(0xFFDAD5F4),
-                    headText: 'Read Bible',
-                    icon: Icon(Icons.ac_unit),
+                    bodyText:
+                        'In the category section check for the title to research on',
+                    color: const Color(0xFFDAD5F4),
+                    headText: 'Category',
+                    icon: const Icon(Icons.category),
+                    onTap: () {
+                      context.push("/category");
+                    },
                   ),
                   HomeNavBody(
-                    bodyText: 'the the the the the the the the the the the the',
-                    color: Color(0xFFEBF6D3),
-                    headText: 'Read Bible',
-                    icon: Icon(Icons.ac_unit),
+                    bodyText:
+                        'Check for the bookmarked bible keywords to use today!',
+                    color: const Color(0xFFEBF6D3),
+                    headText: 'Favorites',
+                    icon: const Icon(Icons.favorite),
+                    onTap: () {
+                      context.push("/favorite");
+                    },
                   ),
                   HomeNavBody(
-                    bodyText: 'the the the the the the the the the the the the',
+                    bodyText: 'Go to your profile and check out your info',
+                    color: const Color(0xFFF4F9F6),
+                    headText: 'Profile',
+                    icon: const Icon(Icons.ac_unit),
+                    onTap: () {
+                      context.push("/profile");
+                    },
+                  ),
+                  const HomeNavBody(
+                    bodyText: 'Read the bible online',
                     color: Color(0xFFF4F9F6),
                     headText: 'Read Bible',
-                    icon: Icon(Icons.ac_unit),
-                  ),
-                  HomeNavBody(
-                    bodyText: 'the the the the the the the the the the the the',
-                    color: Color(0xFFF4F9F6),
-                    headText: 'Read Bible',
-                    icon: Icon(Icons.ac_unit),
+                    icon: Icon(Icons.book),
                   ),
                 ],
               ),
@@ -153,38 +165,57 @@ class HomeScreen extends ConsumerWidget {
                         // debugPrint(snapshot.data?.data['data'].toString());
                         final fulldata = snapshot.data?.data['data'];
                         // debugPrint(fulldata.toString());
-                        return ListView.builder(
-                          itemCount: fulldata.length,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              title: Text(
-                                fulldata[index]['keyword'],
-                                style: const TextStyle(
-                                    color: Colors.black54, fontSize: 25),
-                              ),
-                              trailing: IconButton(
-                                onPressed: () async {
-                                  // debugPrint(fulldata[index]['keyword']);
-                                  context.go("/verse/${fulldata[index]['id']}");
-                                },
-                                icon: const Icon(
-                                  Icons.arrow_forward_ios,
-                                  color: Colors.black87,
-                                  size: 30,
+
+                        if (fulldata.length > 1) {
+                          return ListView.builder(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 30, vertical: 40),
+                            itemCount: fulldata.length,
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                title: Text(
+                                  fulldata[index]['keyword'],
+                                  style: const TextStyle(
+                                      color: Colors.black54, fontSize: 20),
                                 ),
-                              ),
-                              // contentPadding: const EdgeInsets.symmetric(
-                              //     horizontal: 16.0, vertical: 20),
-                              enabled: true,
-                            );
-                          },
-                        );
+                                trailing: IconButton(
+                                  onPressed: () async {
+                                    // debugPrint(fulldata[index]['keyword']);
+                                    context
+                                        .go("/verse/${fulldata[index]['id']}");
+                                  },
+                                  icon: const Icon(
+                                    Icons.arrow_forward_ios,
+                                    color: Colors.black87,
+                                    size: 20,
+                                  ),
+                                ),
+                                // contentPadding: const EdgeInsets.symmetric(
+                                //     horizontal: 16.0, vertical: 20),
+                                enabled: true,
+                              );
+                            },
+                          );
+                        } else {
+                          return ListView(
+                            children: const [
+                              ListTile(
+                                title: Text("No data"),
+                              )
+                            ],
+                          );
+                        }
 
                         // return const Text("hello hasdata");
                       } else if (snapshot.hasError) {
+                        debugPrint(snapshot.error.toString());
                         return Text('Error: ${snapshot.error}');
                       } else {
-                        return const CircularProgressIndicator();
+                        return const Center(
+                          child: CupertinoActivityIndicator(
+                            radius: 50,
+                          ),
+                        );
                       }
                     },
                   ),
@@ -228,7 +259,7 @@ class HomeNavBody extends StatelessWidget {
           children: [
             icon,
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 13.0),
               child: Text(
                 headText,
                 style: const TextStyle(
@@ -238,7 +269,7 @@ class HomeNavBody extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 13.0),
               child: Text(
                 bodyText,
                 style: const TextStyle(fontSize: 14, color: Colors.black54),

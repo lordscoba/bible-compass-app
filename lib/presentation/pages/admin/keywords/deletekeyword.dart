@@ -8,33 +8,6 @@ class DeleteModalKeywords extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-// void message() {
-//       final String message;
-//       final bool error;
-//       final sucessmessage = ref.watch(successMessageProvider);
-//       final errormessage = ref.watch(errorMessageProvider);
-//       if (errormessage.isEmpty) {
-//         message = sucessmessage;
-//         error = false;
-//       } else {
-//         message = errormessage;
-//         error = true;
-//       }
-//       var displaymessage = SnackBarClass();
-//       // ignore: use_build_context_synchronously
-//       displaymessage.snackBarMade(context, message, error);
-//     }
-    // ref.listen(adminUserProvider, (prev, next) {
-    //   if (next.error.isNotEmpty) {
-    //     ref.read(errorMessageProvider.notifier).state = next.error.toString();
-    //     // debugPrint(next.error);
-    //   }
-    //   if (!next.data['message'].toString().contains("null")) {
-    //     ref.read(successMessageProvider.notifier).state =
-    //         next.data['message'].toString();
-    //     // debugPrint(next.data['message'].toString());
-    //   }
-    // });
     return Dialog(
       backgroundColor: Colors.transparent,
       child: Container(

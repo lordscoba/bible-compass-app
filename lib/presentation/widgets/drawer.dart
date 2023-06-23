@@ -35,7 +35,7 @@ class Draw extends ConsumerWidget {
             icon: Icons.category_outlined,
             text: 'Categories',
             onTap: () {
-              context.go('/category');
+              context.push('/category');
             },
           ),
           DrawerPart(

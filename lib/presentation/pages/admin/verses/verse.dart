@@ -4,7 +4,7 @@ import 'package:bible_compass_app/presentation/pages/admin/verses/createverse.da
 import 'package:bible_compass_app/presentation/pages/admin/verses/deleteverse.dart';
 import 'package:bible_compass_app/presentation/pages/admin/verses/updateverse.dart';
 import 'package:bible_compass_app/presentation/pages/admin/verses/viewverse.dart';
-import 'package:bible_compass_app/presentation/widgets/Header.dart';
+import 'package:bible_compass_app/presentation/widgets/header.dart';
 import 'package:bible_compass_app/presentation/widgets/addsomething.dart';
 import 'package:bible_compass_app/presentation/widgets/drawer.dart';
 import 'package:bible_compass_app/presentation/widgets/navigations.dart';
