@@ -26,7 +26,7 @@ mixin _$SubscriptionModel {
   String get type => throw _privateConstructorUsedError;
   double get amount => throw _privateConstructorUsedError;
   bool get status => throw _privateConstructorUsedError;
-  double get duration => throw _privateConstructorUsedError;
+  Duration? get duration => throw _privateConstructorUsedError;
   DateTime? get dateCreated => throw _privateConstructorUsedError;
   DateTime? get dateExpiring => throw _privateConstructorUsedError;
   DateTime? get dateUpdated => throw _privateConstructorUsedError;
@@ -50,7 +50,7 @@ abstract class $SubscriptionModelCopyWith<$Res> {
       String type,
       double amount,
       bool status,
-      double duration,
+      Duration? duration,
       DateTime? dateCreated,
       DateTime? dateExpiring,
       DateTime? dateUpdated});
@@ -75,7 +75,7 @@ class _$SubscriptionModelCopyWithImpl<$Res, $Val extends SubscriptionModel>
     Object? type = null,
     Object? amount = null,
     Object? status = null,
-    Object? duration = null,
+    Object? duration = freezed,
     Object? dateCreated = freezed,
     Object? dateExpiring = freezed,
     Object? dateUpdated = freezed,
@@ -105,10 +105,10 @@ class _$SubscriptionModelCopyWithImpl<$Res, $Val extends SubscriptionModel>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as bool,
-      duration: null == duration
+      duration: freezed == duration
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
-              as double,
+              as Duration?,
       dateCreated: freezed == dateCreated
           ? _value.dateCreated
           : dateCreated // ignore: cast_nullable_to_non_nullable
@@ -140,7 +140,7 @@ abstract class _$$_SubscriptionModelCopyWith<$Res>
       String type,
       double amount,
       bool status,
-      double duration,
+      Duration? duration,
       DateTime? dateCreated,
       DateTime? dateExpiring,
       DateTime? dateUpdated});
@@ -163,7 +163,7 @@ class __$$_SubscriptionModelCopyWithImpl<$Res>
     Object? type = null,
     Object? amount = null,
     Object? status = null,
-    Object? duration = null,
+    Object? duration = freezed,
     Object? dateCreated = freezed,
     Object? dateExpiring = freezed,
     Object? dateUpdated = freezed,
@@ -193,10 +193,10 @@ class __$$_SubscriptionModelCopyWithImpl<$Res>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as bool,
-      duration: null == duration
+      duration: freezed == duration
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
-              as double,
+              as Duration?,
       dateCreated: freezed == dateCreated
           ? _value.dateCreated
           : dateCreated // ignore: cast_nullable_to_non_nullable
@@ -224,7 +224,7 @@ class _$_SubscriptionModel implements _SubscriptionModel {
       this.type = '',
       this.amount = 0,
       this.status = false,
-      this.duration = 0,
+      this.duration,
       this.dateCreated,
       this.dateExpiring,
       this.dateUpdated});
@@ -250,8 +250,7 @@ class _$_SubscriptionModel implements _SubscriptionModel {
   @JsonKey()
   final bool status;
   @override
-  @JsonKey()
-  final double duration;
+  final Duration? duration;
   @override
   final DateTime? dateCreated;
   @override
@@ -314,7 +313,7 @@ abstract class _SubscriptionModel implements SubscriptionModel {
       final String type,
       final double amount,
       final bool status,
-      final double duration,
+      final Duration? duration,
       final DateTime? dateCreated,
       final DateTime? dateExpiring,
       final DateTime? dateUpdated}) = _$_SubscriptionModel;
@@ -335,7 +334,7 @@ abstract class _SubscriptionModel implements SubscriptionModel {
   @override
   bool get status;
   @override
-  double get duration;
+  Duration? get duration;
   @override
   DateTime? get dateCreated;
   @override

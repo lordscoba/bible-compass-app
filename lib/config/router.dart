@@ -26,7 +26,8 @@ class MyRouter extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // GoRouter configuration
     final router = GoRouter(
-      initialLocation: '/login',
+      initialLocation: '/home',
+
       // initialLocation: '/signup',
       routes: [
         // splash screen
@@ -34,10 +35,6 @@ class MyRouter extends ConsumerWidget {
           path: '/splash',
           builder: (context, state) => const SplashScreen(),
         ),
-        // GoRoute(
-        //   path: '/test',
-        //   builder: (context, state) => const Test(),
-        // ),
 
         // Auth screen
         GoRoute(

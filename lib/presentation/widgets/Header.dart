@@ -1,4 +1,6 @@
+// ignore: file_names
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class Header extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -9,20 +11,37 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentRoute = GoRouter.of(context).location;
     return AppBar(
       title: Text(
         title,
         style: const TextStyle(
             color: Colors.white, fontWeight: FontWeight.bold, fontSize: 30),
       ),
-      actions: const [
-        Padding(
-          padding: EdgeInsets.only(top: 9.0, right: 9),
-          child: Icon(
-            Icons.notifications_none,
-            color: Colors.white,
-          ),
-        ),
+      actions: [
+        currentRoute != '/home'
+            ? Padding(
+                padding: const EdgeInsets.only(top: 9.0, right: 9),
+                child: TextButton(
+                  onPressed: () {
+                    if (context.canPop()) {
+                      context.pop();
+                    } else {
+                      debugPrint("cannot pop");
+                      debugPrint(currentRoute);
+                      // context.pop();
+                    }
+                  },
+                  child: const Text(
+                    "Close",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15),
+                  ),
+                ),
+              )
+            : const SizedBox(),
       ],
     );
   }
@@ -40,20 +59,37 @@ class AdminHeader extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentRoute = GoRouter.of(context).location;
     return AppBar(
       title: Text(
         title,
         style: const TextStyle(
             color: Colors.white, fontWeight: FontWeight.bold, fontSize: 30),
       ),
-      actions: const [
-        Padding(
-          padding: EdgeInsets.only(top: 9.0, right: 9),
-          child: Icon(
-            Icons.notifications_none,
-            color: Colors.white,
-          ),
-        ),
+      actions: [
+        currentRoute != '/admin'
+            ? Padding(
+                padding: const EdgeInsets.only(top: 9.0, right: 9),
+                child: TextButton(
+                  onPressed: () {
+                    if (context.canPop()) {
+                      context.pop();
+                    } else {
+                      debugPrint("cannot pop");
+                      debugPrint(currentRoute);
+                      // context.pop();
+                    }
+                  },
+                  child: const Text(
+                    "Close",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15),
+                  ),
+                ),
+              )
+            : const SizedBox(),
       ],
     );
   }

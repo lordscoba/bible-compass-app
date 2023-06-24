@@ -1,12 +1,14 @@
 import 'package:bible_compass_app/domain/models/verse/verse.dart';
 import 'package:bible_compass_app/domain/providers/verseprovider.dart';
 import 'package:bible_compass_app/presentation/pages/dashboard/viewversepage.dart';
-import 'package:bible_compass_app/presentation/widgets/Header.dart';
 import 'package:bible_compass_app/presentation/widgets/drawer.dart';
+import 'package:bible_compass_app/presentation/widgets/header.dart';
 import 'package:bible_compass_app/presentation/widgets/navigations.dart';
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class UserVersePage extends ConsumerWidget {
   final String keywId;
@@ -14,7 +16,7 @@ class UserVersePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final versefuture = Future.delayed(const Duration(seconds: 3), () {
+    final versefuture = Future.delayed(const Duration(milliseconds: 100), () {
       final versecalled =
           ref.watch(verseProvider.notifier).perfromGetVersesRequest(keywId);
       return versecalled;
@@ -23,12 +25,14 @@ class UserVersePage extends ConsumerWidget {
     return Scaffold(
       // extendBodyBehindAppBar: true,
       appBar: const Header(
-        title: 'Keywords',
+        title: 'Bible Verses',
       ),
       drawer: const Draw(),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xFF0BA37F),
-        onPressed: () {},
+        onPressed: () {
+          context.go("/home");
+        },
         child: const Icon(
           Icons.home,
         ),
@@ -74,9 +78,14 @@ class UserVersePage extends ConsumerWidget {
                       return Wrap(
                         spacing: 5.0, // horizontal spacing between items
                         runSpacing: 5.0, // vertical spacing between lines
-                        children: fulldata
-                            .map<Widget>(
-                              (item) => MyChip(
+                        children: fulldata.map<Widget>(
+                          (item) {
+                            final idx = fulldata.indexOf(item);
+                            return FadeIn(
+                              duration: Duration(
+                                  milliseconds: 300 + (300 * idx as int)),
+                              curve: Curves.easeIn,
+                              child: MyChipV(
                                 text: item['bible_verse'].toString(),
                                 onTap: () {
                                   showDialog(
@@ -89,8 +98,9 @@ class UserVersePage extends ConsumerWidget {
                                   );
                                 },
                               ),
-                            )
-                            .toList(),
+                            );
+                          },
+                        ).toList(),
                       );
                     }
                   } else if (snapshot.hasError) {
@@ -108,10 +118,10 @@ class UserVersePage extends ConsumerWidget {
   }
 }
 
-class MyChip extends StatelessWidget {
+class MyChipV extends StatelessWidget {
   final String text;
   final void Function()? onTap;
-  const MyChip({
+  const MyChipV({
     super.key,
     required this.text,
     this.onTap,
@@ -124,8 +134,8 @@ class MyChip extends StatelessWidget {
       child: IntrinsicWidth(
         child: Container(
           decoration: BoxDecoration(
-            border: Border.all(color: Colors.black87, width: 2),
-            borderRadius: const BorderRadius.all(Radius.circular(30.0)),
+            border: Border.all(color: Colors.white38, width: 4),
+            borderRadius: const BorderRadius.all(Radius.circular(15.0)),
             gradient: const LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -137,26 +147,12 @@ class MyChip extends StatelessWidget {
             ),
           ),
           width: double.infinity,
-          // color: Colors.black38,
-          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text(
-                text,
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    fontSize: 18),
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.favorite_border,
-                  color: Colors.white,
-                ),
-              )
-            ],
+          height: 70,
+          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
+          child: Text(
+            text,
+            style: const TextStyle(
+                fontWeight: FontWeight.bold, color: Colors.white, fontSize: 18),
           ),
         ),
       ),

@@ -4,6 +4,7 @@ import 'package:bible_compass_app/domain/providers/profileproviders.dart';
 import 'package:bible_compass_app/presentation/widgets/inputfield.dart';
 import 'package:bible_compass_app/presentation/widgets/snacksbar.dart';
 import 'package:bible_compass_app/presentation/widgets/themebutton.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -60,7 +61,7 @@ class _UpdateProfileState extends ConsumerState<UpdateProfile> {
     });
 
     final dynamic usersfuturesingle =
-        Future.delayed(const Duration(seconds: 2), () {
+        Future.delayed(const Duration(milliseconds: 100), () {
       final userscalled = ref
           .read(profileProvider.notifier)
           .perfromGetUserProfileRequest(widget.userId);
@@ -185,7 +186,12 @@ class _UpdateProfileState extends ConsumerState<UpdateProfile> {
                 return Text('Error: ${snapshot.error}');
               } else {
                 return const Scaffold(
-                    body: Center(child: CircularProgressIndicator()));
+                  body: Center(
+                    child: CupertinoActivityIndicator(
+                      radius: 50,
+                    ),
+                  ),
+                );
               }
             },
           ),

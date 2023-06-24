@@ -1,12 +1,13 @@
 import 'package:bible_compass_app/domain/models/user/user.dart';
 import 'package:bible_compass_app/domain/providers/authproviders.dart';
 import 'package:bible_compass_app/presentation/pages/dashboard/editprofile.dart';
-import 'package:bible_compass_app/presentation/widgets/Header.dart';
 import 'package:bible_compass_app/presentation/widgets/drawer.dart';
+import 'package:bible_compass_app/presentation/widgets/header.dart';
 import 'package:bible_compass_app/presentation/widgets/navigations.dart';
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
@@ -17,11 +18,6 @@ class ProfilePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final AuthState auth = ref.watch(loginProvider);
     var authData = auth.data['data'];
-    // final catsfuture = Future.delayed(const Duration(seconds: 1), () {
-    //   final catscalled =
-    //       ref.watch(categoryProvider.notifier).perfromGetCatgeoriesRequest();
-    //   return catscalled;
-    // });
     return Scaffold(
       // extendBodyBehindAppBar: true,
       appBar: const Header(
@@ -30,7 +26,9 @@ class ProfilePage extends ConsumerWidget {
       drawer: const Draw(),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xFF0BA37F),
-        onPressed: () {},
+        onPressed: () {
+          context.go("/home");
+        },
         child: const Icon(
           Icons.home,
         ),
@@ -53,6 +51,9 @@ class ProfilePage extends ConsumerWidget {
             child: Column(
               // mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                const SizedBox(
+                  height: 15,
+                ),
                 ClayContainer(
                   borderRadius: 30,
                   width: MediaQuery.of(context).size.width - 30,

@@ -16,7 +16,7 @@ class SubscriptionModel with _$SubscriptionModel {
     @Default('') String type,
     @Default(0) double amount,
     @Default(false) bool status,
-    @Default(0) double duration,
+    Duration? duration,
     DateTime? dateCreated,
     DateTime? dateExpiring,
     DateTime? dateUpdated,

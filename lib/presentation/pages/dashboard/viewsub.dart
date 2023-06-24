@@ -3,9 +3,9 @@ import 'package:bible_compass_app/domain/providers/subproviders.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AdminViewSub extends ConsumerWidget {
+class ViewSub extends ConsumerWidget {
   final String id;
-  const AdminViewSub(this.id, {super.key});
+  const ViewSub(this.id, {super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

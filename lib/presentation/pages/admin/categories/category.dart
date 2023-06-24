@@ -4,7 +4,7 @@ import 'package:bible_compass_app/presentation/pages/admin/categories/createcate
 import 'package:bible_compass_app/presentation/pages/admin/categories/deletecategory.dart';
 import 'package:bible_compass_app/presentation/pages/admin/categories/updatecategory.dart';
 import 'package:bible_compass_app/presentation/pages/admin/categories/viewcategory.dart';
-import 'package:bible_compass_app/presentation/widgets/Header.dart';
+import 'package:bible_compass_app/presentation/widgets/header.dart';
 import 'package:bible_compass_app/presentation/widgets/addsomething.dart';
 import 'package:bible_compass_app/presentation/widgets/drawer.dart';
 import 'package:bible_compass_app/presentation/widgets/navigations.dart';

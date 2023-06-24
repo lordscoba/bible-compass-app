@@ -144,6 +144,11 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       }
                       // debugPrint(user.toJson().toString());
                       message();
+                      if (ref.watch(errorMessageProvider) == "") {
+                        Future.delayed(const Duration(seconds: 5), () {
+                          context.go("/login");
+                        });
+                      }
                     },
                   ),
                   Row(
