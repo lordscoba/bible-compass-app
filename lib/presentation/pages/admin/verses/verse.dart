@@ -4,12 +4,13 @@ import 'package:bible_compass_app/presentation/pages/admin/verses/createverse.da
 import 'package:bible_compass_app/presentation/pages/admin/verses/deleteverse.dart';
 import 'package:bible_compass_app/presentation/pages/admin/verses/updateverse.dart';
 import 'package:bible_compass_app/presentation/pages/admin/verses/viewverse.dart';
-import 'package:bible_compass_app/presentation/widgets/header.dart';
 import 'package:bible_compass_app/presentation/widgets/addsomething.dart';
 import 'package:bible_compass_app/presentation/widgets/drawer.dart';
+import 'package:bible_compass_app/presentation/widgets/header.dart';
 import 'package:bible_compass_app/presentation/widgets/navigations.dart';
 import 'package:bible_compass_app/presentation/widgets/tophome.dart';
 import 'package:clay_containers/clay_containers.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -42,7 +43,9 @@ class AdminVerses extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const TopHomeVerse(),
+              TopHomeVerse(
+                keywid: keywid,
+              ),
               AddSomething(
                 text: 'Want to add verses?',
                 icon: Icons.add_circle_outline,
@@ -69,13 +72,20 @@ class AdminVerses extends StatelessWidget {
   }
 }
 
-class TopHomeVerse extends StatelessWidget {
+class TopHomeVerse extends ConsumerWidget {
+  final String? keywid;
   const TopHomeVerse({
+    this.keywid,
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final statsfuture = Future.delayed(const Duration(milliseconds: 100), () {
+      final statscalled =
+          ref.watch(verseProvider.notifier).perfromGetVerseStats(keywid!);
+      return statscalled;
+    });
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 18.0),
       child: Align(
@@ -84,25 +94,42 @@ class TopHomeVerse extends StatelessWidget {
           height: 180,
           width: MediaQuery.of(context).size.width - 30,
           borderRadius: 20,
-          child: const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              TopHomeChildren(
-                icons: Icons.category_rounded,
-                title: 'Total verses',
-                total: '86',
-              ),
-              TopHomeChildren(
-                icons: Icons.category_outlined,
-                title: 'Subed verses',
-                total: '8',
-              ),
-              TopHomeChildren(
-                icons: Icons.category_outlined,
-                title: 'Unsubed verses',
-                total: '20',
-              ),
-            ],
+          child: FutureBuilder<VerseState>(
+            future: statsfuture,
+            builder:
+                (BuildContext context, AsyncSnapshot<VerseState> snapshot) {
+              if (snapshot.hasData) {
+                // debugPrint(snapshot.data?.data['data'].toString());
+                final fulldata = snapshot.data?.data['data'];
+                debugPrint(fulldata['total_category'].toString());
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    TopHomeChildren(
+                      icons: Icons.category_rounded,
+                      title: 'Total verses',
+                      total: fulldata['total_verses'].toString(),
+                    ),
+                    TopHomeChildren(
+                      icons: Icons.category_outlined,
+                      title: 'Total verses',
+                      total: fulldata['total_verses'].toString(),
+                    ),
+                    TopHomeChildren(
+                      icons: Icons.category_outlined,
+                      title: 'Total verses',
+                      total: fulldata['total_verses'].toString(),
+                    ),
+                  ],
+                );
+
+                // return const Text("hello hasdata");
+              } else if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              } else {
+                return const SizedBox();
+              }
+            },
           ),
         ),
       ),
@@ -235,7 +262,11 @@ class InnerClayListVerse extends ConsumerWidget {
                           } else if (snapshot.hasError) {
                             return Text('Error: ${snapshot.error}');
                           } else {
-                            return const CircularProgressIndicator();
+                            return const Center(
+                              child: CupertinoActivityIndicator(
+                                radius: 50,
+                              ),
+                            );
                           }
                         },
                       ),

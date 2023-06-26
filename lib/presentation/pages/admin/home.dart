@@ -1,11 +1,17 @@
-import 'package:bible_compass_app/presentation/widgets/header.dart';
+import 'package:bible_compass_app/domain/models/user/user.dart';
+import 'package:bible_compass_app/domain/providers/adminusersproviders.dart';
+import 'package:bible_compass_app/presentation/pages/admin/categories/createcategory.dart';
+import 'package:bible_compass_app/presentation/pages/admin/users/viewuser.dart';
 import 'package:bible_compass_app/presentation/widgets/addsomething.dart';
 import 'package:bible_compass_app/presentation/widgets/drawer.dart';
+import 'package:bible_compass_app/presentation/widgets/header.dart';
+import 'package:bible_compass_app/presentation/widgets/inputfield.dart';
 import 'package:bible_compass_app/presentation/widgets/navigations.dart';
 import 'package:bible_compass_app/presentation/widgets/tophome.dart';
 import 'package:bible_compass_app/presentation/widgets/tophomedouble.dart';
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class AdminHome extends StatelessWidget {
@@ -30,22 +36,31 @@ class AdminHome extends StatelessWidget {
       bottomNavigationBar: const AdminBottomBar(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       backgroundColor: const Color(0xFFE2E2E2),
-      body: const SizedBox(
+      body: SizedBox(
         height: 1200,
         child: SingleChildScrollView(
           child: Column(
             children: [
-              TopHome(),
-              TopHomeDouble(),
+              const TopHome(),
+              const TopHomeDouble(),
               AddSomething(
                 text: 'Want to add Category?',
                 icon: Icons.add_circle_outline,
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    barrierDismissible: true,
+                    builder: (BuildContext context) {
+                      return const CreateCategory();
+                    },
+                  );
+                },
               ),
-              AddSomething(
+              const AddSomething(
                 text: 'View App Data',
                 icon: Icons.arrow_forward_ios,
               ),
-              InnerClayList1()
+              const InnerClayList1()
             ],
           ),
         ),
@@ -54,14 +69,20 @@ class AdminHome extends StatelessWidget {
   }
 }
 
-class InnerClayList1 extends StatelessWidget {
+class InnerClayList1 extends ConsumerWidget {
   const InnerClayList1({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
-    double listSize = 250;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final usersfuture = Future.delayed(const Duration(milliseconds: 100), () {
+      final userscalled = ref
+          .watch(adminUserProvider.notifier)
+          .perfromGetUsersRequest(search: ref.watch(searchText));
+      return userscalled;
+    });
+    double listSize = 350;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 18.0),
       child: Align(
@@ -77,74 +98,55 @@ class InnerClayList1 extends StatelessWidget {
                   children: [
                     const Text(
                       "New Users",
-                      style: TextStyle(color: Colors.black54),
+                      style: TextStyle(
+                          color: Colors.black54,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
                     ),
+                    const SearchTextUser1(),
                     SizedBox(
                       height: listSize - 50,
-                      child: ListView(
-                        // physics: const NeverScrollableScrollPhysics(),
-                        children: [
-                          ListTile(
-                            title: const Text("Nwokoye Chris"),
-                            subtitle: const Text("Not a registered user"),
-                            trailing: IconButton(
-                                onPressed: () {},
-                                icon: const Icon(
-                                  Icons.arrow_forward_ios,
-                                  size: 20,
-                                )),
-                          ),
-                          ListTile(
-                            title: const Text("Nwokoye Chris"),
-                            subtitle: const Text("Not a registered user"),
-                            trailing: IconButton(
-                                onPressed: () {},
-                                icon: const Icon(
-                                  Icons.arrow_forward_ios,
-                                  size: 20,
-                                )),
-                          ),
-                          ListTile(
-                            title: const Text("Nwokoye Chris"),
-                            subtitle: const Text("Not a registered user"),
-                            trailing: IconButton(
-                                onPressed: () {},
-                                icon: const Icon(
-                                  Icons.arrow_forward_ios,
-                                  size: 20,
-                                )),
-                          ),
-                          ListTile(
-                            title: const Text("Nwokoye Chris"),
-                            subtitle: const Text("Not a registered user"),
-                            trailing: IconButton(
-                                onPressed: () {},
-                                icon: const Icon(
-                                  Icons.arrow_forward_ios,
-                                  size: 20,
-                                )),
-                          ),
-                          ListTile(
-                            title: const Text("Nwokoye Chris"),
-                            subtitle: const Text("Not a registered user"),
-                            trailing: IconButton(
-                                onPressed: () {},
-                                icon: const Icon(
-                                  Icons.arrow_forward_ios,
-                                  size: 20,
-                                )),
-                          ),
-                          ListTile(
-                            title: const Text("Nwokoye Chris"),
-                            subtitle: const Text("Not a registered user"),
-                            trailing: IconButton(
-                                onPressed: () {},
-                                icon: const Icon(
-                                  Icons.arrow_forward_ios,
-                                  size: 20,
-                                )),
-                          )
-                        ],
+                      child: FutureBuilder<UserState>(
+                        future: usersfuture,
+                        builder: (BuildContext context,
+                            AsyncSnapshot<UserState> snapshot) {
+                          if (snapshot.hasData) {
+                            // debugPrint(snapshot.data?.data['data'].toString());
+                            final fulldata = snapshot.data?.data['data'];
+                            return ListView.builder(
+                              itemCount: fulldata.length,
+                              itemBuilder: (context, index) {
+                                return ListTile(
+                                  title: Text(fulldata[index]['username']),
+                                  subtitle: const Text("Not a registered user"),
+                                  trailing: IconButton(
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        barrierDismissible: true,
+                                        builder: (BuildContext context) {
+                                          return ViewUser(
+                                            fulldata[index]['id'],
+                                          );
+                                        },
+                                      );
+                                    },
+                                    icon: const Icon(
+                                      Icons.arrow_forward_ios_rounded,
+                                      size: 20,
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+
+                            // return const Text("hello hasdata");
+                          } else if (snapshot.hasError) {
+                            return Text('Error: ${snapshot.error}');
+                          } else {
+                            return const CircularProgressIndicator();
+                          }
+                        },
                       ),
                     ),
                   ],
@@ -152,6 +154,22 @@ class InnerClayList1 extends StatelessWidget {
               ),
             )),
       ),
+    );
+  }
+}
+
+class SearchTextUser1 extends ConsumerWidget {
+  const SearchTextUser1({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SearchInputField(
+      onChanged: (value) async {
+        ref.read(searchText.notifier).state = value;
+        await ref
+            .refresh(adminUserProvider.notifier)
+            .perfromGetUsersRequest(search: ref.watch(searchText));
+      },
     );
   }
 }

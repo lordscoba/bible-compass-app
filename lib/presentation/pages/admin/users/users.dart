@@ -7,9 +7,11 @@ import 'package:bible_compass_app/presentation/pages/admin/users/viewuser.dart';
 import 'package:bible_compass_app/presentation/widgets/addsomething.dart';
 import 'package:bible_compass_app/presentation/widgets/drawer.dart';
 import 'package:bible_compass_app/presentation/widgets/header.dart';
+import 'package:bible_compass_app/presentation/widgets/inputfield.dart';
 import 'package:bible_compass_app/presentation/widgets/navigations.dart';
 import 'package:bible_compass_app/presentation/widgets/tophome.dart';
 import 'package:clay_containers/clay_containers.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -64,13 +66,18 @@ class AdminUsers extends StatelessWidget {
   }
 }
 
-class TopHomeUsers extends StatelessWidget {
+class TopHomeUsers extends ConsumerWidget {
   const TopHomeUsers({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final statsfuture = Future.delayed(const Duration(milliseconds: 100), () {
+      final statscalled =
+          ref.watch(adminUserProvider.notifier).perfromGetUserStats();
+      return statscalled;
+    });
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 18.0),
       child: Align(
@@ -79,25 +86,41 @@ class TopHomeUsers extends StatelessWidget {
           height: 180,
           width: MediaQuery.of(context).size.width - 30,
           borderRadius: 20,
-          child: const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              TopHomeChildren(
-                icons: Icons.category_rounded,
-                title: 'Total Users',
-                total: '86',
-              ),
-              TopHomeChildren(
-                icons: Icons.category_outlined,
-                title: 'Subed Users',
-                total: '8',
-              ),
-              TopHomeChildren(
-                icons: Icons.category_outlined,
-                title: 'Verified Users',
-                total: '20',
-              ),
-            ],
+          child: FutureBuilder<UserState>(
+            future: statsfuture,
+            builder: (BuildContext context, AsyncSnapshot<UserState> snapshot) {
+              if (snapshot.hasData) {
+                // debugPrint(snapshot.data?.data['data'].toString());
+                final fulldata = snapshot.data?.data['data'];
+
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    TopHomeChildren(
+                      icons: Icons.category_rounded,
+                      title: 'Total users',
+                      total: fulldata['total_users'].toString(),
+                    ),
+                    TopHomeChildren(
+                      icons: Icons.category_outlined,
+                      title: 'Subed users',
+                      total: fulldata['subscribed_users'].toString(),
+                    ),
+                    TopHomeChildren(
+                      icons: Icons.category_outlined,
+                      title: 'Verified users',
+                      total: fulldata['verified_users'].toString(),
+                    ),
+                  ],
+                );
+
+                // return const Text("hello hasdata");
+              } else if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              } else {
+                return const SizedBox();
+              }
+            },
           ),
         ),
       ),
@@ -151,13 +174,14 @@ class InnerClayListUser extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final usersfuture = Future.delayed(const Duration(seconds: 1), () {
-      final userscalled =
-          ref.watch(adminUserProvider.notifier).perfromGetUsersRequest();
+    final usersfuture = Future.delayed(const Duration(milliseconds: 50), () {
+      final userscalled = ref
+          .watch(adminUserProvider.notifier)
+          .perfromGetUsersRequest(search: ref.watch(searchText));
       return userscalled;
     });
 
-    double listSize = 250;
+    double listSize = 350;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 18.0),
       child: Align(
@@ -173,8 +197,12 @@ class InnerClayListUser extends ConsumerWidget {
                   children: [
                     const Text(
                       "Users",
-                      style: TextStyle(color: Colors.black54),
+                      style: TextStyle(
+                          color: Colors.black54,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
                     ),
+                    const SearchTextUser(),
                     SizedBox(
                       height: listSize - 50,
                       child: FutureBuilder<UserState>(
@@ -185,6 +213,7 @@ class InnerClayListUser extends ConsumerWidget {
                             // debugPrint(snapshot.data?.data['data'].toString());
                             final fulldata = snapshot.data?.data['data'];
                             return ListView.builder(
+                              shrinkWrap: true,
                               itemCount: fulldata.length,
                               itemBuilder: (context, index) {
                                 return ListTile(
@@ -253,7 +282,11 @@ class InnerClayListUser extends ConsumerWidget {
                           } else if (snapshot.hasError) {
                             return Text('Error: ${snapshot.error}');
                           } else {
-                            return const CircularProgressIndicator();
+                            return const Center(
+                              child: CupertinoActivityIndicator(
+                                radius: 50,
+                              ),
+                            );
                           }
                         },
                       ),
@@ -263,6 +296,22 @@ class InnerClayListUser extends ConsumerWidget {
               ),
             )),
       ),
+    );
+  }
+}
+
+class SearchTextUser extends ConsumerWidget {
+  const SearchTextUser({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SearchInputField(
+      onChanged: (value) async {
+        ref.read(searchText.notifier).state = value;
+        await ref
+            .refresh(adminUserProvider.notifier)
+            .perfromGetUsersRequest(search: ref.watch(searchText));
+      },
     );
   }
 }

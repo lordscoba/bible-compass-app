@@ -42,21 +42,21 @@ class Draw extends ConsumerWidget {
             icon: Icons.payment,
             text: 'Upgrade Plan',
             onTap: () {
-              context.go('/sub');
+              context.push('/sub');
             },
           ),
           DrawerPart(
             icon: Icons.favorite_border,
             text: 'favorite',
             onTap: () {
-              context.go('/favorite');
+              context.push('/favorite');
             },
           ),
           DrawerPart(
             icon: Icons.account_circle_outlined,
             text: 'profile',
             onTap: () {
-              context.go('/profile');
+              context.push('/profile');
             },
           ),
           DrawerPart(
@@ -111,14 +111,14 @@ class AdminDraw extends ConsumerWidget {
             text: 'Users',
             icon: Icons.account_circle,
             onTap: () {
-              context.go('/admin/users');
+              context.push('/admin/users');
             },
           ),
           DrawerPart(
             icon: Icons.category_outlined,
             text: 'Categories',
             onTap: () {
-              context.go('/admin/categories');
+              context.push('/admin/categories');
             },
           ),
           // DrawerPart(
@@ -132,7 +132,7 @@ class AdminDraw extends ConsumerWidget {
             icon: Icons.money,
             text: 'Subscription',
             onTap: () {
-              context.go('/admin/subscription');
+              context.push('/admin/subscription');
             },
           ),
           DrawerPart(

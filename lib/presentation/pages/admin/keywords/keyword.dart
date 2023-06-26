@@ -1,15 +1,18 @@
 import 'package:bible_compass_app/domain/models/keyword/keyword.dart';
+import 'package:bible_compass_app/domain/providers/adminusersproviders.dart';
 import 'package:bible_compass_app/domain/providers/keywordproviders.dart';
 import 'package:bible_compass_app/presentation/pages/admin/keywords/createkeyword.dart';
 import 'package:bible_compass_app/presentation/pages/admin/keywords/deletekeyword.dart';
 import 'package:bible_compass_app/presentation/pages/admin/keywords/updatekeyword.dart';
 import 'package:bible_compass_app/presentation/pages/admin/keywords/viewkeyword.dart';
-import 'package:bible_compass_app/presentation/widgets/header.dart';
 import 'package:bible_compass_app/presentation/widgets/addsomething.dart';
 import 'package:bible_compass_app/presentation/widgets/drawer.dart';
+import 'package:bible_compass_app/presentation/widgets/header.dart';
+import 'package:bible_compass_app/presentation/widgets/inputfield.dart';
 import 'package:bible_compass_app/presentation/widgets/navigations.dart';
 import 'package:bible_compass_app/presentation/widgets/tophome.dart';
 import 'package:clay_containers/clay_containers.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -69,13 +72,18 @@ class AdminKeyword extends StatelessWidget {
   }
 }
 
-class TopHomekeyword extends StatelessWidget {
+class TopHomekeyword extends ConsumerWidget {
   const TopHomekeyword({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final statsfuture = Future.delayed(const Duration(milliseconds: 100), () {
+      final statscalled =
+          ref.watch(keywordProvider.notifier).perfromGetKeywordStats();
+      return statscalled;
+    });
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 18.0),
       child: Align(
@@ -84,25 +92,42 @@ class TopHomekeyword extends StatelessWidget {
           height: 180,
           width: MediaQuery.of(context).size.width - 30,
           borderRadius: 20,
-          child: const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              TopHomeChildren(
-                icons: Icons.category_rounded,
-                title: 'Total keys',
-                total: '86',
-              ),
-              TopHomeChildren(
-                icons: Icons.category_outlined,
-                title: 'Subed keys',
-                total: '8',
-              ),
-              TopHomeChildren(
-                icons: Icons.category_outlined,
-                title: 'Unsubed Upgrades',
-                total: '20',
-              ),
-            ],
+          child: FutureBuilder<KeywordState>(
+            future: statsfuture,
+            builder:
+                (BuildContext context, AsyncSnapshot<KeywordState> snapshot) {
+              if (snapshot.hasData) {
+                // debugPrint(snapshot.data?.data['data'].toString());
+                final fulldata = snapshot.data?.data['data'];
+
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    TopHomeChildren(
+                      icons: Icons.category_rounded,
+                      title: 'Total keys',
+                      total: fulldata['total_keywords'].toString(),
+                    ),
+                    TopHomeChildren(
+                      icons: Icons.category_outlined,
+                      title: 'Subed keys',
+                      total: fulldata['subscribers_keywords'].toString(),
+                    ),
+                    TopHomeChildren(
+                      icons: Icons.category_outlined,
+                      title: 'Total verse',
+                      total: fulldata['total_bible_verse'].toString(),
+                    ),
+                  ],
+                );
+
+                // return const Text("hello hasdata");
+              } else if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              } else {
+                return const SizedBox();
+              }
+            },
           ),
         ),
       ),
@@ -119,12 +144,13 @@ class InnerClayListKeyword extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final keywfuture = Future.delayed(const Duration(seconds: 1), () {
-      final keywcalled =
-          ref.watch(keywordProvider.notifier).perfromGetKeywordsRequest(catId!);
+    final keywfuture = Future.delayed(const Duration(milliseconds: 10), () {
+      final keywcalled = ref
+          .watch(keywordProvider.notifier)
+          .perfromGetKeywordsRequest(catId!, search: ref.watch(searchText));
       return keywcalled;
     });
-    double listSize = 250;
+    double listSize = 350;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 18.0),
       child: Align(
@@ -141,6 +167,9 @@ class InnerClayListKeyword extends ConsumerWidget {
                     const Text(
                       "keywords",
                       style: TextStyle(color: Colors.black54),
+                    ),
+                    SearchTextKeyword(
+                      catId: catId!,
                     ),
                     SizedBox(
                       height: listSize - 50,
@@ -231,7 +260,11 @@ class InnerClayListKeyword extends ConsumerWidget {
                           } else if (snapshot.hasError) {
                             return Text('Error: ${snapshot.error}');
                           } else {
-                            return const CircularProgressIndicator();
+                            return const Center(
+                              child: CupertinoActivityIndicator(
+                                radius: 50,
+                              ),
+                            );
                           }
                         },
                       ),
@@ -241,6 +274,23 @@ class InnerClayListKeyword extends ConsumerWidget {
               ),
             )),
       ),
+    );
+  }
+}
+
+class SearchTextKeyword extends ConsumerWidget {
+  final String catId;
+  const SearchTextKeyword({required this.catId, super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SearchInputField(
+      onChanged: (value) async {
+        ref.read(searchText.notifier).state = value;
+        await ref
+            .refresh(keywordProvider.notifier)
+            .perfromGetKeywordsRequest(catId, search: ref.watch(searchText));
+      },
     );
   }
 }
