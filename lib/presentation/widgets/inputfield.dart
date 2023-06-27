@@ -149,3 +149,46 @@ class TextArea extends StatelessWidget {
     );
   }
 }
+
+class SearchInputField extends StatelessWidget {
+  final void Function(String)? onChanged;
+  const SearchInputField({
+    super.key,
+    this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
+      child: TextFormField(
+        decoration: InputDecoration(
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+          suffixIcon: const Icon(Icons.search),
+          filled: true,
+          fillColor: Colors.white,
+          hintText: "Enter search text",
+          hintStyle: const TextStyle(
+            color: Colors.black54,
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: const BorderSide(
+              color: Color(0xFFFFFFFF),
+              width: 0.5,
+            ),
+            borderRadius: BorderRadius.circular(30),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(
+              color: Colors.black38,
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(30),
+          ),
+        ),
+        onChanged: onChanged,
+      ),
+    );
+  }
+}

@@ -1,13 +1,16 @@
 import 'package:bible_compass_app/domain/models/subscription/subscription.dart';
+import 'package:bible_compass_app/domain/providers/adminusersproviders.dart';
 import 'package:bible_compass_app/domain/providers/subproviders.dart';
 import 'package:bible_compass_app/presentation/pages/admin/subscription/deletesub.dart';
 import 'package:bible_compass_app/presentation/pages/admin/subscription/updatesubscirption.dart';
 import 'package:bible_compass_app/presentation/pages/admin/subscription/viewsubscription.dart';
 import 'package:bible_compass_app/presentation/widgets/drawer.dart';
 import 'package:bible_compass_app/presentation/widgets/header.dart';
+import 'package:bible_compass_app/presentation/widgets/inputfield.dart';
 import 'package:bible_compass_app/presentation/widgets/navigations.dart';
 import 'package:bible_compass_app/presentation/widgets/tophome.dart';
 import 'package:clay_containers/clay_containers.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -49,13 +52,17 @@ class AdminSubscription extends StatelessWidget {
   }
 }
 
-class TopHomeSubscription extends StatelessWidget {
+class TopHomeSubscription extends ConsumerWidget {
   const TopHomeSubscription({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final statsfuture = Future.delayed(const Duration(milliseconds: 100), () {
+      final statscalled = ref.watch(subProvider.notifier).perfromGetSubStats();
+      return statscalled;
+    });
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 18.0),
       child: Align(
@@ -64,25 +71,41 @@ class TopHomeSubscription extends StatelessWidget {
           height: 180,
           width: MediaQuery.of(context).size.width - 30,
           borderRadius: 20,
-          child: const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              TopHomeChildren(
-                icons: Icons.category_rounded,
-                title: 'Total Sub',
-                total: '86',
-              ),
-              TopHomeChildren(
-                icons: Icons.category_outlined,
-                title: 'Subed Sub',
-                total: '8',
-              ),
-              TopHomeChildren(
-                icons: Icons.category_outlined,
-                title: 'Unsubed Upgrades',
-                total: '20',
-              ),
-            ],
+          child: FutureBuilder<SubscriptionState>(
+            future: statsfuture,
+            builder: (BuildContext context,
+                AsyncSnapshot<SubscriptionState> snapshot) {
+              if (snapshot.hasData) {
+                // debugPrint(snapshot.data?.data['data'].toString());
+                final fulldata = snapshot.data?.data['data'];
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    TopHomeChildren(
+                      icons: Icons.category_rounded,
+                      title: 'Total Sub',
+                      total: fulldata['total_subscription'].toString(),
+                    ),
+                    TopHomeChildren(
+                      icons: Icons.category_outlined,
+                      title: 'Active Sub',
+                      total: fulldata['active_subscription'].toString(),
+                    ),
+                    TopHomeChildren(
+                      icons: Icons.category_outlined,
+                      title: 'Inactive Sub',
+                      total: fulldata['inactive_subscription'].toString(),
+                    ),
+                  ],
+                );
+
+                // return const Text("hello hasdata");
+              } else if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              } else {
+                return const SizedBox();
+              }
+            },
           ),
         ),
       ),
@@ -97,11 +120,13 @@ class InnerClayListSubscription extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final subfuture = Future.delayed(const Duration(seconds: 1), () {
-      final subcalled = ref.watch(subProvider.notifier).perfromGetSubsRequest();
+    final subfuture = Future.delayed(const Duration(milliseconds: 10), () {
+      final subcalled = ref
+          .watch(subProvider.notifier)
+          .perfromGetSubsRequest(search: ref.watch(searchText));
       return subcalled;
     });
-    double listSize = 250;
+    double listSize = 350;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 18.0),
       child: Align(
@@ -117,8 +142,12 @@ class InnerClayListSubscription extends ConsumerWidget {
                   children: [
                     const Text(
                       "Subscriptions",
-                      style: TextStyle(color: Colors.black54),
+                      style: TextStyle(
+                          color: Colors.black54,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
                     ),
+                    const SearchTextSub(),
                     SizedBox(
                       height: listSize - 50,
                       child: FutureBuilder<SubscriptionState>(
@@ -194,7 +223,11 @@ class InnerClayListSubscription extends ConsumerWidget {
                           } else if (snapshot.hasError) {
                             return Text('Error: ${snapshot.error}');
                           } else {
-                            return const CircularProgressIndicator();
+                            return const Center(
+                              child: CupertinoActivityIndicator(
+                                radius: 50,
+                              ),
+                            );
                           }
                         },
                       ),
@@ -204,6 +237,22 @@ class InnerClayListSubscription extends ConsumerWidget {
               ),
             )),
       ),
+    );
+  }
+}
+
+class SearchTextSub extends ConsumerWidget {
+  const SearchTextSub({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SearchInputField(
+      onChanged: (value) async {
+        ref.read(searchText.notifier).state = value;
+        await ref
+            .refresh(subProvider.notifier)
+            .perfromGetSubsRequest(search: ref.watch(searchText));
+      },
     );
   }
 }

@@ -73,15 +73,16 @@ class KeywordNotifier extends StateNotifier<KeywordState> {
     }
   }
 
-  Future<KeywordState> perfromGetKeywordsRequest(String catId) async {
+  Future<KeywordState> perfromGetKeywordsRequest(String catId,
+      {String search = ''}) async {
     try {
       // Set loading state
       state = state.copyWith(isLoading: true, error: '');
       final dio = Dio();
 
       // Make the POST request
-      final response =
-          await dio.get(EnvironmentKeywordConfig.adminGetKeywordsUrl + catId);
+      final response = await dio.get(
+          "${EnvironmentKeywordConfig.adminGetKeywordsUrl}$catId?keyword=$search");
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Request successful
         state = state.copyWith(
@@ -148,6 +149,39 @@ class KeywordNotifier extends StateNotifier<KeywordState> {
       // Make the POST request
       final response =
           await dio.delete(EnvironmentKeywordConfig.adminDeleteKeywordUrl + id);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // Request successful
+        state = state.copyWith(
+            isLoading: false,
+            data: response.data as Map<String, dynamic>,
+            error: '');
+        // debugPrint(response.data.toString());
+      }
+    } on DioException catch (e) {
+      // debugPrint(e.toString());
+      if (e.response != null) {
+        // debugPrint(e.response?.data['message'].toString());
+        state = state.copyWith(
+            isLoading: false, error: e.response?.data['message']);
+      } else {
+        // Something happened in setting up or sending the request that triggered an Error
+        debugPrint(e.requestOptions.toString());
+        debugPrint(e.message.toString());
+        state = state.copyWith(isLoading: false, error: e.message.toString());
+      }
+    }
+    return state;
+  }
+
+  Future<KeywordState> perfromGetKeywordStats() async {
+    try {
+      // Set loading state
+      state = state.copyWith(isLoading: true, error: '');
+      final dio = Dio();
+
+      // Make the POST request
+      final response =
+          await dio.get(EnvironmentKeywordConfig.adminGetKeywordsInfoUrl);
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Request successful
         state = state.copyWith(

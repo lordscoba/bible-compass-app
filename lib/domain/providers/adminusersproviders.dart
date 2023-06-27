@@ -11,3 +11,5 @@ final adminUserProvider =
 //     StateNotifierProvider<AdminUserNotifier, UserState>((ref) {
 //   return AdminUserNotifier();
 // });
+
+final searchText = StateProvider<String>((ref) => "");

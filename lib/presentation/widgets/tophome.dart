@@ -1,5 +1,12 @@
+import 'package:bible_compass_app/domain/models/category/category.dart';
+import 'package:bible_compass_app/domain/models/subscription/subscription.dart';
+import 'package:bible_compass_app/domain/models/user/user.dart';
+import 'package:bible_compass_app/domain/providers/adminusersproviders.dart';
+import 'package:bible_compass_app/domain/providers/categoryproviders.dart';
+import 'package:bible_compass_app/domain/providers/subproviders.dart';
 import 'package:clay_containers/widgets/clay_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class TopHome extends StatelessWidget {
   const TopHome({
@@ -18,23 +25,7 @@ class TopHome extends StatelessWidget {
           borderRadius: 20,
           child: const Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              TopHomeChildren(
-                icons: Icons.account_circle,
-                title: 'Total Users',
-                total: '86',
-              ),
-              TopHomeChildren(
-                icons: Icons.category_outlined,
-                title: 'Total categories',
-                total: '8',
-              ),
-              TopHomeChildren(
-                icons: Icons.upgrade_outlined,
-                title: 'Total Upgrades',
-                total: '20',
-              ),
-            ],
+            children: [TopStatsUsers(), TopStatsCategory(), TopStatsSub()],
           ),
         ),
       ),
@@ -42,14 +33,116 @@ class TopHome extends StatelessWidget {
   }
 }
 
+class TopStatsUsers extends ConsumerWidget {
+  const TopStatsUsers({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final statsfuture = Future.delayed(const Duration(milliseconds: 100), () {
+      final statscalled =
+          ref.watch(adminUserProvider.notifier).perfromGetUserStats();
+      return statscalled;
+    });
+
+    return FutureBuilder<UserState>(
+      future: statsfuture,
+      builder: (BuildContext context, AsyncSnapshot<UserState> snapshot) {
+        if (snapshot.hasData) {
+          // debugPrint(snapshot.data?.data['data'].toString());
+          final fulldata = snapshot.data?.data['data'];
+          return TopHomeChildren(
+            icons: Icons.account_circle,
+            title: 'Total Users',
+            total: fulldata['total_users'].toString(),
+          );
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else {
+          return const SizedBox();
+        }
+      },
+    );
+  }
+}
+
+class TopStatsCategory extends ConsumerWidget {
+  const TopStatsCategory({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final statsfuture = Future.delayed(const Duration(milliseconds: 100), () {
+      final statscalled =
+          ref.watch(categoryProvider.notifier).perfromGetCategoryStats();
+      return statscalled;
+    });
+
+    return FutureBuilder<CategoryState>(
+      future: statsfuture,
+      builder: (BuildContext context, AsyncSnapshot<CategoryState> snapshot) {
+        if (snapshot.hasData) {
+          // debugPrint(snapshot.data?.data['data'].toString());
+          final fulldata = snapshot.data?.data['data'];
+          return TopHomeChildren(
+            icons: Icons.category_outlined,
+            title: 'Total Cat',
+            total: fulldata['total_category'].toString(),
+          );
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else {
+          return const SizedBox();
+        }
+      },
+    );
+  }
+}
+
+class TopStatsSub extends ConsumerWidget {
+  const TopStatsSub({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final statsfuture = Future.delayed(const Duration(milliseconds: 100), () {
+      final statscalled = ref.watch(subProvider.notifier).perfromGetSubStats();
+      return statscalled;
+    });
+
+    return FutureBuilder<SubscriptionState>(
+      future: statsfuture,
+      builder:
+          (BuildContext context, AsyncSnapshot<SubscriptionState> snapshot) {
+        if (snapshot.hasData) {
+          // debugPrint(snapshot.data?.data['data'].toString());
+          final fulldata = snapshot.data?.data['data'];
+          return TopHomeChildren(
+            icons: Icons.upgrade_outlined,
+            title: 'Total Sub',
+            total: fulldata['total_subscription'].toString(),
+          );
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else {
+          return const SizedBox();
+        }
+      },
+    );
+  }
+}
+
 class TopHomeChildren extends StatelessWidget {
   final String title;
-  final String total;
+  final String? total;
   final IconData icons;
   const TopHomeChildren({
     super.key,
     required this.title,
-    required this.total,
+    this.total,
     required this.icons,
   });
 
@@ -67,7 +160,7 @@ class TopHomeChildren extends StatelessWidget {
           ),
           Text(title),
           Text(
-            total,
+            total!,
             style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 28,
