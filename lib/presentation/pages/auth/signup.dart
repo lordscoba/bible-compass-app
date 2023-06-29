@@ -2,6 +2,7 @@ import 'package:bible_compass_app/domain/providers/authproviders.dart';
 import 'package:bible_compass_app/presentation/widgets/snacksbar.dart';
 import 'package:bible_compass_app/presentation/widgets/themebutton.dart';
 import 'package:bible_compass_app/presentation/widgets/widgets.dart';
+import 'package:bible_compass_app/utils/validation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -100,6 +101,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       if (value == null || value.isEmpty) {
                         return 'Enter something';
                       }
+                      if (!validateEmail(value)) {
+                        return 'Enter valid email';
+                      }
                       return null;
                     },
                     onSaved: (value) {
@@ -140,14 +144,17 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                         _formKey.currentState?.save();
                         await ref
                             .read(signUpProvider.notifier)
-                            .perfromSignupRequest(user.toJson());
-                      }
-                      // debugPrint(user.toJson().toString());
-                      message();
-                      if (ref.watch(errorMessageProvider) == "") {
-                        Future.delayed(const Duration(seconds: 5), () {
-                          context.go("/login");
-                        });
+                            .perfromSignupRequest(
+                              user.toJson(),
+                            );
+
+                        // debugPrint(user.toJson().toString());
+                        message();
+                        if (ref.watch(errorMessageProvider) == "") {
+                          Future.delayed(const Duration(seconds: 5), () {
+                            context.go("/login");
+                          });
+                        }
                       }
                     },
                   ),

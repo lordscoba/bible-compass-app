@@ -182,6 +182,7 @@ class InnerClayListSubscription extends ConsumerWidget {
                                           Icons.edit,
                                           size: 20,
                                         ),
+                                        tooltip: "edit",
                                       ),
                                       IconButton(
                                         onPressed: () {
@@ -198,6 +199,7 @@ class InnerClayListSubscription extends ConsumerWidget {
                                           Icons.delete,
                                           size: 20,
                                         ),
+                                        tooltip: "delete",
                                       ),
                                       IconButton(
                                         onPressed: () {
@@ -214,6 +216,7 @@ class InnerClayListSubscription extends ConsumerWidget {
                                           Icons.arrow_forward_ios_rounded,
                                           size: 20,
                                         ),
+                                        tooltip: "show",
                                       ),
                                     ],
                                   ),

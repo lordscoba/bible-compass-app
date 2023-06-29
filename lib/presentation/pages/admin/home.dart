@@ -8,7 +8,7 @@ import 'package:bible_compass_app/presentation/widgets/header.dart';
 import 'package:bible_compass_app/presentation/widgets/inputfield.dart';
 import 'package:bible_compass_app/presentation/widgets/navigations.dart';
 import 'package:bible_compass_app/presentation/widgets/tophome.dart';
-import 'package:bible_compass_app/presentation/widgets/tophomedouble.dart';
+import 'package:bible_compass_app/presentation/widgets/widgets.dart';
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -63,6 +63,106 @@ class AdminHome extends StatelessWidget {
               const InnerClayList1()
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class TopHomeDouble extends StatelessWidget {
+  const TopHomeDouble({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 18.0),
+      child: Align(
+        alignment: Alignment.center,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            TopHomeDoubleChildren(
+              icon: Icons.account_circle,
+              text: 'Here you can manage the users database',
+              title: 'Users Admin',
+              onTap: () {
+                context.push("/admin/users");
+              },
+            ),
+            TopHomeDoubleChildren(
+              icon: Icons.data_object,
+              text: 'Here you can extensively manage Bible Compass data',
+              title: 'Data Admin',
+              onTap: () {
+                context.push("/admin/categories");
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class TopHomeDoubleChildren extends StatelessWidget {
+  final String title;
+  final String text;
+  final IconData icon;
+  final void Function()? onTap;
+  const TopHomeDoubleChildren({
+    super.key,
+    required this.title,
+    required this.text,
+    required this.icon,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: ClayContainer(
+        height: 200,
+        width: (MediaQuery.of(context).size.width / 2) - 30,
+        borderRadius: 20,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Row(
+              // mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Icon(
+                  icon,
+                  color: Colors.black54,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
+                          color: Colors.black54,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    const HorizontalSpace(),
+                    SizedBox(
+                      width: (MediaQuery.of(context).size.width / 4) + 20,
+                      child: Text(text,
+                          style: const TextStyle(
+                              color: Colors.black54,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w300)),
+                    ),
+                  ],
+                ),
+              ],
+            )
+          ],
         ),
       ),
     );

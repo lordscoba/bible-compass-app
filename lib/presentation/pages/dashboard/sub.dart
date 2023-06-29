@@ -10,6 +10,7 @@ import 'package:bible_compass_app/presentation/widgets/header.dart';
 import 'package:bible_compass_app/presentation/widgets/navigations.dart';
 import 'package:bible_compass_app/presentation/widgets/tophome.dart';
 import 'package:clay_containers/clay_containers.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -78,13 +79,21 @@ class SubPage extends ConsumerWidget {
   }
 }
 
-class TopHomeSub extends StatelessWidget {
+class TopHomeSub extends ConsumerWidget {
   const TopHomeSub({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final AuthState auth = ref.watch(loginProvider);
+    var authData = auth.data['data'];
+    final statsfuture = Future.delayed(const Duration(milliseconds: 100), () {
+      final statscalled = ref
+          .watch(subProvider.notifier)
+          .perfromGetUserSubStats(authData['id']);
+      return statscalled;
+    });
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 18.0),
       child: Align(
@@ -93,25 +102,61 @@ class TopHomeSub extends StatelessWidget {
           height: 180,
           width: MediaQuery.of(context).size.width - 30,
           borderRadius: 20,
-          child: const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              TopHomeChildren(
-                icons: Icons.payment,
-                title: 'Total sub',
-                total: '86',
-              ),
-              TopHomeChildren(
-                icons: Icons.payment,
-                title: 'Active sub',
-                total: '8',
-              ),
-              TopHomeChildren(
-                icons: Icons.payment,
-                title: 'Expired sub',
-                total: '2',
-              ),
-            ],
+          // child: const Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //   children: [
+          //     TopHomeChildren(
+          //       icons: Icons.payment,
+          //       title: 'Total sub',
+          //       total: '86',
+          //     ),
+          //     TopHomeChildren(
+          //       icons: Icons.payment,
+          //       title: 'Active sub',
+          //       total: '8',
+          //     ),
+          //     TopHomeChildren(
+          //       icons: Icons.payment,
+          //       title: 'Expired sub',
+          //       total: '2',
+          //     ),
+          //   ],
+          // ),
+          child: FutureBuilder<SubscriptionState>(
+            future: statsfuture,
+            builder: (BuildContext context,
+                AsyncSnapshot<SubscriptionState> snapshot) {
+              if (snapshot.hasData) {
+                // debugPrint(snapshot.data?.data['data'].toString());
+                final fulldata = snapshot.data?.data['data'];
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    TopHomeChildren(
+                      icons: Icons.payment,
+                      title: 'Total Sub',
+                      total: fulldata['total_subscription'].toString(),
+                    ),
+                    TopHomeChildren(
+                      icons: Icons.payment,
+                      title: 'Active Sub',
+                      total: fulldata['active_subscription'].toString(),
+                    ),
+                    TopHomeChildren(
+                      icons: Icons.payment,
+                      title: 'Inactive Sub',
+                      total: fulldata['inactive_subscription'].toString(),
+                    ),
+                  ],
+                );
+
+                // return const Text("hello hasdata");
+              } else if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              } else {
+                return const SizedBox();
+              }
+            },
           ),
         ),
       ),
@@ -190,7 +235,11 @@ class InnerClayListCategory extends ConsumerWidget {
                           } else if (snapshot.hasError) {
                             return Text('Error: ${snapshot.error}');
                           } else {
-                            return const CircularProgressIndicator();
+                            return const Center(
+                              child: CupertinoActivityIndicator(
+                                radius: 50,
+                              ),
+                            );
                           }
                         },
                       ),

@@ -20,7 +20,7 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final AuthState auth = ref.watch(loginProvider);
     var authData = auth.data['data'];
-    debugPrint(authData.toString());
+    // debugPrint(authData.toString());
 
     () async {
       final prefs = await ref.watch(sharedPrefProvider);
@@ -28,8 +28,6 @@ class HomeScreen extends ConsumerWidget {
 
       debugPrint(username);
     }();
-
-    // debugPrint(authData["email"]);
 
     final favsfuture = Future.delayed(const Duration(milliseconds: 100), () {
       final favscalled = ref
@@ -155,69 +153,89 @@ class HomeScreen extends ConsumerWidget {
               Padding(
                 padding: const EdgeInsets.all(25.0),
                 child: ClayContainer(
-                  height: 300,
+                  height: 400,
                   borderRadius: 30,
-                  child: FutureBuilder<FavoriteState>(
-                    future: favsfuture,
-                    builder: (BuildContext context,
-                        AsyncSnapshot<FavoriteState> snapshot) {
-                      if (snapshot.hasData) {
-                        // debugPrint(snapshot.data?.data['data'].toString());
-                        final fulldata = snapshot.data?.data['data'];
-                        // debugPrint(fulldata.toString());
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Padding(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                        child: Text(
+                          "Favorites",
+                          style: TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black54),
+                        ),
+                      ),
+                      FutureBuilder<FavoriteState>(
+                        future: favsfuture,
+                        builder: (BuildContext context,
+                            AsyncSnapshot<FavoriteState> snapshot) {
+                          if (snapshot.hasData) {
+                            // debugPrint(snapshot.data?.data['data'].toString());
+                            final fulldata = snapshot.data?.data['data'];
+                            // debugPrint(fulldata.toString());
 
-                        if (fulldata.length > 1) {
-                          return ListView.builder(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 30, vertical: 40),
-                            itemCount: fulldata.length,
-                            itemBuilder: (context, index) {
-                              return ListTile(
-                                title: Text(
-                                  fulldata[index]['keyword'],
-                                  style: const TextStyle(
-                                      color: Colors.black54, fontSize: 20),
-                                ),
-                                trailing: IconButton(
-                                  onPressed: () async {
-                                    // debugPrint(fulldata[index]['keyword']);
-                                    context
-                                        .go("/verse/${fulldata[index]['id']}");
+                            if (fulldata.length > 1) {
+                              return SizedBox(
+                                height: 330,
+                                child: ListView.builder(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 30, vertical: 40),
+                                  itemCount: fulldata.length,
+                                  itemBuilder: (context, index) {
+                                    return ListTile(
+                                      title: Text(
+                                        fulldata[index]['keyword'],
+                                        style: const TextStyle(
+                                            color: Colors.black54,
+                                            fontSize: 20),
+                                      ),
+                                      trailing: IconButton(
+                                        onPressed: () async {
+                                          // debugPrint(fulldata[index]['keyword']);
+                                          context.push(
+                                              "/verse/${fulldata[index]['id']}");
+                                        },
+                                        icon: const Icon(
+                                          Icons.arrow_forward_ios,
+                                          color: Colors.black87,
+                                          size: 20,
+                                        ),
+                                      ),
+                                      // contentPadding: const EdgeInsets.symmetric(
+                                      //     horizontal: 16.0, vertical: 20),
+                                      enabled: true,
+                                    );
                                   },
-                                  icon: const Icon(
-                                    Icons.arrow_forward_ios,
-                                    color: Colors.black87,
-                                    size: 20,
-                                  ),
                                 ),
-                                // contentPadding: const EdgeInsets.symmetric(
-                                //     horizontal: 16.0, vertical: 20),
-                                enabled: true,
                               );
-                            },
-                          );
-                        } else {
-                          return ListView(
-                            children: const [
-                              ListTile(
-                                title: Text("No data"),
-                              )
-                            ],
-                          );
-                        }
+                            } else {
+                              return ListView(
+                                children: const [
+                                  ListTile(
+                                    title: Text("No data"),
+                                  )
+                                ],
+                              );
+                            }
 
-                        // return const Text("hello hasdata");
-                      } else if (snapshot.hasError) {
-                        debugPrint(snapshot.error.toString());
-                        return Text('Error: ${snapshot.error}');
-                      } else {
-                        return const Center(
-                          child: CupertinoActivityIndicator(
-                            radius: 50,
-                          ),
-                        );
-                      }
-                    },
+                            // return const Text("hello hasdata");
+                          } else if (snapshot.hasError) {
+                            debugPrint(snapshot.error.toString());
+                            return Text('Error: ${snapshot.error}');
+                          } else {
+                            return const Center(
+                              child: CupertinoActivityIndicator(
+                                radius: 50,
+                              ),
+                            );
+                          }
+                        },
+                      ),
+                    ],
                   ),
                 ),
               )

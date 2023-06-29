@@ -4,6 +4,7 @@ import 'package:bible_compass_app/domain/providers/keywordproviders.dart';
 import 'package:bible_compass_app/presentation/widgets/inputfield.dart';
 import 'package:bible_compass_app/presentation/widgets/snacksbar.dart';
 import 'package:bible_compass_app/presentation/widgets/themebutton.dart';
+import 'package:bible_compass_app/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -29,16 +30,6 @@ class _UpdateKeywordState extends ConsumerState<UpdateKeyword> {
   }
 
   final List<Map<String, dynamic>> _items = [
-    {
-      'value': 'true',
-      'label': 'True',
-    },
-    {
-      'value': 'false',
-      'label': 'False',
-    },
-  ];
-  final List<Map<String, dynamic>> _itemsF = [
     {
       'value': 'true',
       'label': 'True',
@@ -133,6 +124,12 @@ class _UpdateKeywordState extends ConsumerState<UpdateKeyword> {
                           keyw = keyw.copyWith(keyword: value!);
                         },
                       ),
+                      const HorizontalSpace(),
+                      const Text(
+                        "For Subscribers",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const HorizontalSpace(),
                       SelectField(
                         items: _items,
                         label: 'For Subscribers',
@@ -140,15 +137,6 @@ class _UpdateKeywordState extends ConsumerState<UpdateKeyword> {
                         onSaved: (value) {
                           keyw = keyw.copyWith(
                               forSubscribers: value?.toLowerCase() == 'true');
-                        },
-                      ),
-                      SelectField(
-                        items: _itemsF,
-                        label: 'Favourite',
-                        initialValue: fulldata['favorite'].toString(),
-                        onSaved: (value) {
-                          keyw = keyw.copyWith(
-                              favorite: value?.toLowerCase() == 'true');
                         },
                       ),
                       ThemeButton(
@@ -160,19 +148,18 @@ class _UpdateKeywordState extends ConsumerState<UpdateKeyword> {
                                 .read(keywordProvider.notifier)
                                 .perfromUpdateKeywordRequest(
                                     keyw.toJson(), widget.keyId);
+                            await ref
+                                .refresh(keywordProvider.notifier)
+                                .perfromGetSingleKeywordRequest(widget.keyId);
+                            message();
+                            if (ref.watch(errorMessageProvider) == "") {
+                              Future.delayed(const Duration(seconds: 5), () {
+                                // context.go('/admin/keywords');
+                                Navigator.of(context).pop();
+                              });
+                            }
                           }
                           // debugPrint(user.toJson().toString());
-
-                          message();
-                          if (ref.watch(errorMessageProvider) == "") {
-                            Future.delayed(const Duration(seconds: 5), () {
-                              // context.go('/admin/keywords');
-                              Navigator.of(context).pop();
-                            });
-                          }
-                          await ref
-                              .read(keywordProvider.notifier)
-                              .perfromGetSingleKeywordRequest(widget.keyId);
                         },
                       ),
                     ],

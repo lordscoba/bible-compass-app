@@ -2,6 +2,7 @@ import 'package:bible_compass_app/domain/providers/authproviders.dart';
 import 'package:bible_compass_app/presentation/widgets/snacksbar.dart';
 import 'package:bible_compass_app/presentation/widgets/themebutton.dart';
 import 'package:bible_compass_app/presentation/widgets/widgets.dart';
+import 'package:bible_compass_app/utils/validation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -88,6 +89,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       if (value == null || value.isEmpty) {
                         return 'Enter something';
                       }
+                      if (!validateEmail(value)) {
+                        return 'Enter valid email';
+                      }
                       return null;
                     },
                     onSaved: (value) {
@@ -115,22 +119,22 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         await ref
                             .read(loginProvider.notifier)
                             .performLogin(user.toJson());
-                      }
-                      // debugPrint(user.toJson().toString());
-                      message();
+                        // debugPrint(user.toJson().toString());
+                        message();
 
-                      if (ref.watch(errorMessageProvider) == "") {
-                        Future.delayed(const Duration(seconds: 3), () {
-                          if (ref
-                                  .watch(loginProvider)
-                                  .data['data']['type']
-                                  .toString() ==
-                              "admin") {
-                            context.go('/admin');
-                          } else {
-                            context.go('/home');
-                          }
-                        });
+                        if (ref.watch(errorMessageProvider) == "") {
+                          Future.delayed(const Duration(seconds: 3), () {
+                            if (ref
+                                    .watch(loginProvider)
+                                    .data['data']['type']
+                                    .toString() ==
+                                "admin") {
+                              context.go('/admin');
+                            } else {
+                              context.go('/home');
+                            }
+                          });
+                        }
                       }
                     },
                   ),
