@@ -182,6 +182,7 @@ class InnerClayListCategory extends ConsumerWidget {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       IconButton(
+                                        tooltip: "update",
                                         onPressed: () {
                                           showDialog(
                                             context: context,
@@ -199,6 +200,7 @@ class InnerClayListCategory extends ConsumerWidget {
                                         ),
                                       ),
                                       IconButton(
+                                        tooltip: "delete",
                                         onPressed: () {
                                           showDialog(
                                             context: context,
@@ -231,6 +233,7 @@ class InnerClayListCategory extends ConsumerWidget {
                                           Icons.arrow_forward_ios_rounded,
                                           size: 20,
                                         ),
+                                        tooltip: "show",
                                       ),
                                       IconButton(
                                         onPressed: () {
@@ -241,6 +244,7 @@ class InnerClayListCategory extends ConsumerWidget {
                                           Icons.list_alt,
                                           size: 20,
                                         ),
+                                        tooltip: "show keywords",
                                       ),
                                     ],
                                   ),

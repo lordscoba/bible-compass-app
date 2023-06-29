@@ -205,6 +205,7 @@ class InnerClayListKeyword extends ConsumerWidget {
                                           Icons.edit,
                                           size: 20,
                                         ),
+                                        tooltip: "edit",
                                       ),
                                       IconButton(
                                         onPressed: () {
@@ -222,6 +223,7 @@ class InnerClayListKeyword extends ConsumerWidget {
                                           Icons.delete,
                                           size: 20,
                                         ),
+                                        tooltip: "delete",
                                       ),
                                       IconButton(
                                         onPressed: () {
@@ -239,6 +241,7 @@ class InnerClayListKeyword extends ConsumerWidget {
                                           Icons.arrow_forward_ios_rounded,
                                           size: 20,
                                         ),
+                                        tooltip: "show",
                                       ),
                                       IconButton(
                                         onPressed: () {
@@ -249,6 +252,7 @@ class InnerClayListKeyword extends ConsumerWidget {
                                           Icons.list_alt,
                                           size: 20,
                                         ),
+                                        tooltip: "show verses",
                                       ),
                                     ],
                                   ),

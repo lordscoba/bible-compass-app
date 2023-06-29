@@ -4,6 +4,7 @@ import 'package:bible_compass_app/domain/providers/categoryproviders.dart';
 import 'package:bible_compass_app/presentation/widgets/inputfield.dart';
 import 'package:bible_compass_app/presentation/widgets/snacksbar.dart';
 import 'package:bible_compass_app/presentation/widgets/themebutton.dart';
+import 'package:bible_compass_app/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -122,9 +123,15 @@ class _UpdateCategoryState extends ConsumerState<UpdateCategory> {
                           cat = cat.copyWith(categoryName: value!);
                         },
                       ),
+                      const HorizontalSpace(),
+                      const Text(
+                        "For Subscribers",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const HorizontalSpace(),
                       SelectField(
                         items: _items,
-                        label: 'Is Verified',
+                        label: 'For Subscribers',
                         initialValue: fulldata['for_subscribers'].toString(),
                         onSaved: (value) {
                           cat = cat.copyWith(

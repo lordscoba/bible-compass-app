@@ -28,17 +28,6 @@ class _CreateVersesState extends ConsumerState<CreateVerses> {
     // Initialize the variable in initState
   }
 
-  final List<Map<String, dynamic>> _items = [
-    {
-      'value': 'true',
-      'label': 'True',
-    },
-    {
-      'value': 'false',
-      'label': 'False',
-    },
-  ];
-
   void message() {
     final String message;
     final bool error;
@@ -102,15 +91,6 @@ class _CreateVersesState extends ConsumerState<CreateVerses> {
                     verse = verse.copyWith(bibleVerse: value!);
                   },
                 ),
-                SelectField(
-                  items: _items,
-                  label: 'Favourite',
-                  initialValue: 'false',
-                  onSaved: (value) {
-                    verse =
-                        verse.copyWith(like: value?.toLowerCase() == 'true');
-                  },
-                ),
                 TextArea(
                   maxLines: 3,
                   hintText: 'Enter passage',
@@ -134,14 +114,15 @@ class _CreateVersesState extends ConsumerState<CreateVerses> {
                           .read(verseProvider.notifier)
                           .perfromCreateVerseRequest(
                               widget.keywId, verse.toJson());
-                    }
-                    debugPrint(verse.toJson().toString());
-                    message();
-                    if (ref.watch(errorMessageProvider) == "") {
-                      Future.delayed(const Duration(seconds: 5), () {
-                        // context.go('/admin/verses/${widget.keywId}');
-                        Navigator.of(context).pop();
-                      });
+
+                      debugPrint(verse.toJson().toString());
+                      message();
+                      if (ref.watch(errorMessageProvider) == "") {
+                        Future.delayed(const Duration(seconds: 5), () {
+                          // context.go('/admin/verses/${widget.keywId}');
+                          Navigator.of(context).pop();
+                        });
+                      }
                     }
                   },
                 ),

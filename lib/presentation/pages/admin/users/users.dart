@@ -211,7 +211,8 @@ class InnerClayListUser extends ConsumerWidget {
                             AsyncSnapshot<UserState> snapshot) {
                           if (snapshot.hasData) {
                             // debugPrint(snapshot.data?.data['data'].toString());
-                            final fulldata = snapshot.data?.data['data'];
+                            final dynamic fulldata =
+                                snapshot.data?.data['data'];
                             return ListView.builder(
                               shrinkWrap: true,
                               itemCount: fulldata.length,
@@ -237,6 +238,7 @@ class InnerClayListUser extends ConsumerWidget {
                                           Icons.edit,
                                           size: 20,
                                         ),
+                                        tooltip: "edit",
                                       ),
                                       IconButton(
                                         onPressed: () {
@@ -254,6 +256,7 @@ class InnerClayListUser extends ConsumerWidget {
                                           Icons.delete,
                                           size: 20,
                                         ),
+                                        tooltip: "delete",
                                       ),
                                       IconButton(
                                         onPressed: () {
@@ -271,6 +274,7 @@ class InnerClayListUser extends ConsumerWidget {
                                           Icons.arrow_forward_ios_rounded,
                                           size: 20,
                                         ),
+                                        tooltip: "show",
                                       ),
                                     ],
                                   ),

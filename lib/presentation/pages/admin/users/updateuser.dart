@@ -4,6 +4,7 @@ import 'package:bible_compass_app/domain/providers/authproviders.dart';
 import 'package:bible_compass_app/presentation/widgets/inputfield.dart';
 import 'package:bible_compass_app/presentation/widgets/snacksbar.dart';
 import 'package:bible_compass_app/presentation/widgets/themebutton.dart';
+import 'package:bible_compass_app/utils/validation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -156,6 +157,9 @@ class _UpdateUsersState extends ConsumerState<UpdateUsers> {
                         validation: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Enter something';
+                          }
+                          if (!validateEmail(value)) {
+                            return 'Enter valid email';
                           }
                           return null;
                         },

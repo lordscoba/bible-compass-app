@@ -29,17 +29,6 @@ class _UpdateVerseState extends ConsumerState<UpdateVerse> {
     // Initialize the variable in initState
   }
 
-  final List<Map<String, dynamic>> _items = [
-    {
-      'value': 'true',
-      'label': 'True',
-    },
-    {
-      'value': 'false',
-      'label': 'False',
-    },
-  ];
-
   void message() {
     final String message;
     final bool error;
@@ -121,15 +110,6 @@ class _UpdateVerseState extends ConsumerState<UpdateVerse> {
                         },
                         onSaved: (value) {
                           verse = verse.copyWith(bibleVerse: value!);
-                        },
-                      ),
-                      SelectField(
-                        items: _items,
-                        label: 'Like',
-                        initialValue: fulldata['like'].toString(),
-                        onSaved: (value) {
-                          verse = verse.copyWith(
-                              like: value?.toLowerCase() == 'true');
                         },
                       ),
                       TextArea(

@@ -99,6 +99,7 @@ class FavouritePage extends ConsumerWidget {
                               children: [
                                 IconButton(
                                     onPressed: () async {
+                                      // favcolor = false;
                                       await ref
                                           .read(favProvider.notifier)
                                           .perfromUnLikeRequest(

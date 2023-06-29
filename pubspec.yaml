@@ -46,6 +46,7 @@ dependencies:
   select_form_field: ^2.2.0
   shared_preferences: ^2.1.2
   flutter_fadein: ^2.0.0
+  share_plus: ^7.0.2
 
 dev_dependencies:
   flutter_test:

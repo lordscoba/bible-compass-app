@@ -28,7 +28,7 @@ class Draw extends ConsumerWidget {
             text: 'Home',
             icon: Icons.home,
             onTap: () {
-              context.go('/home');
+              context.push('/home');
             },
           ),
           DrawerPart(

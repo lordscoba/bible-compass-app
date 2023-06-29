@@ -13,3 +13,4 @@ final adminUserProvider =
 // });
 
 final searchText = StateProvider<String>((ref) => "");
+final searchKeyText = StateProvider<String>((ref) => "");

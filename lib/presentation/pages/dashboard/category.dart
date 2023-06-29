@@ -1,24 +1,58 @@
 import 'package:bible_compass_app/domain/models/category/category.dart';
+import 'package:bible_compass_app/domain/models/user/user.dart';
+import 'package:bible_compass_app/domain/providers/authproviders.dart';
 import 'package:bible_compass_app/domain/providers/categoryproviders.dart';
 import 'package:bible_compass_app/presentation/widgets/drawer.dart';
 import 'package:bible_compass_app/presentation/widgets/header.dart';
 import 'package:bible_compass_app/presentation/widgets/navigations.dart';
+import 'package:bible_compass_app/utils/snacksbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class CategoryPage extends ConsumerWidget {
+class CategoryPage extends ConsumerStatefulWidget {
   const CategoryPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _CategoryPageState();
+}
+
+class _CategoryPageState extends ConsumerState<CategoryPage> {
+  @override
+  void initState() {
+    super.initState();
+    // Call the showDialog method when the page is entered
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Welcome to Catgeory page'),
+          content: const Text('The dark green catgeories are for premium plan'),
+          actions: [
+            TextButton(
+              child: const Text('Close'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        ),
+      );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final catsfuture = Future.delayed(const Duration(milliseconds: 200), () {
       final catscalled =
           ref.watch(categoryProvider.notifier).perfromGetCatgeoriesRequest();
       return catscalled;
     });
+    final AuthState auth = ref.watch(loginProvider);
+    var authData = auth.data['data'];
+    debugPrint(authData.toString());
     return Scaffold(
       // extendBodyBehindAppBar: true,
       appBar: const Header(
@@ -65,18 +99,28 @@ class CategoryPage extends ConsumerWidget {
                         child: Container(
                           margin: const EdgeInsets.symmetric(
                               vertical: 3, horizontal: 10),
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                             borderRadius:
-                                BorderRadius.all(Radius.circular(15.0)),
-                            gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                Color(0xFF0BA37F),
-                                Color.fromARGB(255, 9, 144, 99),
-                                Color.fromARGB(255, 3, 47, 34),
-                              ],
-                            ),
+                                const BorderRadius.all(Radius.circular(15.0)),
+                            gradient: fulldata[index]['for_subscribers']
+                                ? const LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [
+                                      Color.fromARGB(255, 4, 82, 64),
+                                      Color.fromARGB(255, 4, 44, 31),
+                                      Color.fromARGB(255, 3, 47, 34),
+                                    ],
+                                  )
+                                : const LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [
+                                      Color(0xFF0BA37F),
+                                      Color.fromARGB(255, 9, 144, 99),
+                                      Color.fromARGB(255, 3, 47, 34),
+                                    ],
+                                  ),
                           ),
                           child: ListTile(
                             title: Text(
@@ -86,8 +130,19 @@ class CategoryPage extends ConsumerWidget {
                             ),
                             trailing: IconButton(
                               onPressed: () {
-                                context
-                                    .push("/keywords/${fulldata[index]['id']}");
+                                if (fulldata[index]['for_subscribers'] ==
+                                    true) {
+                                  if (authData['upgrade'] == true) {
+                                    context.push(
+                                        "/keywords/${fulldata[index]['id']}");
+                                  } else {
+                                    showSnackBar(context,
+                                        "You are not subscribed, Please Upgrade to use");
+                                  }
+                                } else {
+                                  context.push(
+                                      "/keywords/${fulldata[index]['id']}");
+                                }
                               },
                               icon: const Icon(
                                 Icons.arrow_forward_ios,
