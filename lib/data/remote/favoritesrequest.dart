@@ -3,15 +3,34 @@ import 'package:bible_compass_app/utils/constants.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FavoriteNotifier extends StateNotifier<FavoriteState> {
   FavoriteNotifier() : super(const FavoriteState());
+
+  void updateState() {
+    // Access ref here
+    // You can use ref.read to read the state of other providers or ref.watch to listen to changes in other providers
+    //  ref.wa
+  }
 
   Future<FavoriteState> perfromLikeRequest(String keyword, String email) async {
     try {
       // Set loading state
       state = state.copyWith(isLoading: true, error: '');
       final dio = Dio();
+
+      // decode header
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final String? token = prefs.getString('token');
+      bool hasExpired = JwtDecoder.isExpired(token!);
+      if (!hasExpired) {
+        dio.options.headers["bearer"] = token.toString();
+      } else {
+        state = state.copyWith(isLoading: false, error: "token has expired");
+      }
+      //end decode header
 
       // Make the POST request
       final response = await dio
@@ -22,7 +41,7 @@ class FavoriteNotifier extends StateNotifier<FavoriteState> {
             isLoading: false,
             data: response.data as Map<String, dynamic>,
             error: '');
-        debugPrint(response.data.toString());
+        // debugPrint(response.data.toString());
       }
     } on DioException catch (e) {
       // debugPrint(e.toString());
@@ -47,6 +66,17 @@ class FavoriteNotifier extends StateNotifier<FavoriteState> {
       state = state.copyWith(isLoading: true, error: '');
       final dio = Dio();
 
+      // decode header
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final String? token = prefs.getString('token');
+      bool hasExpired = JwtDecoder.isExpired(token!);
+      if (!hasExpired) {
+        dio.options.headers["bearer"] = token.toString();
+      } else {
+        state = state.copyWith(isLoading: false, error: "token has expired");
+      }
+      //end decode header
+
       // Make the POST request
       final response = await dio
           .get("${EnvironmentFavConfig.userUnlikeKeyword}$keyword/$email");
@@ -56,7 +86,7 @@ class FavoriteNotifier extends StateNotifier<FavoriteState> {
             isLoading: false,
             data: response.data as Map<String, dynamic>,
             error: '');
-        debugPrint(response.data.toString());
+        // debugPrint(response.data.toString());
       }
     } on DioException catch (e) {
       // debugPrint(e.toString());
@@ -80,10 +110,17 @@ class FavoriteNotifier extends StateNotifier<FavoriteState> {
       // Set loading state
       state = state.copyWith(isLoading: true, error: '');
       final dio = Dio();
-      // debugPrint(keyword);
-      // debugPrint(email);
-      // debugPrint(
-      //     "${EnvironmentFavConfig.userGetFavStatus}$keyword/${email.trim()}");
+
+      // decode header
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final String? token = prefs.getString('token');
+      bool hasExpired = JwtDecoder.isExpired(token!);
+      if (!hasExpired) {
+        dio.options.headers["bearer"] = token.toString();
+      } else {
+        state = state.copyWith(isLoading: false, error: "token has expired");
+      }
+      //end decode header
 
       // Make the POST request
       final response = await dio.get(
@@ -113,10 +150,22 @@ class FavoriteNotifier extends StateNotifier<FavoriteState> {
   }
 
   Future<FavoriteState> perfromGetFavsRequest(String email) async {
+    // debugPrint("hi");
     try {
       // Set loading state
       state = state.copyWith(isLoading: true, error: '');
       final dio = Dio();
+
+      // decode header
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final String? token = prefs.getString('token');
+      bool hasExpired = JwtDecoder.isExpired(token!);
+      if (!hasExpired) {
+        dio.options.headers["bearer"] = token.toString();
+      } else {
+        state = state.copyWith(isLoading: false, error: "token has expired");
+      }
+      //end decode header
 
       // Make the POST request
       final response =

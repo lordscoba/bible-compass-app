@@ -139,7 +139,7 @@ class ProfilePage extends ConsumerWidget {
                                   context: context,
                                   barrierDismissible: true,
                                   builder: (BuildContext context) {
-                                    debugPrint(authData['id'].toString());
+                                    // debugPrint(authData['id'].toString());
                                     return UpdateProfile(
                                       authData['id'].toString(),
                                     );

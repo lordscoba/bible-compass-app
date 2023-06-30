@@ -102,7 +102,7 @@ class _UpdateSubscriprionState extends ConsumerState<AdminUpdateSubscriprion> {
                 final checkState = snapshot.data;
                 final fulldata = snapshot.data?.data['data'];
                 // debugPrint(fulldata['name'].toString());
-                debugPrint(fulldata.toString());
+                // debugPrint(fulldata.toString());
                 return Form(
                   key: _formKey,
                   child: Column(

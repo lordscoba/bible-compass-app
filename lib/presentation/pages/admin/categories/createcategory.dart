@@ -122,7 +122,7 @@ class _CreateCategoryState extends ConsumerState<CreateCategory> {
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState?.save();
-                      debugPrint(category.toJson().toString());
+                      // debugPrint(category.toJson().toString());
                       await ref
                           .read(categoryProvider.notifier)
                           .perfromCreateCategoryRequest(category.toJson());

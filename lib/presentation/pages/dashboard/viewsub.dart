@@ -38,7 +38,7 @@ class ViewSub extends ConsumerWidget {
                 // debugPrint(snapshot.data?.data['data'].toString());
                 final fulldata = snapshot.data?.data['data'];
                 // debugPrint(fulldata['name'].toString());
-                debugPrint(fulldata.toString());
+                // debugPrint(fulldata.toString());
                 return Padding(
                   padding: const EdgeInsets.all(28.0),
                   child: ListView(

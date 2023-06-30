@@ -22,7 +22,7 @@ class UserVersePage extends ConsumerWidget {
           ref.watch(verseProvider.notifier).perfromGetVersesRequest(keywId);
       return versecalled;
     });
-    debugPrint(versefuture.toString());
+    // debugPrint(versefuture.toString());
     return Scaffold(
       // extendBodyBehindAppBar: true,
       appBar: const Header(

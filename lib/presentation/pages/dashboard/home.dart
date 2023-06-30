@@ -22,12 +22,12 @@ class HomeScreen extends ConsumerWidget {
     var authData = auth.data['data'];
     // debugPrint(authData.toString());
 
-    () async {
-      final prefs = await ref.watch(sharedPrefProvider);
-      final String? username = prefs.getString('username');
+    // () async {
+    //   final prefs = await ref.watch(sharedPrefProvider);
+    //   final String? username = prefs.getString('username');
 
-      debugPrint(username);
-    }();
+    //   debugPrint(username);
+    // }();
 
     final favsfuture = Future.delayed(const Duration(milliseconds: 100), () {
       final favscalled = ref
@@ -224,7 +224,7 @@ class HomeScreen extends ConsumerWidget {
 
                             // return const Text("hello hasdata");
                           } else if (snapshot.hasError) {
-                            debugPrint(snapshot.error.toString());
+                            // debugPrint(snapshot.error.toString());
                             return Text('Error: ${snapshot.error}');
                           } else {
                             return const Center(

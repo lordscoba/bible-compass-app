@@ -47,6 +47,7 @@ dependencies:
   shared_preferences: ^2.1.2
   flutter_fadein: ^2.0.0
   share_plus: ^7.0.2
+  jwt_decoder: ^2.0.1
 
 dev_dependencies:
   flutter_test:
