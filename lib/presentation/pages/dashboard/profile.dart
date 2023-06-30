@@ -19,7 +19,6 @@ class ProfilePage extends ConsumerWidget {
     final AuthState auth = ref.watch(loginProvider);
     var authData = auth.data['data'];
     return Scaffold(
-      // extendBodyBehindAppBar: true,
       appBar: const Header(
         title: 'Profile',
       ),

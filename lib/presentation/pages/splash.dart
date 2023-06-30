@@ -1,15 +1,32 @@
+// import 'dart:js_interop';
+
+import 'package:bible_compass_app/domain/models/user/user.dart';
+import 'package:bible_compass_app/domain/providers/authproviders.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends ConsumerState<SplashScreen> {
+  late UserModel user;
+  // late UserState userstate;
+
+  @override
+  void initState() {
+    super.initState();
+    user = UserModel();
+    // userstate = const UserState();
+    // Initialize the variable in initState
+  }
+
   final Uri _url = Uri.parse('https://snappy-fix.com');
   Future<void> _launchUrl() async {
     if (!await launchUrl(_url)) {
@@ -19,6 +36,39 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    () async {
+      final prefs = await ref.watch(sharedPrefProvider);
+
+      // get token
+      final String token = prefs.getString('token') ?? '';
+
+      //check if token has expired
+      bool hasExpired = false;
+      if (token.isNotEmpty) {
+        hasExpired = JwtDecoder.isExpired(token);
+      }
+      // check if its authenticated
+      if (!hasExpired && token.isNotEmpty) {
+        ref.watch(isAuthenticated.notifier).state = true;
+      } else {
+        ref.watch(isAuthenticated.notifier).state = false;
+      }
+
+      // perform login if its not authenticated
+      final String password = prefs.getString('password') ?? '';
+      final String email = prefs.getString('email') ?? '';
+
+      if (email.isNotEmpty && password.isNotEmpty) {
+        user = user.copyWith(email: email);
+        user = user.copyWith(password: password);
+        // debugPrint(password);
+        // debugPrint(email);
+
+        Future.delayed(const Duration(milliseconds: 500), () async {
+          await ref.read(loginProvider.notifier).performLogin(user.toJson());
+        });
+      }
+    }();
     return Scaffold(
       body: Container(
         height: double.infinity,
@@ -52,7 +102,19 @@ class _SplashScreenState extends State<SplashScreen> {
                   shadowColor: Colors.grey[800],
                   elevation: 6),
               onPressed: () {
-                context.go("/login");
+                ref.watch(isAuthenticated)
+                    ? Future.delayed(const Duration(milliseconds: 300), () {
+                        if (ref
+                                .watch(loginProvider)
+                                .data['data']['type']
+                                .toString() ==
+                            "admin") {
+                          context.push('/admin');
+                        } else {
+                          context.push('/home');
+                        }
+                      })
+                    : context.go("/login");
               },
               child: const Text("Get Started"),
             ),

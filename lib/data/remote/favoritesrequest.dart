@@ -176,7 +176,7 @@ class FavoriteNotifier extends StateNotifier<FavoriteState> {
             isLoading: false,
             data: response.data as Map<String, dynamic>,
             error: '');
-        debugPrint(response.data.toString());
+        // debugPrint(response.data.toString());
       }
     } on DioException catch (e) {
       // debugPrint(e.toString());

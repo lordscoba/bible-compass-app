@@ -54,7 +54,6 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
     var authData = auth.data['data'];
     // debugPrint(authData.toString());
     return Scaffold(
-      // extendBodyBehindAppBar: true,
       appBar: const Header(
         title: 'Categories',
       ),

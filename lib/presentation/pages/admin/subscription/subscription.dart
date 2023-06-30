@@ -126,7 +126,7 @@ class InnerClayListSubscription extends ConsumerWidget {
           .perfromGetSubsRequest(search: ref.watch(searchText));
       return subcalled;
     });
-    double listSize = 350;
+    double listSize = 500;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 18.0),
       child: Align(

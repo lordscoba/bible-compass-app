@@ -30,7 +30,6 @@ class FavouritePage extends ConsumerWidget {
       return favscalled;
     });
     return Scaffold(
-      // extendBodyBehindAppBar: true,
       appBar: const Header(
         title: 'Favourites',
       ),
