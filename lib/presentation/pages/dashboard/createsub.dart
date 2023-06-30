@@ -132,7 +132,7 @@ class _CreateSubState extends ConsumerState<CreateSub> {
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState?.save();
-                      debugPrint(sub.toJson().toString());
+                      // debugPrint(sub.toJson().toString());
                       await ref
                           .read(subProvider.notifier)
                           .perfromCreateSubRequest(

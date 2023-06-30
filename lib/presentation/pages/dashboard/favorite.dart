@@ -117,7 +117,7 @@ class FavouritePage extends ConsumerWidget {
                                     )),
                                 IconButton(
                                   onPressed: () {
-                                    debugPrint(fulldata[index]['id']);
+                                    // debugPrint(fulldata[index]['id']);
                                     context.push(
                                         "/verse/${fulldata[index]['id']}");
                                   },

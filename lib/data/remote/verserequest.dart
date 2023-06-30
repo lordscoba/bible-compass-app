@@ -3,6 +3,8 @@ import 'package:bible_compass_app/utils/constants.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class VerseNotifier extends StateNotifier<VerseState> {
   VerseNotifier() : super(const VerseState());
@@ -12,6 +14,17 @@ class VerseNotifier extends StateNotifier<VerseState> {
       // Set loading state
       state = state.copyWith(isLoading: true, error: '');
       final dio = Dio();
+
+      // decode header
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final String? token = prefs.getString('token');
+      bool hasExpired = JwtDecoder.isExpired(token!);
+      if (!hasExpired) {
+        dio.options.headers["bearer"] = token.toString();
+      } else {
+        state = state.copyWith(isLoading: false, error: "token has expired");
+      }
+      //end decode header
 
       // Make the POST request
       final response = await dio
@@ -45,6 +58,17 @@ class VerseNotifier extends StateNotifier<VerseState> {
       // Set loading state
       state = state.copyWith(isLoading: true, error: '');
       final dio = Dio();
+
+      // decode header
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final String? token = prefs.getString('token');
+      bool hasExpired = JwtDecoder.isExpired(token!);
+      if (!hasExpired) {
+        dio.options.headers["bearer"] = token.toString();
+      } else {
+        state = state.copyWith(isLoading: false, error: "token has expired");
+      }
+      //end decode header
 
       // Make the POST request
       final response = await dio.patch(
@@ -80,6 +104,17 @@ class VerseNotifier extends StateNotifier<VerseState> {
       state = state.copyWith(isLoading: true, error: '');
       final dio = Dio();
 
+      // decode header
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final String? token = prefs.getString('token');
+      bool hasExpired = JwtDecoder.isExpired(token!);
+      if (!hasExpired) {
+        dio.options.headers["bearer"] = token.toString();
+      } else {
+        state = state.copyWith(isLoading: false, error: "token has expired");
+      }
+      //end decode header
+
       // Make the POST request
       final response =
           await dio.get(EnvironmentVerseConfig.adminGetVersesUrl + keywId);
@@ -113,6 +148,17 @@ class VerseNotifier extends StateNotifier<VerseState> {
       // Set loading state
       state = state.copyWith(isLoading: true, error: '');
       final dio = Dio();
+
+      // decode header
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final String? token = prefs.getString('token');
+      bool hasExpired = JwtDecoder.isExpired(token!);
+      if (!hasExpired) {
+        dio.options.headers["bearer"] = token.toString();
+      } else {
+        state = state.copyWith(isLoading: false, error: "token has expired");
+      }
+      //end decode header
 
       // Make the POST request
       final response = await dio
@@ -148,6 +194,17 @@ class VerseNotifier extends StateNotifier<VerseState> {
       state = state.copyWith(isLoading: true, error: '');
       final dio = Dio();
 
+      // decode header
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final String? token = prefs.getString('token');
+      bool hasExpired = JwtDecoder.isExpired(token!);
+      if (!hasExpired) {
+        dio.options.headers["bearer"] = token.toString();
+      } else {
+        state = state.copyWith(isLoading: false, error: "token has expired");
+      }
+      //end decode header
+
       // Make the POST request
       final response = await dio.delete(
           '${EnvironmentVerseConfig.adminDeleteVerseByIdUrl}$keywId/$vsId');
@@ -180,6 +237,17 @@ class VerseNotifier extends StateNotifier<VerseState> {
       // Set loading state
       state = state.copyWith(isLoading: true, error: '');
       final dio = Dio();
+
+      // decode header
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final String? token = prefs.getString('token');
+      bool hasExpired = JwtDecoder.isExpired(token!);
+      if (!hasExpired) {
+        dio.options.headers["bearer"] = token.toString();
+      } else {
+        state = state.copyWith(isLoading: false, error: "token has expired");
+      }
+      //end decode header
 
       // Make the POST request
       final response =

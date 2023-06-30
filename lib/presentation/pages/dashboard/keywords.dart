@@ -24,6 +24,7 @@ class KeywordPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final AuthState auth = ref.watch(loginProvider);
     var authData = auth.data['data'];
+    // debugPrint(authData.toString());
     final keywfuture = Future.delayed(const Duration(milliseconds: 10), () {
       final keywcalled = ref
           .watch(keywordProvider.notifier)
@@ -164,13 +165,14 @@ class _LikeButtonState extends ConsumerState<LikeButton> {
       final statscalled = ref
           .watch(favProviderstatus.notifier)
           .perfromGetStatusRequest(widget.keyword, widget.email);
+
       return statscalled;
     });
     return FutureBuilder<FavoriteState>(
       future: statsfuture,
       builder: (BuildContext context, AsyncSnapshot<FavoriteState> snapshot) {
         if (snapshot.hasData) {
-          debugPrint(snapshot.data?.data['data'].toString());
+          // debugPrint(snapshot.data?.data['data'].toString());
           final fulldata = snapshot.data?.data['data'];
           return IconButton(
             onPressed: () async {

@@ -3,6 +3,7 @@ import 'package:bible_compass_app/utils/constants.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpNotifier extends StateNotifier<UserState> {
@@ -68,9 +69,9 @@ class LoginNotifier extends StateNotifier<AuthState> {
             'email', response.data['data']['email'].toString());
         await prefs.setString(
             'username', response.data['data']['username'].toString());
+        await prefs.setString('type', response.data['data']['type'].toString());
         await prefs.setString(
             'token', response.data['data']['token'].toString());
-        await prefs.setString('type', response.data['data']['type'].toString());
         await prefs.setString(
             'token_type', response.data['data']['token_type'].toString());
 
@@ -96,6 +97,17 @@ class LoginNotifier extends StateNotifier<AuthState> {
       // Set loading state
       state = state.copyWith(isLoading: true, error: '');
       final dio = Dio();
+
+      // decode header
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final String? token = prefs.getString('token');
+      bool hasExpired = JwtDecoder.isExpired(token!);
+      if (!hasExpired) {
+        dio.options.headers["bearer"] = token.toString();
+      } else {
+        state = state.copyWith(isLoading: false, error: "token has expired");
+      }
+      //end decode header
 
       // Make the POST request
       final response = await dio.get(

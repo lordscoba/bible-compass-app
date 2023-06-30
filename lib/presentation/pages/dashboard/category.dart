@@ -52,7 +52,7 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
     });
     final AuthState auth = ref.watch(loginProvider);
     var authData = auth.data['data'];
-    debugPrint(authData.toString());
+    // debugPrint(authData.toString());
     return Scaffold(
       // extendBodyBehindAppBar: true,
       appBar: const Header(

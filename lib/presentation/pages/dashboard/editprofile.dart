@@ -165,7 +165,7 @@ class _UpdateProfileState extends ConsumerState<UpdateProfile> {
                                 .perfromUpdateProfileRequest(
                                     user.toJson(), widget.userId);
                           }
-                          debugPrint(user.toJson().toString());
+                          // debugPrint(user.toJson().toString());
 
                           message();
                           if (ref.watch(errorMessageProvider) == "") {

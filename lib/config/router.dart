@@ -26,7 +26,7 @@ class MyRouter extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // GoRouter configuration
     final router = GoRouter(
-      initialLocation: '/category',
+      initialLocation: '/login',
 
       // initialLocation: '/signup',
       routes: [

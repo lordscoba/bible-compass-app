@@ -101,7 +101,7 @@ class TopHomeVerse extends ConsumerWidget {
               if (snapshot.hasData) {
                 // debugPrint(snapshot.data?.data['data'].toString());
                 final fulldata = snapshot.data?.data['data'];
-                debugPrint(fulldata['total_category'].toString());
+                // debugPrint(fulldata['total_category'].toString());
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
