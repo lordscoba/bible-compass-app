@@ -181,7 +181,7 @@ class InnerClayListUser extends ConsumerWidget {
       return userscalled;
     });
 
-    double listSize = 350;
+    double listSize = 450;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 18.0),
       child: Align(

@@ -20,6 +20,7 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final AuthState auth = ref.watch(loginProvider);
     var authData = auth.data['data'];
+
     // debugPrint(authData.toString());
 
     // () async {
@@ -37,7 +38,6 @@ class HomeScreen extends ConsumerWidget {
     });
 
     return Scaffold(
-      extendBodyBehindAppBar: true,
       appBar: const Header(
         title: 'Home',
       ),
@@ -60,15 +60,17 @@ class HomeScreen extends ConsumerWidget {
               image: AssetImage("assets/images/wallpaper1.jpeg"),
               fit: BoxFit.cover),
         ),
-        height: 1200,
+        height: MediaQuery.of(context).size.height,
         width: double.infinity,
         child: SingleChildScrollView(
           child: Column(
+            // mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              const HorizontalSpace(),
-              const HorizontalSpace(),
+              // const SizedBox(
+              //   height: 80,
+              // ),
               const Padding(
-                padding: EdgeInsets.all(20.0),
+                padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20),
                 child: Image(
                     width: 250,
                     image: AssetImage("assets/images/compass-top.png")),
@@ -159,8 +161,7 @@ class HomeScreen extends ConsumerWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       const Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                        padding: EdgeInsets.only(top: 30),
                         child: Text(
                           "Favorites",
                           style: TextStyle(

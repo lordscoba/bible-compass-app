@@ -59,7 +59,7 @@ class LoginNotifier extends StateNotifier<AuthState> {
             isLoading: false,
             data: response.data as Map<String, dynamic>,
             error: '');
-        debugPrint(response.data.toString());
+        // debugPrint(response.data.toString());
 
         // set login state
         // final prefs = await ref.watch(sharedPrefProvider);

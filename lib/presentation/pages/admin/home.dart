@@ -182,7 +182,7 @@ class InnerClayList1 extends ConsumerWidget {
           .perfromGetUsersRequest(search: ref.watch(searchText));
       return userscalled;
     });
-    double listSize = 350;
+    double listSize = 450;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 18.0),
       child: Align(
@@ -205,7 +205,7 @@ class InnerClayList1 extends ConsumerWidget {
                     ),
                     const SearchTextUser1(),
                     SizedBox(
-                      height: listSize - 50,
+                      height: listSize,
                       child: FutureBuilder<UserState>(
                         future: usersfuture,
                         builder: (BuildContext context,

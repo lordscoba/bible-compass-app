@@ -107,7 +107,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       }
                       return null;
                     },
-                    onSaved: (value) {
+                    onSaved: (value) async {
                       user = user.copyWith(password: value!);
                     },
                   ),
@@ -123,6 +123,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         message();
 
                         if (ref.watch(errorMessageProvider) == "") {
+                          final prefs = await ref.watch(sharedPrefProvider);
+                          await prefs.setString('password', user.password);
                           Future.delayed(const Duration(seconds: 3), () {
                             if (ref
                                     .watch(loginProvider)

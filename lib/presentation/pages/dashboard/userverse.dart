@@ -24,7 +24,6 @@ class UserVersePage extends ConsumerWidget {
     });
     // debugPrint(versefuture.toString());
     return Scaffold(
-      // extendBodyBehindAppBar: true,
       appBar: const Header(
         title: 'Bible Verses',
       ),

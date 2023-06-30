@@ -23,3 +23,5 @@ final loginProvider = StateNotifierProvider<LoginNotifier, AuthState>((ref) {
 final sharedPrefProvider = Provider((_) async {
   return await SharedPreferences.getInstance();
 });
+
+final isAuthenticated = StateProvider<bool>((ref) => false);

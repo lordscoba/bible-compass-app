@@ -4,6 +4,7 @@ import 'package:bible_compass_app/domain/providers/authproviders.dart';
 import 'package:bible_compass_app/presentation/widgets/inputfield.dart';
 import 'package:bible_compass_app/presentation/widgets/snacksbar.dart';
 import 'package:bible_compass_app/presentation/widgets/themebutton.dart';
+import 'package:bible_compass_app/presentation/widgets/widgets.dart';
 import 'package:bible_compass_app/utils/validation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -167,6 +168,12 @@ class _UpdateUsersState extends ConsumerState<UpdateUsers> {
                           user = user.copyWith(email: value!);
                         },
                       ),
+                      const HorizontalSpace(),
+                      const Text(
+                        "Is Verified",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const HorizontalSpace(),
                       SelectField(
                         items: _items,
                         label: 'Is Verified',
@@ -176,6 +183,12 @@ class _UpdateUsersState extends ConsumerState<UpdateUsers> {
                               isVerified: value?.toLowerCase() == 'true');
                         },
                       ),
+                      const HorizontalSpace(),
+                      const Text(
+                        "User Type",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const HorizontalSpace(),
                       SelectField(
                         items: _itemsuser,
                         label: 'User Type',
@@ -200,19 +213,20 @@ class _UpdateUsersState extends ConsumerState<UpdateUsers> {
                                 .read(adminUserProvider.notifier)
                                 .perfromUpdateUserRequest(
                                     user.toJson(), widget.userId);
-                          }
-                          // debugPrint(user.toJson().toString());
 
-                          message();
-                          if (ref.watch(errorMessageProvider) == "") {
-                            Future.delayed(const Duration(seconds: 5), () {
-                              // context.go('/admin/users');
-                              Navigator.of(context).pop();
-                            });
+                            // debugPrint(user.toJson().toString());
+
+                            message();
+                            if (ref.watch(errorMessageProvider) == "") {
+                              Future.delayed(const Duration(seconds: 5), () {
+                                // context.go('/admin/users');
+                                Navigator.of(context).pop();
+                              });
+                            }
+                            await ref
+                                .refresh(adminUserProvider.notifier)
+                                .perfromGetSingleUserRequest(widget.userId);
                           }
-                          await ref
-                              .read(adminUserProvider.notifier)
-                              .perfromGetSingleUserRequest(widget.userId);
                         },
                       ),
                     ],

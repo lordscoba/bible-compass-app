@@ -66,14 +66,19 @@ class DeleteModal extends ConsumerWidget {
                     padding: const EdgeInsets.symmetric(
                         vertical: 20, horizontal: 20.0),
                   ),
-                  onPressed: () {
-                    ref
+                  onPressed: () async {
+                    await ref
                         .read(adminUserProvider.notifier)
                         .performDeleteUserRequest(userId);
+                    await ref
+                        .refresh(adminUserProvider.notifier)
+                        .perfromGetUsersRequest();
+                    // ignore: use_build_context_synchronously
                     Navigator.of(context).pop();
                     const snackBar = SnackBar(
                       content: Text('User deleted'),
                     );
+                    // ignore: use_build_context_synchronously
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   },
                   child: const Text("Delete"),
