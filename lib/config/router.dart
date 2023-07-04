@@ -49,7 +49,7 @@ class MyRouter extends ConsumerWidget {
 
     // GoRouter configuration
     final router = GoRouter(
-      initialLocation: '/home',
+      initialLocation: '/splash',
       errorBuilder: (context, state) => const ErrorScreen(),
       // initialLocation: '/signup',
       routes: [

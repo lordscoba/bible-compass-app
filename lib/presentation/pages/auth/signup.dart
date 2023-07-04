@@ -92,7 +92,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       return null;
                     },
                     onSaved: (value) {
-                      user = user.copyWith(username: value!);
+                      user = user.copyWith(username: value!.trim());
                     },
                   ),
                   InputField(
@@ -101,13 +101,13 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       if (value == null || value.isEmpty) {
                         return 'Enter something';
                       }
-                      if (!validateEmail(value)) {
+                      if (!validateEmail(value.trim())) {
                         return 'Enter valid email';
                       }
                       return null;
                     },
                     onSaved: (value) {
-                      user = user.copyWith(email: value!);
+                      user = user.copyWith(email: value!.trim());
                     },
                   ),
                   InputField(
@@ -120,7 +120,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       return null;
                     },
                     onSaved: (value) {
-                      user = user.copyWith(password: value!);
+                      user = user.copyWith(password: value!.trim());
                     },
                   ),
                   InputField(
@@ -133,7 +133,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       return null;
                     },
                     onSaved: (value) {
-                      user = user.copyWith(confirmPassword: value!);
+                      user = user.copyWith(confirmPassword: value!.trim());
                     },
                   ),
                   ThemeButton(

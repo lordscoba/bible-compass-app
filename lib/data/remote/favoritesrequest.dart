@@ -9,12 +9,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 class FavoriteNotifier extends StateNotifier<FavoriteState> {
   FavoriteNotifier() : super(const FavoriteState());
 
-  void updateState() {
-    // Access ref here
-    // You can use ref.read to read the state of other providers or ref.watch to listen to changes in other providers
-    //  ref.wa
-  }
-
   Future<FavoriteState> perfromLikeRequest(String keyword, String email) async {
     try {
       // Set loading state
@@ -150,7 +144,6 @@ class FavoriteNotifier extends StateNotifier<FavoriteState> {
   }
 
   Future<FavoriteState> perfromGetFavsRequest(String email) async {
-    // debugPrint("hi");
     try {
       // Set loading state
       state = state.copyWith(isLoading: true, error: '');

@@ -89,13 +89,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       if (value == null || value.isEmpty) {
                         return 'Enter something';
                       }
-                      if (!validateEmail(value)) {
+                      if (!validateEmail(value.trim())) {
                         return 'Enter valid email';
                       }
                       return null;
                     },
                     onSaved: (value) {
-                      user = user.copyWith(email: value!);
+                      user = user.copyWith(email: value!.trim());
                     },
                   ),
                   InputField(
@@ -108,7 +108,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       return null;
                     },
                     onSaved: (value) async {
-                      user = user.copyWith(password: value!);
+                      user = user.copyWith(password: value!.trim());
                     },
                   ),
                   ThemeButton(

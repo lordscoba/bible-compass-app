@@ -1,6 +1,7 @@
 import 'package:bible_compass_app/domain/models/category/category.dart';
 import 'package:bible_compass_app/utils/constants.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -116,13 +117,20 @@ class CategoryNotifier extends StateNotifier<CategoryState> {
 
       // Make the POST request
       final response = await dio.get(
-          "${EnvironmentCategoryConfig.adminGetCategoriesUrl}?category_name=$search");
+        "${EnvironmentCategoryConfig.adminGetCategoriesUrl}?category_name=$search",
+        // options: Options(
+        //   headers: {
+        //     "bearer": token,
+        //   },
+        // ),
+      );
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Request successful
         state = state.copyWith(
             isLoading: false,
             data: response.data as Map<String, dynamic>,
             error: '');
+
         // debugPrint(response.data.toString());
       }
     } on DioException catch (e) {

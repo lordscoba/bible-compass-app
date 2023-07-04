@@ -31,8 +31,9 @@ class HomeScreen extends ConsumerWidget {
     //   debugPrint(username);
     // }();
 
-    final favsfuture = Future.delayed(const Duration(milliseconds: 100), () {
-      final favscalled = ref
+    final favsfuture =
+        Future.delayed(const Duration(milliseconds: 100), () async {
+      final favscalled = await ref
           .watch(favProvider.notifier)
           .perfromGetFavsRequest(authData["email"]);
       return favscalled;
@@ -65,11 +66,7 @@ class HomeScreen extends ConsumerWidget {
         width: double.infinity,
         child: SingleChildScrollView(
           child: Column(
-            // mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              // const SizedBox(
-              //   height: 80,
-              // ),
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20),
                 child: Image(
@@ -165,11 +162,6 @@ class HomeScreen extends ConsumerWidget {
                         padding: const EdgeInsets.only(top: 30),
                         child: Text(
                           "Favorites",
-                          // style: TextStyle(
-                          //     fontFamily: "Roboto",
-                          //     fontSize: 28,
-                          //     fontWeight: FontWeight.bold,
-                          //     color: Colors.black54),
                           style: GoogleFonts.crimsonText(
                               fontSize: 28,
                               fontWeight: FontWeight.bold,
@@ -181,8 +173,10 @@ class HomeScreen extends ConsumerWidget {
                         builder: (BuildContext context,
                             AsyncSnapshot<FavoriteState> snapshot) {
                           if (snapshot.hasData) {
+                            // debugPrint(snapshot.data.toString());
                             // debugPrint(snapshot.data?.data['data'].toString());
                             final fulldata = snapshot.data?.data['data'];
+
                             // debugPrint(fulldata.toString());
 
                             if (fulldata.isNotEmpty) {
