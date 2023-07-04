@@ -65,77 +65,112 @@ class FavouritePage extends ConsumerWidget {
                 if (snapshot.hasData) {
                   // debugPrint(snapshot.data?.data['data'].toString());
                   final fulldata = snapshot.data?.data['data'];
-                  return ListView.builder(
-                    itemCount: fulldata.length,
-                    itemBuilder: (context, index) {
-                      return FadeIn(
-                        duration: Duration(milliseconds: 300 + (300 * index)),
-                        curve: Curves.easeIn,
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(
-                              vertical: 3, horizontal: 10),
-                          decoration: const BoxDecoration(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(15.0)),
-                            gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                Color(0xFF0BA37F),
-                                Color.fromARGB(255, 9, 144, 99),
-                                Color.fromARGB(255, 3, 47, 34),
-                              ],
+
+                  if (fulldata.isNotEmpty) {
+                    return ListView.builder(
+                      itemCount: fulldata.length,
+                      itemBuilder: (context, index) {
+                        return FadeIn(
+                          duration: Duration(milliseconds: 300 + (300 * index)),
+                          curve: Curves.easeIn,
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(
+                                vertical: 3, horizontal: 10),
+                            decoration: const BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15.0)),
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  Color(0xFF0BA37F),
+                                  Color.fromARGB(255, 9, 144, 99),
+                                  Color.fromARGB(255, 3, 47, 34),
+                                ],
+                              ),
                             ),
-                          ),
-                          child: ListTile(
-                            title: Text(
-                              fulldata[index]['keyword'],
-                              style: const TextStyle(
-                                  color: Colors.white, fontSize: 25),
-                            ),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                IconButton(
-                                    onPressed: () async {
-                                      // favcolor = false;
-                                      await ref
-                                          .read(favProvider.notifier)
-                                          .perfromUnLikeRequest(
-                                              fulldata[index]['keyword'],
-                                              authData['email']);
-                                      await ref
-                                          .refresh(favProvider.notifier)
-                                          .perfromGetFavsRequest(
-                                              authData['email']);
+                            child: ListTile(
+                              title: Text(
+                                fulldata[index]['keyword'],
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 25),
+                              ),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(
+                                      onPressed: () async {
+                                        // favcolor = false;
+                                        await ref
+                                            .read(favProvider.notifier)
+                                            .perfromUnLikeRequest(
+                                                fulldata[index]['keyword'],
+                                                authData['email']);
+                                        await ref
+                                            .refresh(favProvider.notifier)
+                                            .perfromGetFavsRequest(
+                                                authData['email']);
+                                      },
+                                      icon: const Icon(
+                                        Icons.favorite,
+                                        color: Colors.white,
+                                        size: 30,
+                                      )),
+                                  IconButton(
+                                    onPressed: () {
+                                      // debugPrint(fulldata[index]['id']);
+                                      context.push(
+                                          "/verse/${fulldata[index]['id']}");
                                     },
                                     icon: const Icon(
-                                      Icons.favorite,
+                                      Icons.arrow_forward_ios,
                                       color: Colors.white,
                                       size: 30,
-                                    )),
-                                IconButton(
-                                  onPressed: () {
-                                    // debugPrint(fulldata[index]['id']);
-                                    context.push(
-                                        "/verse/${fulldata[index]['id']}");
-                                  },
-                                  icon: const Icon(
-                                    Icons.arrow_forward_ios,
-                                    color: Colors.white,
-                                    size: 30,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 16.0, vertical: 20),
+                              enabled: true,
                             ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 16.0, vertical: 20),
-                            enabled: true,
                           ),
-                        ),
-                      );
-                    },
-                  );
+                        );
+                      },
+                    );
+                  } else {
+                    return SizedBox(
+                      height: 330,
+                      child: ListView(
+                        children: const [
+                          SizedBox(
+                            height: 50,
+                          ),
+                          ListTile(
+                            title: Text(
+                              "No data",
+                              style: TextStyle(
+                                fontSize: 35,
+                                fontWeight: FontWeight.bold,
+                                fontStyle: FontStyle.italic,
+                                color: Color(0xFF0BA37F),
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            subtitle: Text(
+                              "Try making some keywords your favorite",
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w300,
+                                  fontStyle: FontStyle.italic,
+                                  color: Colors.black54),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
 
                   // return const Text("hello hasdata");
                 } else if (snapshot.hasError) {

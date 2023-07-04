@@ -237,7 +237,7 @@ class InnerClayListCategory extends ConsumerWidget {
                                       ),
                                       IconButton(
                                         onPressed: () {
-                                          context.go(
+                                          context.push(
                                               "/admin/keywords/${fulldata[index]['id']}");
                                         },
                                         icon: const Icon(

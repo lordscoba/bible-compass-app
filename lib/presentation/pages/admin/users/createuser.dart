@@ -141,10 +141,6 @@ class _CreateUsersState extends ConsumerState<CreateUsers> {
                           .read(adminUserProvider.notifier)
                           .perfromCreateUserRequest(user.toJson());
 
-                      await ref
-                          .refresh(adminUserProvider.notifier)
-                          .perfromGetUsersRequest();
-
                       // debugPrint(user.toJson().toString());
                       message();
                       if (ref.watch(errorMessageProvider) == "") {
@@ -152,6 +148,10 @@ class _CreateUsersState extends ConsumerState<CreateUsers> {
                           Navigator.of(context).pop();
                         });
                       }
+
+                      await ref
+                          .refresh(adminUserProvider.notifier)
+                          .perfromGetUsersRequest();
                     }
                   },
                 ),

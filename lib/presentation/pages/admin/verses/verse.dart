@@ -151,7 +151,7 @@ class InnerClayListVerse extends ConsumerWidget {
           ref.watch(verseProvider.notifier).perfromGetVersesRequest(keywid!);
       return versecalled;
     });
-    double listSize = 250;
+    double listSize = 400;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 18.0),
       child: Align(

@@ -12,6 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -160,11 +161,16 @@ class HomeScreen extends ConsumerWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.only(top: 30),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 30),
                         child: Text(
                           "Favorites",
-                          style: TextStyle(
+                          // style: TextStyle(
+                          //     fontFamily: "Roboto",
+                          //     fontSize: 28,
+                          //     fontWeight: FontWeight.bold,
+                          //     color: Colors.black54),
+                          style: GoogleFonts.crimsonText(
                               fontSize: 28,
                               fontWeight: FontWeight.bold,
                               color: Colors.black54),
@@ -179,7 +185,7 @@ class HomeScreen extends ConsumerWidget {
                             final fulldata = snapshot.data?.data['data'];
                             // debugPrint(fulldata.toString());
 
-                            if (fulldata.length > 1) {
+                            if (fulldata.isNotEmpty) {
                               return SizedBox(
                                 height: 330,
                                 child: ListView.builder(
@@ -187,39 +193,79 @@ class HomeScreen extends ConsumerWidget {
                                       horizontal: 30, vertical: 40),
                                   itemCount: fulldata.length,
                                   itemBuilder: (context, index) {
-                                    return ListTile(
-                                      title: Text(
-                                        fulldata[index]['keyword'],
-                                        style: const TextStyle(
-                                            color: Colors.black54,
-                                            fontSize: 20),
-                                      ),
-                                      trailing: IconButton(
-                                        onPressed: () async {
-                                          // debugPrint(fulldata[index]['keyword']);
-                                          context.push(
-                                              "/verse/${fulldata[index]['id']}");
-                                        },
-                                        icon: const Icon(
-                                          Icons.arrow_forward_ios,
-                                          color: Colors.black87,
-                                          size: 20,
+                                    return Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        ListTile(
+                                          horizontalTitleGap: 20,
+                                          title: Text(
+                                            fulldata[index]['keyword'],
+                                            style: const TextStyle(
+                                                color: Colors.black54,
+                                                fontSize: 20),
+                                          ),
+                                          trailing: IconButton(
+                                            onPressed: () async {
+                                              // debugPrint(fulldata[index]['keyword']);
+                                              context.push(
+                                                  "/verse/${fulldata[index]['id']}");
+                                            },
+                                            icon: const Icon(
+                                              Icons.arrow_forward_ios,
+                                              color: Colors.black87,
+                                              size: 20,
+                                            ),
+                                          ),
+                                          subtitle:
+                                              const Text("Click to continue"),
+                                          enabled: true,
                                         ),
-                                      ),
-                                      // contentPadding: const EdgeInsets.symmetric(
-                                      //     horizontal: 16.0, vertical: 20),
-                                      enabled: true,
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 20),
+                                          child: Divider(
+                                            color: Colors.grey
+                                                .shade400, // Set the color of the divider line
+                                            thickness:
+                                                1, // Set the thickness of the divider line
+                                          ),
+                                        ),
+                                      ],
                                     );
                                   },
                                 ),
                               );
                             } else {
-                              return ListView(
-                                children: const [
-                                  ListTile(
-                                    title: Text("No data"),
-                                  )
-                                ],
+                              return SizedBox(
+                                height: 330,
+                                child: ListView(
+                                  children: const [
+                                    SizedBox(
+                                      height: 50,
+                                    ),
+                                    ListTile(
+                                      title: Text(
+                                        "No data",
+                                        style: TextStyle(
+                                          fontSize: 35,
+                                          fontWeight: FontWeight.bold,
+                                          fontStyle: FontStyle.italic,
+                                          color: Color(0xFF0BA37F),
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      subtitle: Text(
+                                        "Try making some keywords your favorite",
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w300,
+                                            fontStyle: FontStyle.italic,
+                                            color: Colors.black54),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               );
                             }
 

@@ -94,14 +94,20 @@ class DeleteModalVerse extends ConsumerWidget {
                     padding: const EdgeInsets.symmetric(
                         vertical: 20, horizontal: 20.0),
                   ),
-                  onPressed: () {
-                    ref
+                  onPressed: () async {
+                    await ref
                         .read(verseProvider.notifier)
                         .performDeleteVerseRequest(kwId, vsId);
+
+                    await ref
+                        .refresh(verseProvider.notifier)
+                        .perfromGetVersesRequest(kwId);
+                    // ignore: use_build_context_synchronously
                     Navigator.of(context).pop();
                     const snackBar = SnackBar(
                       content: Text('Verse deleted'),
                     );
+                    // ignore: use_build_context_synchronously
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   },
                   child: const Text("Delete"),
