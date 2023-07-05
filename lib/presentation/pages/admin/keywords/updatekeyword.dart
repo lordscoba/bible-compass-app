@@ -148,9 +148,7 @@ class _UpdateKeywordState extends ConsumerState<UpdateKeyword> {
                                 .read(keywordProvider.notifier)
                                 .perfromUpdateKeywordRequest(
                                     keyw.toJson(), widget.keyId);
-                            await ref
-                                .refresh(keywordProvider.notifier)
-                                .perfromGetSingleKeywordRequest(widget.keyId);
+
                             message();
                             if (ref.watch(errorMessageProvider) == "") {
                               Future.delayed(const Duration(seconds: 5), () {
@@ -158,6 +156,9 @@ class _UpdateKeywordState extends ConsumerState<UpdateKeyword> {
                                 Navigator.of(context).pop();
                               });
                             }
+                            await ref
+                                .refresh(keywordProvider.notifier)
+                                .perfromGetSingleKeywordRequest(widget.keyId);
                           }
                           // debugPrint(user.toJson().toString());
                         },

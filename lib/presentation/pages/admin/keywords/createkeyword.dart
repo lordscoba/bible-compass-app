@@ -127,9 +127,6 @@ class _CreatekeywordState extends ConsumerState<Createkeyword> {
                           .read(keywordProvider.notifier)
                           .perfromCreateKeywordRequest(
                               keyword.toJson(), widget.catId);
-                      await ref
-                          .refresh(keywordProvider.notifier)
-                          .perfromGetKeywordsRequest(widget.catId);
 
                       // debugPrint(user.toJson().toString());
                       message();
@@ -139,6 +136,10 @@ class _CreatekeywordState extends ConsumerState<Createkeyword> {
                           Navigator.of(context).pop();
                         });
                       }
+
+                      await ref
+                          .refresh(keywordProvider.notifier)
+                          .perfromGetKeywordsRequest(widget.catId);
                     }
                   },
                 ),

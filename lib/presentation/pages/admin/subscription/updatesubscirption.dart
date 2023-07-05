@@ -159,14 +159,15 @@ class _UpdateSubscriprionState extends ConsumerState<AdminUpdateSubscriprion> {
                             await ref
                                 .refresh(subProvider.notifier)
                                 .perfromGetSingleSubRequest(widget.subId);
-                          }
-                          // debugPrint(user.toJson().toString());
 
-                          message();
-                          if (ref.watch(errorMessageProvider) == "") {
-                            Future.delayed(const Duration(seconds: 5), () {
-                              Navigator.of(context).pop();
-                            });
+                            // debugPrint(user.toJson().toString());
+
+                            message();
+                            if (ref.watch(errorMessageProvider) == "") {
+                              Future.delayed(const Duration(seconds: 5), () {
+                                Navigator.of(context).pop();
+                              });
+                            }
                           }
                         },
                       ),

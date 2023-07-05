@@ -48,6 +48,7 @@ dependencies:
   flutter_fadein: ^2.0.0
   share_plus: ^7.0.2
   jwt_decoder: ^2.0.1
+  google_fonts: ^5.1.0
 
 dev_dependencies:
   flutter_test:
@@ -78,6 +79,7 @@ flutter:
   #   - assets/images/compass-fav.png
   assets:
     - assets/images/
+    # - google_fonts/
 
     # - images/wallpaper1.jpeg
   #   - images/a_dot_ham.jpeg

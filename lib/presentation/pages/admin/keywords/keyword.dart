@@ -214,7 +214,9 @@ class InnerClayListKeyword extends ConsumerWidget {
                                             barrierDismissible: true,
                                             builder: (BuildContext context) {
                                               return DeleteModalKeywords(
-                                                fulldata[index]['id'],
+                                                catId: fulldata[index]
+                                                    ['category_id'],
+                                                id: fulldata[index]['id'],
                                               );
                                             },
                                           );
@@ -245,7 +247,7 @@ class InnerClayListKeyword extends ConsumerWidget {
                                       ),
                                       IconButton(
                                         onPressed: () {
-                                          context.go(
+                                          context.push(
                                               "/admin/verses/${fulldata[index]['id']}");
                                         },
                                         icon: const Icon(

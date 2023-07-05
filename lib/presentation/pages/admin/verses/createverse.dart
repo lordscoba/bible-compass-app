@@ -118,10 +118,14 @@ class _CreateVersesState extends ConsumerState<CreateVerses> {
                       // debugPrint(verse.toJson().toString());
                       message();
                       if (ref.watch(errorMessageProvider) == "") {
-                        Future.delayed(const Duration(seconds: 5), () {
+                        Future.delayed(const Duration(seconds: 4), () {
                           // context.go('/admin/verses/${widget.keywId}');
                           Navigator.of(context).pop();
                         });
+
+                        await ref
+                            .refresh(verseProvider.notifier)
+                            .perfromGetVersesRequest(widget.keywId);
                       }
                     }
                   },

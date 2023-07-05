@@ -126,6 +126,9 @@ class _CreateCategoryState extends ConsumerState<CreateCategory> {
                       await ref
                           .read(categoryProvider.notifier)
                           .perfromCreateCategoryRequest(category.toJson());
+                      await ref
+                          .refresh(categoryProvider.notifier)
+                          .perfromGetCatgeoriesRequest();
                     }
                     // debugPrint(user.toJson().toString());
                     message();

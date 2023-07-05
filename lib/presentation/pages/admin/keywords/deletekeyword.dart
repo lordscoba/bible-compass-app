@@ -4,7 +4,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class DeleteModalKeywords extends ConsumerWidget {
   final String id;
-  const DeleteModalKeywords(this.id, {super.key});
+  final String catId;
+  const DeleteModalKeywords({
+    super.key,
+    required this.id,
+    required this.catId,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -66,14 +71,20 @@ class DeleteModalKeywords extends ConsumerWidget {
                     padding: const EdgeInsets.symmetric(
                         vertical: 20, horizontal: 20.0),
                   ),
-                  onPressed: () {
-                    ref
+                  onPressed: () async {
+                    await ref
                         .read(keywordProvider.notifier)
                         .performDeleteKeywordRequest(id);
+
+                    // await ref
+                    //   .refresh(keywordProvider.notifier)
+                    //   .perfromGetKeywordsRequest(widget.catId);
+                    // ignore: use_build_context_synchronously
                     Navigator.of(context).pop();
                     const snackBar = SnackBar(
                       content: Text('Keyword deleted'),
                     );
+                    // ignore: use_build_context_synchronously
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   },
                   child: const Text("Delete"),

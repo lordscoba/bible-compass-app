@@ -50,11 +50,15 @@ class ViewVerse extends ConsumerWidget {
                       ),
                       ListTile(
                         title: const Text("Passage:"),
-                        trailing: Text(fulldata['passage'].toString()),
+                        subtitle: SizedBox(
+                            width: 300,
+                            child: Text(fulldata['passage'].toString())),
                       ),
                       ListTile(
                         title: const Text("Explanation:"),
-                        trailing: Text(fulldata['explanation'].toString()),
+                        subtitle: SizedBox(
+                            width: 300,
+                            child: Text(fulldata['explanation'].toString())),
                       ),
                     ],
                   ),
