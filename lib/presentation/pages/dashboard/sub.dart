@@ -40,11 +40,11 @@ class SubPage extends ConsumerWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       backgroundColor: const Color(0xFFF6F8FF),
       body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("assets/images/wallpaper1.jpeg"),
-              fit: BoxFit.cover),
-        ),
+        decoration: BoxDecoration(color: Colors.grey.shade200
+            // image: DecorationImage(
+            //     image: AssetImage("assets/images/wallpaper1.jpeg"),
+            //     fit: BoxFit.cover),
+            ),
         height: double.infinity,
         // height: 1200,
         width: double.infinity,
@@ -178,7 +178,7 @@ class InnerClayListCategory extends ConsumerWidget {
           ref.watch(subProvider.notifier).perfromGetUserSubsRequests(userId);
       return subcalled;
     });
-    double listSize = 250;
+    double listSize = 350;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 18.0),
       child: Align(

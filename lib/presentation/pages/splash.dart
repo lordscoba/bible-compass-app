@@ -46,7 +46,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         width: double.infinity,
         decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage("assets/images/wallpaper1.jpeg"),
+              // image: AssetImage("assets/images/wallpaper1.jpeg"),
+              image: AssetImage("assets/images/snow.jpg"),
               fit: BoxFit.cover),
         ),
         child: Column(

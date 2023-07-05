@@ -73,7 +73,8 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage("assets/images/wallpaper1.jpeg"),
+              // image: AssetImage("assets/images/wallpaper1.jpeg"),
+              image: AssetImage("assets/images/holy.jpg"),
               fit: BoxFit.cover),
         ),
         height: double.infinity,

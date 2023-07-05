@@ -43,8 +43,7 @@ class UserVersePage extends ConsumerWidget {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage("assets/images/wallpaper1.jpeg"),
-              fit: BoxFit.cover),
+              image: AssetImage("assets/images/bible.jpg"), fit: BoxFit.cover),
         ),
         height: double.infinity,
         // height: 1200,
