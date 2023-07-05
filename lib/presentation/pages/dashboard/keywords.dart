@@ -52,8 +52,7 @@ class KeywordPage extends ConsumerWidget {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage("assets/images/wallpaper1.jpeg"),
-              fit: BoxFit.cover),
+              image: AssetImage("assets/images/jesus1.jpg"), fit: BoxFit.cover),
         ),
         height: double.infinity,
         // height: 1200,
@@ -64,7 +63,8 @@ class KeywordPage extends ConsumerWidget {
               catId: catId,
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height - 280,
+              height: MediaQuery.of(context).size.height - 180,
+              // height: 500,
               child: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.all(8),

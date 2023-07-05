@@ -49,8 +49,7 @@ class FavouritePage extends ConsumerWidget {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage("assets/images/wallpaper1.jpeg"),
-              fit: BoxFit.cover),
+              image: AssetImage("assets/images/jesus1.jpg"), fit: BoxFit.cover),
         ),
         height: double.infinity,
         // height: 1200,

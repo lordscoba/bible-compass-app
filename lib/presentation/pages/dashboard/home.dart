@@ -55,12 +55,12 @@ class HomeScreen extends ConsumerWidget {
       ),
       bottomNavigationBar: const BottomBar(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      backgroundColor: const Color(0xFFF6F8FF),
+      // backgroundColor: Colors.grey,
       body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("assets/images/wallpaper1.jpeg"),
-              fit: BoxFit.cover),
+        decoration: BoxDecoration(
+          color: Colors.grey.shade200,
+          // image: const DecorationImage(
+          //     image: AssetImage("assets/images/get2.jpg"), fit: BoxFit.cover),
         ),
         height: MediaQuery.of(context).size.height,
         width: double.infinity,
