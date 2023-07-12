@@ -22,15 +22,6 @@ class HomeScreen extends ConsumerWidget {
     final AuthState auth = ref.watch(loginProvider);
     var authData = auth.data['data'];
 
-    // debugPrint(authData.toString());
-
-    // () async {
-    //   final prefs = await ref.watch(sharedPrefProvider);
-    //   final String? username = prefs.getString('username');
-
-    //   debugPrint(username);
-    // }();
-
     final favsfuture =
         Future.delayed(const Duration(milliseconds: 100), () async {
       final favscalled = await ref

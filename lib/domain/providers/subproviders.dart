@@ -6,3 +6,8 @@ final subProvider =
     StateNotifierProvider.autoDispose<SubNotifier, SubscriptionState>((ref) {
   return SubNotifier();
 });
+
+final paystackProvider =
+    StateNotifierProvider<SubNotifier, SubscriptionState>((ref) {
+  return SubNotifier();
+});

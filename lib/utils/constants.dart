@@ -1,6 +1,8 @@
-// const String url = "://localhost:8080";
-const String url = "s://bible-compass.onrender.com";
+const String url = "://localhost:8080";
+// const String url = "s://bible-compass.onrender.com";
+// const String url = "s://bible-compass-backend-production.up.railway.app";
 // https://bible-compass.onrender.com/api/v1/health
+// https://bible-compass-backend-production.up.railway.app/api/v1/health
 
 class EnvironmentUserConfig {
   // authentication
@@ -82,6 +84,12 @@ class EnvironmentSubConfig {
       "http$url/api/v1/admin/getusersub/"; //userid
   static const String adminGetUserSubscriptionsStats =
       "http$url/api/v1/admin/getusersubstats/"; //userid
+
+  //for paystack
+  static const String paystackSubInit =
+      "http$url/api/v1/user/initialize/"; //userid
+  static const String paystackSubVerify =
+      "http$url/api/v1/user/paystack/verify/"; //reference id
 }
 
 class EnvironmentVerseConfig {
@@ -98,6 +106,8 @@ class EnvironmentVerseConfig {
       "http$url/api/v1/admin/verseinfo/"; //keyword id
   static const String adminDeleteVerseByIdUrl =
       "http$url/api/v1/admin/deleteverse/"; //keyword id && Bible Verse Id
+  // ai bible
+  static const String aiBible = "http$url/api/v1/aibible"; //query
 }
 
 class EnvironmentFavConfig {

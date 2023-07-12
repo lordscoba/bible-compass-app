@@ -22,11 +22,11 @@ class _VerifyUserScreenState extends ConsumerState<VerifyUserScreen> {
       body: Container(
         height: double.infinity,
         width: double.infinity,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("assets/images/wallpaper1.jpeg"),
-              fit: BoxFit.cover),
-        ),
+        decoration: BoxDecoration(color: Colors.grey.shade200
+            // image: DecorationImage(
+            //     image: AssetImage("assets/images/wallpaper1.jpeg"),
+            //     fit: BoxFit.cover),
+            ),
         child: SingleChildScrollView(
           child: SizedBox(
             height: 500,

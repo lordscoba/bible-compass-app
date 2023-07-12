@@ -63,74 +63,76 @@ class KeywordPage extends ConsumerWidget {
               catId: catId,
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height - 180,
+              height: MediaQuery.of(context).size.height - 265,
               // height: 500,
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: FutureBuilder<KeywordState>(
-                    future: keywfuture,
-                    builder: (BuildContext context,
-                        AsyncSnapshot<KeywordState> snapshot) {
-                      if (snapshot.hasData) {
-                        // debugPrint(snapshot.data?.data['data'].toString());
-                        final fulldata = snapshot.data?.data['data'];
+              child: CupertinoScrollbar(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: FutureBuilder<KeywordState>(
+                      future: keywfuture,
+                      builder: (BuildContext context,
+                          AsyncSnapshot<KeywordState> snapshot) {
+                        if (snapshot.hasData) {
+                          // debugPrint(snapshot.data?.data['data'].toString());
+                          final fulldata = snapshot.data?.data['data'];
 
-                        return Wrap(
-                          spacing: 5.0, // horizontal spacing between items
-                          runSpacing: 5.0, // vertical spacing between lines
-                          children: fulldata.map<Widget>(
-                            (item) {
-                              final idx = fulldata.indexOf(item);
-                              return FadeIn(
-                                duration: Duration(
-                                    milliseconds: 300 + (300 * idx as int)),
-                                curve: Curves.easeIn,
-                                child: MyChip(
-                                  text: item['keyword'].toString(),
-                                  onTap: () {
-                                    if (item['for_subscribers'] == true) {
-                                      if (authData['upgrade'] == true) {
-                                        context.push("/verse/${item['id']}");
+                          return Wrap(
+                            spacing: 5.0, // horizontal spacing between items
+                            runSpacing: 5.0, // vertical spacing between lines
+                            children: fulldata.map<Widget>(
+                              (item) {
+                                final idx = fulldata.indexOf(item);
+                                return FadeIn(
+                                  duration: Duration(
+                                      milliseconds: 300 + (300 * idx as int)),
+                                  curve: Curves.easeIn,
+                                  child: MyChip(
+                                    text: item['keyword'].toString(),
+                                    onTap: () {
+                                      if (item['for_subscribers'] == true) {
+                                        if (authData['upgrade'] == true) {
+                                          context.push("/verse/${item['id']}");
+                                        } else {
+                                          showSnackBar(context,
+                                              "You are not subscribed, Please Upgrade to use");
+                                        }
                                       } else {
-                                        showSnackBar(context,
-                                            "You are not subscribed, Please Upgrade to use");
+                                        context.push("/verse/${item['id']}");
                                       }
-                                    } else {
-                                      context.push("/verse/${item['id']}");
-                                    }
-                                  },
-                                  favButton: LikeButton(
-                                    email: authData['email'],
-                                    keyword: item['keyword'],
-                                    catId: catId,
+                                    },
+                                    favButton: LikeButton(
+                                      email: authData['email'],
+                                      keyword: item['keyword'],
+                                      catId: catId,
+                                    ),
+                                    colors: item['for_subscribers']
+                                        ? const [
+                                            Color.fromARGB(255, 4, 82, 64),
+                                            Color.fromARGB(255, 4, 44, 31),
+                                            Color.fromARGB(255, 3, 47, 34),
+                                          ]
+                                        : const [
+                                            Color(0xFF0BA37F),
+                                            Color.fromARGB(255, 9, 144, 99),
+                                            Color.fromARGB(255, 3, 47, 34),
+                                          ],
                                   ),
-                                  colors: item['for_subscribers']
-                                      ? const [
-                                          Color.fromARGB(255, 4, 82, 64),
-                                          Color.fromARGB(255, 4, 44, 31),
-                                          Color.fromARGB(255, 3, 47, 34),
-                                        ]
-                                      : const [
-                                          Color(0xFF0BA37F),
-                                          Color.fromARGB(255, 9, 144, 99),
-                                          Color.fromARGB(255, 3, 47, 34),
-                                        ],
-                                ),
-                              );
-                            },
-                          ).toList(),
-                        );
-                      } else if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
-                      } else {
-                        return const Center(
-                          child: CupertinoActivityIndicator(
-                            radius: 50,
-                          ),
-                        );
-                      }
-                    },
+                                );
+                              },
+                            ).toList(),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          return const Center(
+                            child: CupertinoActivityIndicator(
+                              radius: 50,
+                            ),
+                          );
+                        }
+                      },
+                    ),
                   ),
                 ),
               ),
@@ -204,7 +206,11 @@ class _LikeButtonState extends ConsumerState<LikeButton> {
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {
-          return const CircularProgressIndicator();
+          // return const CircularProgressIndicator();
+          return const Icon(
+            Icons.favorite_border,
+            color: Colors.white,
+          );
         }
       },
     );

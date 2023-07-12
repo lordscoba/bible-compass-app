@@ -2,11 +2,14 @@ import 'package:bible_compass_app/domain/models/subscription/subscription.dart';
 import 'package:bible_compass_app/domain/models/user/user.dart';
 import 'package:bible_compass_app/domain/providers/authproviders.dart';
 import 'package:bible_compass_app/domain/providers/subproviders.dart';
+import 'package:bible_compass_app/presentation/pages/dashboard/verifysub.dart';
 import 'package:bible_compass_app/presentation/widgets/inputfield.dart';
 import 'package:bible_compass_app/presentation/widgets/snacksbar.dart';
 import 'package:bible_compass_app/presentation/widgets/themebutton.dart';
+import 'package:bible_compass_app/utils/validation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CreateSub extends ConsumerStatefulWidget {
   const CreateSub({super.key});
@@ -16,28 +19,28 @@ class CreateSub extends ConsumerStatefulWidget {
 }
 
 class _CreateSubState extends ConsumerState<CreateSub> {
-  late SubscriptionModel sub;
+  late PaystackModel sub;
   late SubscriptionState substate;
   final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
-    sub = SubscriptionModel();
+    sub = PaystackModel();
     substate = const SubscriptionState();
     // Initialize the variable in initState
   }
 
-  final List<Map<String, dynamic>> _items = [
-    {
-      'value': 'true',
-      'label': 'True',
-    },
-    {
-      'value': 'false',
-      'label': 'False',
-    },
-  ];
+  // final List<Map<String, dynamic>> _items = [
+  //   {
+  //     'value': 'true',
+  //     'label': 'True',
+  //   },
+  //   {
+  //     'value': 'false',
+  //     'label': 'False',
+  //   },
+  // ];
 
   void message() {
     final String message;
@@ -54,6 +57,15 @@ class _CreateSubState extends ConsumerState<CreateSub> {
     var displaymessage = SnackBarClass();
     // ignore: use_build_context_synchronously
     displaymessage.snackBarMade(context, message, error);
+  }
+
+  Future<void> _launchUrl(Uri url) async {
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.inAppWebView,
+    )) {
+      throw Exception('Could not launch $url');
+    }
   }
 
   @override
@@ -94,60 +106,63 @@ class _CreateSubState extends ConsumerState<CreateSub> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 InputField(
-                  hintText: "Enter Sub Name",
+                  controller: TextEditingController(
+                    text: authData['email'],
+                  ),
+                  hintText: "Enter Email",
                   validation: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Enter something';
                     }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    sub = sub.copyWith(type: value!);
-                    sub = sub.copyWith(username: authData['username']);
-                    sub = sub.copyWith(userId: authData['id']);
-                  },
-                ),
-                InputField(
-                  hintText: "Enter Amount",
-                  validation: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Enter something';
+                    if (!validateEmail(value.trim())) {
+                      return 'Enter valid email';
                     }
                     return null;
                   },
                   onSaved: (value) {
-                    sub = sub.copyWith(amount: double.parse(value!));
-                  },
-                ),
-                SelectField(
-                  items: _items,
-                  label: 'Status',
-                  initialValue: 'false',
-                  onSaved: (value) {
-                    sub = sub.copyWith(status: value?.toLowerCase() == 'true');
+                    sub = sub.copyWith(email: authData['email']);
                   },
                 ),
                 ThemeButton(
-                  text: checkState.isLoading ? "loading..." : 'Create',
+                  text: checkState.isLoading ? "loading..." : 'Initialize',
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState?.save();
                       // debugPrint(sub.toJson().toString());
                       await ref
-                          .read(subProvider.notifier)
-                          .perfromCreateSubRequest(
+                          .read(paystackProvider.notifier)
+                          .perfromPayStackInitRequest(
                               sub.toJson(), authData['id']);
+
+                      // debugPrint(sub.toJson().toString());
+                      // debugPrint(authData['id']);
+
+                      // debugPrint(user.toJson().toString());
+                      message();
+                      if (ref.watch(errorMessageProvider) == "") {
+                        Future.delayed(const Duration(seconds: 4), () {
+                          // Navigator.of(context).pop();
+                          showDialog(
+                            context: context,
+                            barrierDismissible: true,
+                            builder: (BuildContext context) {
+                              return VerifySub(
+                                authData['id'],
+                              );
+                            },
+                          );
+                          final SubscriptionState paystack =
+                              ref.watch(paystackProvider);
+                          var paystackData = paystack.data['data'];
+                          final Uri url = Uri.parse(
+                              paystackData['data']["authorization_url"]);
+                          _launchUrl(url);
+                        });
+                      }
+
                       await ref
                           .refresh(subProvider.notifier)
                           .perfromGetUserSubsRequests(authData['id']);
-                    }
-                    // debugPrint(user.toJson().toString());
-                    message();
-                    if (ref.watch(errorMessageProvider) == "") {
-                      Future.delayed(const Duration(seconds: 5), () {
-                        // context.go('/admin/category');
-                        Navigator.of(context).pop();
-                      });
                     }
                   },
                 ),
