@@ -11,6 +11,7 @@ _$_SubscriptionModel _$$_SubscriptionModelFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String?,
       userId: json['user_id'] as String? ?? '',
       username: json['username'] as String? ?? '',
+      email: json['email'] as String? ?? '',
       type: json['type'] as String? ?? '',
       amount: (json['amount'] as num?)?.toDouble() ?? 0,
       status: json['status'] as bool? ?? false,
@@ -34,6 +35,7 @@ Map<String, dynamic> _$$_SubscriptionModelToJson(
       'id': instance.id,
       'user_id': instance.userId,
       'username': instance.username,
+      'email': instance.email,
       'type': instance.type,
       'amount': instance.amount,
       'status': instance.status,
@@ -41,4 +43,14 @@ Map<String, dynamic> _$$_SubscriptionModelToJson(
       'date_created': instance.dateCreated?.toIso8601String(),
       'date_expiring': instance.dateExpiring?.toIso8601String(),
       'date_updated': instance.dateUpdated?.toIso8601String(),
+    };
+
+_$_PaystackModel _$$_PaystackModelFromJson(Map<String, dynamic> json) =>
+    _$_PaystackModel(
+      email: json['email'] as String? ?? '',
+    );
+
+Map<String, dynamic> _$$_PaystackModelToJson(_$_PaystackModel instance) =>
+    <String, dynamic>{
+      'email': instance.email,
     };

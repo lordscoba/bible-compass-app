@@ -13,6 +13,7 @@ class SubscriptionModel with _$SubscriptionModel {
     String? id,
     @Default('') String userId,
     @Default('') String username,
+    @Default('') String email,
     @Default('') String type,
     @Default(0) double amount,
     @Default(false) bool status,
@@ -26,6 +27,20 @@ class SubscriptionModel with _$SubscriptionModel {
 
   factory SubscriptionModel.fromJson(Map<String, dynamic> json) =>
       _$SubscriptionModelFromJson(json);
+}
+
+@freezed
+class PaystackModel with _$PaystackModel {
+  // ignore: invalid_annotation_target
+  @JsonSerializable(
+    fieldRename: FieldRename.snake, // <---
+  )
+  factory PaystackModel({
+    @Default('') String email,
+  }) = _PaystackModel;
+
+  factory PaystackModel.fromJson(Map<String, dynamic> json) =>
+      _$PaystackModelFromJson(json);
 }
 
 @freezed

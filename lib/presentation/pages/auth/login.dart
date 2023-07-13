@@ -67,11 +67,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       body: Container(
         height: double.infinity,
         width: double.infinity,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-              // image: AssetImage("assets/images/wallpaper1.jpeg"),
-              image: AssetImage("assets/images/wallpaper1.jpeg"),
-              fit: BoxFit.cover),
+        decoration: BoxDecoration(
+          color: Colors.grey.shade200,
+          // image: DecorationImage(
+          //     // image: AssetImage("assets/images/wallpaper1.jpeg"),
+          //     image: AssetImage("assets/images/wallpaper1.jpeg"),
+          //     fit: BoxFit.cover),
         ),
         child: SingleChildScrollView(
           child: SizedBox(

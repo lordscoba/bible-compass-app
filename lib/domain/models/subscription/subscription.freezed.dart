@@ -23,6 +23,7 @@ mixin _$SubscriptionModel {
   String? get id => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
   String get username => throw _privateConstructorUsedError;
+  String get email => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
   double get amount => throw _privateConstructorUsedError;
   bool get status => throw _privateConstructorUsedError;
@@ -47,6 +48,7 @@ abstract class $SubscriptionModelCopyWith<$Res> {
       {String? id,
       String userId,
       String username,
+      String email,
       String type,
       double amount,
       bool status,
@@ -72,6 +74,7 @@ class _$SubscriptionModelCopyWithImpl<$Res, $Val extends SubscriptionModel>
     Object? id = freezed,
     Object? userId = null,
     Object? username = null,
+    Object? email = null,
     Object? type = null,
     Object? amount = null,
     Object? status = null,
@@ -92,6 +95,10 @@ class _$SubscriptionModelCopyWithImpl<$Res, $Val extends SubscriptionModel>
       username: null == username
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
+              as String,
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
               as String,
       type: null == type
           ? _value.type
@@ -137,6 +144,7 @@ abstract class _$$_SubscriptionModelCopyWith<$Res>
       {String? id,
       String userId,
       String username,
+      String email,
       String type,
       double amount,
       bool status,
@@ -160,6 +168,7 @@ class __$$_SubscriptionModelCopyWithImpl<$Res>
     Object? id = freezed,
     Object? userId = null,
     Object? username = null,
+    Object? email = null,
     Object? type = null,
     Object? amount = null,
     Object? status = null,
@@ -180,6 +189,10 @@ class __$$_SubscriptionModelCopyWithImpl<$Res>
       username: null == username
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
+              as String,
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
               as String,
       type: null == type
           ? _value.type
@@ -221,6 +234,7 @@ class _$_SubscriptionModel implements _SubscriptionModel {
       {this.id,
       this.userId = '',
       this.username = '',
+      this.email = '',
       this.type = '',
       this.amount = 0,
       this.status = false,
@@ -242,6 +256,9 @@ class _$_SubscriptionModel implements _SubscriptionModel {
   final String username;
   @override
   @JsonKey()
+  final String email;
+  @override
+  @JsonKey()
   final String type;
   @override
   @JsonKey()
@@ -260,7 +277,7 @@ class _$_SubscriptionModel implements _SubscriptionModel {
 
   @override
   String toString() {
-    return 'SubscriptionModel(id: $id, userId: $userId, username: $username, type: $type, amount: $amount, status: $status, duration: $duration, dateCreated: $dateCreated, dateExpiring: $dateExpiring, dateUpdated: $dateUpdated)';
+    return 'SubscriptionModel(id: $id, userId: $userId, username: $username, email: $email, type: $type, amount: $amount, status: $status, duration: $duration, dateCreated: $dateCreated, dateExpiring: $dateExpiring, dateUpdated: $dateUpdated)';
   }
 
   @override
@@ -272,6 +289,7 @@ class _$_SubscriptionModel implements _SubscriptionModel {
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.username, username) ||
                 other.username == username) &&
+            (identical(other.email, email) || other.email == email) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.status, status) || other.status == status) &&
@@ -287,8 +305,8 @@ class _$_SubscriptionModel implements _SubscriptionModel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, userId, username, type,
-      amount, status, duration, dateCreated, dateExpiring, dateUpdated);
+  int get hashCode => Object.hash(runtimeType, id, userId, username, email,
+      type, amount, status, duration, dateCreated, dateExpiring, dateUpdated);
 
   @JsonKey(ignore: true)
   @override
@@ -310,6 +328,7 @@ abstract class _SubscriptionModel implements SubscriptionModel {
       {final String? id,
       final String userId,
       final String username,
+      final String email,
       final String type,
       final double amount,
       final bool status,
@@ -328,6 +347,8 @@ abstract class _SubscriptionModel implements SubscriptionModel {
   @override
   String get username;
   @override
+  String get email;
+  @override
   String get type;
   @override
   double get amount;
@@ -344,6 +365,144 @@ abstract class _SubscriptionModel implements SubscriptionModel {
   @override
   @JsonKey(ignore: true)
   _$$_SubscriptionModelCopyWith<_$_SubscriptionModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+PaystackModel _$PaystackModelFromJson(Map<String, dynamic> json) {
+  return _PaystackModel.fromJson(json);
+}
+
+/// @nodoc
+mixin _$PaystackModel {
+  String get email => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $PaystackModelCopyWith<PaystackModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PaystackModelCopyWith<$Res> {
+  factory $PaystackModelCopyWith(
+          PaystackModel value, $Res Function(PaystackModel) then) =
+      _$PaystackModelCopyWithImpl<$Res, PaystackModel>;
+  @useResult
+  $Res call({String email});
+}
+
+/// @nodoc
+class _$PaystackModelCopyWithImpl<$Res, $Val extends PaystackModel>
+    implements $PaystackModelCopyWith<$Res> {
+  _$PaystackModelCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? email = null,
+  }) {
+    return _then(_value.copyWith(
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_PaystackModelCopyWith<$Res>
+    implements $PaystackModelCopyWith<$Res> {
+  factory _$$_PaystackModelCopyWith(
+          _$_PaystackModel value, $Res Function(_$_PaystackModel) then) =
+      __$$_PaystackModelCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String email});
+}
+
+/// @nodoc
+class __$$_PaystackModelCopyWithImpl<$Res>
+    extends _$PaystackModelCopyWithImpl<$Res, _$_PaystackModel>
+    implements _$$_PaystackModelCopyWith<$Res> {
+  __$$_PaystackModelCopyWithImpl(
+      _$_PaystackModel _value, $Res Function(_$_PaystackModel) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? email = null,
+  }) {
+    return _then(_$_PaystackModel(
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+@JsonSerializable(fieldRename: FieldRename.snake)
+class _$_PaystackModel implements _PaystackModel {
+  _$_PaystackModel({this.email = ''});
+
+  factory _$_PaystackModel.fromJson(Map<String, dynamic> json) =>
+      _$$_PaystackModelFromJson(json);
+
+  @override
+  @JsonKey()
+  final String email;
+
+  @override
+  String toString() {
+    return 'PaystackModel(email: $email)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_PaystackModel &&
+            (identical(other.email, email) || other.email == email));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, email);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_PaystackModelCopyWith<_$_PaystackModel> get copyWith =>
+      __$$_PaystackModelCopyWithImpl<_$_PaystackModel>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_PaystackModelToJson(
+      this,
+    );
+  }
+}
+
+abstract class _PaystackModel implements PaystackModel {
+  factory _PaystackModel({final String email}) = _$_PaystackModel;
+
+  factory _PaystackModel.fromJson(Map<String, dynamic> json) =
+      _$_PaystackModel.fromJson;
+
+  @override
+  String get email;
+  @override
+  @JsonKey(ignore: true)
+  _$$_PaystackModelCopyWith<_$_PaystackModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

@@ -31,7 +31,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
   final Uri _url = Uri.parse('https://snappy-fix.com');
   Future<void> _launchUrl() async {
-    if (!await launchUrl(_url)) {
+    if (!await launchUrl(
+      _url,
+      mode: LaunchMode.externalApplication,
+    )) {
       throw Exception('Could not launch $_url');
     }
   }

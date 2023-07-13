@@ -88,12 +88,14 @@ class TopHomeSub extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final AuthState auth = ref.watch(loginProvider);
     var authData = auth.data['data'];
-    final statsfuture = Future.delayed(const Duration(milliseconds: 100), () {
+
+    final statsfuture = Future.delayed(const Duration(seconds: 1), () {
       final statscalled = ref
           .watch(subProvider.notifier)
           .perfromGetUserSubStats(authData['id']);
       return statscalled;
     });
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 18.0),
       child: Align(
@@ -102,26 +104,6 @@ class TopHomeSub extends ConsumerWidget {
           height: 180,
           width: MediaQuery.of(context).size.width - 30,
           borderRadius: 20,
-          // child: const Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //   children: [
-          //     TopHomeChildren(
-          //       icons: Icons.payment,
-          //       title: 'Total sub',
-          //       total: '86',
-          //     ),
-          //     TopHomeChildren(
-          //       icons: Icons.payment,
-          //       title: 'Active sub',
-          //       total: '8',
-          //     ),
-          //     TopHomeChildren(
-          //       icons: Icons.payment,
-          //       title: 'Expired sub',
-          //       total: '2',
-          //     ),
-          //   ],
-          // ),
           child: FutureBuilder<SubscriptionState>(
             future: statsfuture,
             builder: (BuildContext context,
@@ -213,7 +195,7 @@ class InnerClayListCategory extends ConsumerWidget {
                                   subtitle: Text(
                                       fulldata[index]['amount'].toString()),
                                   trailing: IconButton(
-                                    onPressed: () {
+                                    onPressed: () async {
                                       showDialog(
                                         context: context,
                                         barrierDismissible: true,
@@ -221,8 +203,15 @@ class InnerClayListCategory extends ConsumerWidget {
                                           return ViewSub(
                                             fulldata[index]['id'],
                                           );
+                                          // return VerifySub(
+                                          //   fulldata[index]['id'],
+                                          // );
                                         },
                                       );
+                                      await ref
+                                          .read(paystackProvider.notifier)
+                                          .perfromGetVerifySubRequest(
+                                              fulldata[index]['reference']);
                                     },
                                     icon: const Icon(
                                       Icons.arrow_forward_ios_rounded,
