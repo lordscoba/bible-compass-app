@@ -133,11 +133,14 @@ class HomeScreen extends ConsumerWidget {
                       context.push("/profile");
                     },
                   ),
-                  const HomeNavBody(
+                  HomeNavBody(
                     bodyText: 'Read the bible online',
-                    color: Color(0xFFF4F9F6),
+                    color: const Color(0xFFF4F9F6),
                     headText: 'Read Bible',
-                    icon: Icon(Icons.book),
+                    icon: const Icon(Icons.book),
+                    onTap: () {
+                      context.push("/bible");
+                    },
                   ),
                 ],
               ),

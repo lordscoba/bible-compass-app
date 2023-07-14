@@ -45,8 +45,8 @@ class _CreateSubState extends ConsumerState<CreateSub> {
   void message() {
     final String message;
     final bool error;
-    final sucessmessage = ref.watch(successMessageProvider);
-    final errormessage = ref.watch(errorMessageProvider);
+    final sucessmessage = ref.watch(successSubMessageProvider);
+    final errormessage = ref.watch(errorSubMessageProvider);
     if (errormessage.isEmpty) {
       message = sucessmessage;
       error = false;
@@ -74,11 +74,12 @@ class _CreateSubState extends ConsumerState<CreateSub> {
 
     ref.listen(subProvider, (prev, next) {
       if (next.error.isNotEmpty) {
-        ref.read(errorMessageProvider.notifier).state = next.error.toString();
+        ref.read(errorSubMessageProvider.notifier).state =
+            next.error.toString();
         // debugPrint(next.error);
       }
       if (!next.data['message'].toString().contains("null")) {
-        ref.read(successMessageProvider.notifier).state =
+        ref.read(successSubMessageProvider.notifier).state =
             next.data['message'].toString();
         // debugPrint(next.data['message'].toString());
       }
@@ -106,6 +107,7 @@ class _CreateSubState extends ConsumerState<CreateSub> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 InputField(
+                  readOnly: true,
                   controller: TextEditingController(
                     text: authData['email'],
                   ),
@@ -139,8 +141,8 @@ class _CreateSubState extends ConsumerState<CreateSub> {
 
                       // debugPrint(user.toJson().toString());
                       message();
-                      if (ref.watch(errorMessageProvider) == "") {
-                        Future.delayed(const Duration(seconds: 4), () {
+                      if (ref.watch(errorSubMessageProvider) == "") {
+                        Future.delayed(const Duration(seconds: 4), () async {
                           // Navigator.of(context).pop();
                           showDialog(
                             context: context,
@@ -159,7 +161,6 @@ class _CreateSubState extends ConsumerState<CreateSub> {
                           _launchUrl(url);
                         });
                       }
-
                       await ref
                           .refresh(subProvider.notifier)
                           .perfromGetUserSubsRequests(authData['id']);
