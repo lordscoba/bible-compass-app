@@ -40,11 +40,7 @@ class SubPage extends ConsumerWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       backgroundColor: const Color(0xFFF6F8FF),
       body: Container(
-        decoration: BoxDecoration(color: Colors.grey.shade200
-            // image: DecorationImage(
-            //     image: AssetImage("assets/images/wallpaper1.jpeg"),
-            //     fit: BoxFit.cover),
-            ),
+        decoration: BoxDecoration(color: Colors.grey.shade200),
         height: double.infinity,
         // height: 1200,
         width: double.infinity,
@@ -187,13 +183,71 @@ class InnerClayListCategory extends ConsumerWidget {
                           if (snapshot.hasData) {
                             // debugPrint(snapshot.data?.data['data'].toString());
                             final fulldata = snapshot.data?.data['data'];
+
                             return ListView.builder(
                               itemCount: fulldata.length,
                               itemBuilder: (context, index) {
+                                final dateCreate = DateTime.parse(
+                                    fulldata[index]['date_created']);
+                                final dateExpire = DateTime.parse(
+                                    fulldata[index]['date_expiring']);
+                                bool expire = dateCreate.isAfter(dateExpire);
+
+                                String? substats;
+                                TextStyle? substyle;
+                                if (fulldata[index]['status'] &&
+                                    !fulldata[index]['processing'] &&
+                                    !expire &&
+                                    !fulldata[index]['failed']) {
+                                  substats = "active";
+                                  substyle = const TextStyle(
+                                      color: Colors.green,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15);
+                                } else if (!fulldata[index]['status'] &&
+                                    fulldata[index]['processing'] &&
+                                    !fulldata[index]['failed']) {
+                                  substats =
+                                      "processing..., Click to continue payment!";
+                                  substyle = const TextStyle(
+                                      color: Colors.orange,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15);
+                                } else if (fulldata[index]['failed'] &&
+                                    !fulldata[index]['status']) {
+                                  substats = "failed";
+                                  substyle = const TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15);
+                                } else if (!fulldata[index]['processing'] &&
+                                    expire) {
+                                  substats = "expired";
+                                  substyle = const TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15);
+                                } else {
+                                  substats = "Unknown";
+                                  substyle = const TextStyle(
+                                      color: Color.fromARGB(255, 44, 42, 42),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15);
+                                }
+                                // debugPrint(substats);
+
                                 return ListTile(
-                                  title: Text(fulldata[index]['type']),
+                                  title: Text(
+                                    "${(index + 1).toString()}, ${fulldata[index]['type'].toUpperCase()}, Amount: ${fulldata[index]['amount'].toString()}",
+                                    style: const TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black54),
+                                  ),
                                   subtitle: Text(
-                                      fulldata[index]['amount'].toString()),
+                                    substats,
+                                    style: substyle,
+                                  ),
                                   trailing: IconButton(
                                     onPressed: () async {
                                       showDialog(

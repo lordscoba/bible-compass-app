@@ -4,6 +4,7 @@ import 'package:bible_compass_app/domain/providers/subproviders.dart';
 import 'package:bible_compass_app/presentation/widgets/inputfield.dart';
 import 'package:bible_compass_app/presentation/widgets/snacksbar.dart';
 import 'package:bible_compass_app/presentation/widgets/themebutton.dart';
+import 'package:bible_compass_app/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -138,6 +139,12 @@ class _UpdateSubscriprionState extends ConsumerState<AdminUpdateSubscriprion> {
                           sub = sub.copyWith(amount: double.parse(value!));
                         },
                       ),
+                      const HorizontalSpace(),
+                      const Text(
+                        "Status",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const HorizontalSpace(),
                       SelectField(
                         items: _items,
                         label: 'Status',

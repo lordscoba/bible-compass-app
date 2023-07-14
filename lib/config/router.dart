@@ -10,6 +10,7 @@ import 'package:bible_compass_app/presentation/pages/admin/users/users.dart';
 import 'package:bible_compass_app/presentation/pages/admin/verses/verse.dart';
 import 'package:bible_compass_app/presentation/pages/auth/login.dart';
 import 'package:bible_compass_app/presentation/pages/auth/signup.dart';
+import 'package:bible_compass_app/presentation/pages/dashboard/bible.dart';
 import 'package:bible_compass_app/presentation/pages/dashboard/category.dart';
 import 'package:bible_compass_app/presentation/pages/dashboard/favorite.dart';
 import 'package:bible_compass_app/presentation/pages/dashboard/keywords.dart';
@@ -23,8 +24,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-// import 'package:google_fonts/google_fonts.dart';
 
 import '../presentation/pages/dashboard/home.dart';
 
@@ -68,6 +67,7 @@ class MyRouter extends ConsumerWidget {
           path: '/login',
           builder: (context, state) => const LoginScreen(),
         ),
+
         // dashboard screen
         GoRoute(
           path: '/home',
@@ -77,6 +77,11 @@ class MyRouter extends ConsumerWidget {
         GoRoute(
           path: '/category',
           builder: (context, state) => const CategoryPage(),
+          redirect: redirect1,
+        ),
+        GoRoute(
+          path: '/bible',
+          builder: (context, state) => const BibleApi(),
           redirect: redirect1,
         ),
         GoRoute(
