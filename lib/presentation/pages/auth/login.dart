@@ -6,6 +6,7 @@ import 'package:bible_compass_app/utils/validation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../domain/models/user/user.dart';
 import '../../widgets/inputfield.dart';
@@ -47,6 +48,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     displaymessage.snackBarMade(context, message, error);
   }
 
+  final Uri _url = Uri.parse('https://bible-compass.com');
+  Future<void> _launchUrl() async {
+    if (!await launchUrl(
+      _url,
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw Exception('Could not launch $_url');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final AuthState checkState = ref.watch(loginProvider);
@@ -69,10 +80,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         width: double.infinity,
         decoration: BoxDecoration(
           color: Colors.grey.shade200,
-          // image: DecorationImage(
-          //     // image: AssetImage("assets/images/wallpaper1.jpeg"),
-          //     image: AssetImage("assets/images/wallpaper1.jpeg"),
-          //     fit: BoxFit.cover),
         ),
         child: SingleChildScrollView(
           child: SizedBox(
@@ -154,7 +161,25 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         },
                       ),
                     ],
-                  )
+                  ),
+                  AHref(
+                    text: 'Forgot Password',
+                    onPressed: () {
+                      context.go("/verify");
+                    },
+                  ),
+                  TextButton(
+                    onPressed: _launchUrl,
+                    child: const Text(
+                      "About Us",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          decorationStyle: TextDecorationStyle.solid,
+                          decoration: TextDecoration.underline,
+                          color: Color(0xFF0BA37F),
+                          fontSize: 25),
+                    ),
+                  ),
                 ],
               ),
             ),

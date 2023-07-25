@@ -8,6 +8,7 @@ class EnvironmentUserConfig {
   // authentication
   static const String signUpUrl = "http$url/api/v1/signup";
   static const String loginUpUrl = "http$url/api/v1/login";
+  static const String verifyUpUrl = "http$url/api/v1/verify";
 
   // admin user
   static const String adminCreateUsersUrl = "http$url/api/v1/admin/createuser";

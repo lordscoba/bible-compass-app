@@ -15,6 +15,11 @@ final loginProvider = StateNotifierProvider<LoginNotifier, AuthState>((ref) {
   return LoginNotifier();
 });
 
+final verifyProvider =
+    StateNotifierProvider.autoDispose<SignUpNotifier, UserState>((ref) {
+  return SignUpNotifier();
+});
+
 // final logoutProvider = StateNotifierProvider<LoginNotifier, AuthState>((ref) {
 //   ref.read(loginProvider.notifier).dispose();
 //   return LoginNotifier();

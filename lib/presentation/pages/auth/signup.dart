@@ -18,6 +18,7 @@ class SignUpScreen extends ConsumerStatefulWidget {
 }
 
 class _SignUpScreenState extends ConsumerState<SignUpScreen> {
+  bool _isChecked = false;
   late UserModel user;
   late UserState userstate;
   final _formKey = GlobalKey<FormState>();
@@ -136,11 +137,36 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       user = user.copyWith(confirmPassword: value!.trim());
                     },
                   ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Checkbox(
+                        value: _isChecked,
+                        onChanged: (value) {
+                          setState(() {
+                            _isChecked = value!;
+                          });
+                        },
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          context.push('/pdf/terms');
+                        },
+                        child: const Text(
+                          "Agree to Our Terms and Conditions",
+                          style: TextStyle(
+                            color: Color(0xFF0BA37F),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                   ThemeButton(
                     text:
                         checkState.isLoading ? "loading..." : 'Create Account',
                     onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
+                      if (_formKey.currentState!.validate() && _isChecked) {
                         _formKey.currentState?.save();
                         await ref
                             .read(signUpProvider.notifier)
