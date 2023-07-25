@@ -379,6 +379,144 @@ abstract class _UserModel implements UserModel {
       throw _privateConstructorUsedError;
 }
 
+VerifyModel _$VerifyModelFromJson(Map<String, dynamic> json) {
+  return _VerifyModel.fromJson(json);
+}
+
+/// @nodoc
+mixin _$VerifyModel {
+  String get email => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $VerifyModelCopyWith<VerifyModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $VerifyModelCopyWith<$Res> {
+  factory $VerifyModelCopyWith(
+          VerifyModel value, $Res Function(VerifyModel) then) =
+      _$VerifyModelCopyWithImpl<$Res, VerifyModel>;
+  @useResult
+  $Res call({String email});
+}
+
+/// @nodoc
+class _$VerifyModelCopyWithImpl<$Res, $Val extends VerifyModel>
+    implements $VerifyModelCopyWith<$Res> {
+  _$VerifyModelCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? email = null,
+  }) {
+    return _then(_value.copyWith(
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_VerifyModelCopyWith<$Res>
+    implements $VerifyModelCopyWith<$Res> {
+  factory _$$_VerifyModelCopyWith(
+          _$_VerifyModel value, $Res Function(_$_VerifyModel) then) =
+      __$$_VerifyModelCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String email});
+}
+
+/// @nodoc
+class __$$_VerifyModelCopyWithImpl<$Res>
+    extends _$VerifyModelCopyWithImpl<$Res, _$_VerifyModel>
+    implements _$$_VerifyModelCopyWith<$Res> {
+  __$$_VerifyModelCopyWithImpl(
+      _$_VerifyModel _value, $Res Function(_$_VerifyModel) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? email = null,
+  }) {
+    return _then(_$_VerifyModel(
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+@JsonSerializable(fieldRename: FieldRename.snake)
+class _$_VerifyModel implements _VerifyModel {
+  _$_VerifyModel({this.email = ''});
+
+  factory _$_VerifyModel.fromJson(Map<String, dynamic> json) =>
+      _$$_VerifyModelFromJson(json);
+
+  @override
+  @JsonKey()
+  final String email;
+
+  @override
+  String toString() {
+    return 'VerifyModel(email: $email)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_VerifyModel &&
+            (identical(other.email, email) || other.email == email));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, email);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_VerifyModelCopyWith<_$_VerifyModel> get copyWith =>
+      __$$_VerifyModelCopyWithImpl<_$_VerifyModel>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_VerifyModelToJson(
+      this,
+    );
+  }
+}
+
+abstract class _VerifyModel implements VerifyModel {
+  factory _VerifyModel({final String email}) = _$_VerifyModel;
+
+  factory _VerifyModel.fromJson(Map<String, dynamic> json) =
+      _$_VerifyModel.fromJson;
+
+  @override
+  String get email;
+  @override
+  @JsonKey(ignore: true)
+  _$$_VerifyModelCopyWith<_$_VerifyModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 /// @nodoc
 mixin _$AuthState {
   Map<String, dynamic> get data => throw _privateConstructorUsedError;

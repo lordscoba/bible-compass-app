@@ -11,8 +11,6 @@ import 'package:url_launcher/url_launcher.dart';
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
 
-  void hi() {}
-
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _SplashScreenState();
 }

@@ -120,60 +120,65 @@ class ViewVerseDetails extends ConsumerWidget {
                       ),
                       const HorizontalSpace(),
                       const HorizontalSpace(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: SizedBox(
-                              width: 350,
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  const Text(
-                                    "Explanation",
-                                    style: TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 163, 100, 11),
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  const HorizontalSpace(),
-                                  Text(
-                                    fulldata['explanation'],
-                                    style: const TextStyle(
-                                        color: Colors.black54,
-                                        fontSize: 18,
-                                        fontStyle: FontStyle.italic,
-                                        fontWeight: FontWeight.w300),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          IntrinsicWidth(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
+                      fulldata['explanation'].toString().isNotEmpty
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                IconButton(
-                                  onPressed: () {
-                                    copyToClipboard(fulldata['explanation']);
-                                    showSnackBar(context, "explanation copied");
-                                  },
-                                  icon: const Icon(Icons.copy),
+                                Expanded(
+                                  child: SizedBox(
+                                    width: 350,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        const Text(
+                                          "Explanation",
+                                          style: TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 163, 100, 11),
+                                              fontSize: 25,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        const HorizontalSpace(),
+                                        Text(
+                                          fulldata['explanation'],
+                                          style: const TextStyle(
+                                              color: Colors.black54,
+                                              fontSize: 18,
+                                              fontStyle: FontStyle.italic,
+                                              fontWeight: FontWeight.w300),
+                                        )
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                                IconButton(
-                                  onPressed: () async {
-                                    await Share.share(fulldata['explanation'],
-                                        subject: "Explanation");
-                                  },
-                                  icon: const Icon(Icons.share),
-                                ),
+                                IntrinsicWidth(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      IconButton(
+                                        onPressed: () {
+                                          copyToClipboard(
+                                              fulldata['explanation']);
+                                          showSnackBar(
+                                              context, "explanation copied");
+                                        },
+                                        icon: const Icon(Icons.copy),
+                                      ),
+                                      IconButton(
+                                        onPressed: () async {
+                                          await Share.share(
+                                              fulldata['explanation'],
+                                              subject: "Explanation");
+                                        },
+                                        icon: const Icon(Icons.share),
+                                      ),
+                                    ],
+                                  ),
+                                )
                               ],
-                            ),
-                          )
-                        ],
-                      )
+                            )
+                          : const SizedBox(),
                     ],
                   ),
                 );

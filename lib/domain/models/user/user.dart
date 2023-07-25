@@ -29,6 +29,20 @@ class UserModel with _$UserModel {
 }
 
 @freezed
+class VerifyModel with _$VerifyModel {
+  // ignore: invalid_annotation_target
+  @JsonSerializable(
+    fieldRename: FieldRename.snake, // <---
+  )
+  factory VerifyModel({
+    @Default('') String email,
+  }) = _VerifyModel;
+
+  factory VerifyModel.fromJson(Map<String, dynamic> json) =>
+      _$VerifyModelFromJson(json);
+}
+
+@freezed
 abstract class AuthState with _$AuthState {
   const factory AuthState(
       {@Default({}) Map<String, dynamic> data,

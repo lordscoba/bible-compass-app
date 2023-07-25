@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:bible_compass_app/domain/models/user/user.dart';
 import 'package:bible_compass_app/domain/providers/authproviders.dart';
@@ -9,7 +10,9 @@ import 'package:bible_compass_app/presentation/pages/admin/subscription/subscrip
 import 'package:bible_compass_app/presentation/pages/admin/users/users.dart';
 import 'package:bible_compass_app/presentation/pages/admin/verses/verse.dart';
 import 'package:bible_compass_app/presentation/pages/auth/login.dart';
+import 'package:bible_compass_app/presentation/pages/auth/pdf.dart';
 import 'package:bible_compass_app/presentation/pages/auth/signup.dart';
+import 'package:bible_compass_app/presentation/pages/auth/verify.dart';
 import 'package:bible_compass_app/presentation/pages/dashboard/bible.dart';
 import 'package:bible_compass_app/presentation/pages/dashboard/category.dart';
 import 'package:bible_compass_app/presentation/pages/dashboard/favorite.dart';
@@ -21,17 +24,69 @@ import 'package:bible_compass_app/presentation/pages/error.dart';
 import 'package:bible_compass_app/presentation/pages/splash.dart';
 import 'package:bible_compass_app/utils/checkauth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../presentation/pages/dashboard/home.dart';
 
-class MyRouter extends ConsumerWidget {
+class MyRouter extends ConsumerStatefulWidget {
   const MyRouter({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _MyRouterState();
+}
+
+class _MyRouterState extends ConsumerState<MyRouter> {
+  String pathAcknowledgement = "";
+  String pathPrivacy = "";
+  String pathTerms = "";
+
+  @override
+  void initState() {
+    super.initState();
+
+    fromAsset('assets/pdfs/Acknowledgement.pdf', 'Acknowledgement.pdf')
+        .then((f) {
+      setState(() {
+        pathAcknowledgement = f.path;
+      });
+    });
+    fromAsset('assets/pdfs/Privacy-Policy.pdf', 'Privacy-Policy.pdf').then((f) {
+      setState(() {
+        pathPrivacy = f.path;
+      });
+    });
+    fromAsset('assets/pdfs/Terms-of-Service.pdf', 'Terms-of-Service.pdf')
+        .then((f) {
+      setState(() {
+        pathTerms = f.path;
+      });
+    });
+  }
+
+  Future<File> fromAsset(String asset, String filename) async {
+    // To open from assets, you can copy them to the app storage folder, and the access them "locally"
+    Completer<File> completer = Completer();
+
+    try {
+      var dir = await getApplicationDocumentsDirectory();
+      File file = File("${dir.path}/$filename");
+      var data = await rootBundle.load(asset);
+      var bytes = data.buffer.asUint8List();
+      await file.writeAsBytes(bytes, flush: true);
+      completer.complete(file);
+    } catch (e) {
+      throw Exception('Error parsing asset file!');
+    }
+
+    return completer.future;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     FutureOr<String?> redirect1(
         BuildContext context, GoRouterState state) async {
       final prefs = await ref.watch(sharedPrefProvider);
@@ -66,6 +121,22 @@ class MyRouter extends ConsumerWidget {
         GoRoute(
           path: '/login',
           builder: (context, state) => const LoginScreen(),
+        ),
+        GoRoute(
+          path: '/verify',
+          builder: (context, state) => const VerifyUserScreen(),
+        ),
+        GoRoute(
+          path: '/pdf/acknowledgement',
+          builder: (context, state) => PDFScreen(path: pathAcknowledgement),
+        ),
+        GoRoute(
+          path: '/pdf/privacy',
+          builder: (context, state) => PDFScreen(path: pathPrivacy),
+        ),
+        GoRoute(
+          path: '/pdf/terms',
+          builder: (context, state) => PDFScreen(path: pathTerms),
         ),
 
         // dashboard screen

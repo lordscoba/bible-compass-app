@@ -1,13 +1,28 @@
 import 'package:bible_compass_app/domain/providers/authproviders.dart';
+import 'package:bible_compass_app/domain/providers/categoryproviders.dart';
+import 'package:bible_compass_app/domain/providers/keywordproviders.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class Draw extends ConsumerWidget {
+class Draw extends ConsumerStatefulWidget {
   const Draw({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _DrawState();
+}
+
+class _DrawState extends ConsumerState<Draw> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container();
+//   }
+// }
+// class Draw extends ConsumerWidget {
+//   const Draw({super.key});
+
+  @override
+  Widget build(BuildContext context) {
     return Drawer(
       width: 300,
       // backgroundColor: Colors.black.withOpacity(0.6),
@@ -64,6 +79,8 @@ class Draw extends ConsumerWidget {
             text: 'logout',
             onTap: () async {
               ref.invalidate(loginProvider);
+              ref.invalidate(categoryProvider);
+              ref.invalidate(keywordProvider);
               context.go('/login');
               // final SharedPreferences prefs =
               //     await SharedPreferences.getInstance();
@@ -71,6 +88,30 @@ class Draw extends ConsumerWidget {
               await prefs.clear();
               final String? username = prefs.getString('username');
               debugPrint(username);
+            },
+          ),
+          const SizedBox(
+            height: 40,
+          ),
+          DrawerPart(
+            icon: Icons.picture_as_pdf_outlined,
+            text: 'Acknowledgements',
+            onTap: () {
+              context.push('/pdf/acknowledgement');
+            },
+          ),
+          DrawerPart(
+            icon: Icons.picture_as_pdf_outlined,
+            text: 'Privacy Policy',
+            onTap: () {
+              context.push('/pdf/privacy');
+            },
+          ),
+          DrawerPart(
+            icon: Icons.picture_as_pdf_outlined,
+            text: 'Terms of Services',
+            onTap: () {
+              context.push('/pdf/terms');
             },
           ),
         ],

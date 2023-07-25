@@ -38,3 +38,13 @@ Map<String, dynamic> _$$_UserModelToJson(_$_UserModel instance) =>
       'date_updated': instance.dateUpdated?.toIso8601String(),
       'is_verified': instance.isVerified,
     };
+
+_$_VerifyModel _$$_VerifyModelFromJson(Map<String, dynamic> json) =>
+    _$_VerifyModel(
+      email: json['email'] as String? ?? '',
+    );
+
+Map<String, dynamic> _$$_VerifyModelToJson(_$_VerifyModel instance) =>
+    <String, dynamic>{
+      'email': instance.email,
+    };
