@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bible_compass_app/domain/models/user/user.dart';
 import 'package:bible_compass_app/utils/constants.dart';
 import 'package:dio/dio.dart';
@@ -91,12 +93,15 @@ class LoginNotifier extends StateNotifier<AuthState> {
             isLoading: false,
             data: response.data as Map<String, dynamic>,
             error: '');
-        // debugPrint(response.data.toString());
+        // debugPrint(response.data['data'].toString());
 
         // set login state
         // final prefs = await ref.watch(sharedPrefProvider);
         final SharedPreferences prefs = await SharedPreferences.getInstance();
 
+        String detailsstring = jsonEncode(response.data);
+
+        await prefs.setString('details', detailsstring);
         await prefs.setString(
             'email', response.data['data']['email'].toString());
         await prefs.setString(

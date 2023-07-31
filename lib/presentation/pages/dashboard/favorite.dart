@@ -63,7 +63,7 @@ class FavouritePage extends ConsumerWidget {
                   AsyncSnapshot<FavoriteState> snapshot) {
                 if (snapshot.hasData) {
                   // debugPrint(snapshot.data?.data['data'].toString());
-                  final fulldata = snapshot.data?.data['data'];
+                  final fulldata = snapshot.data?.data['data'] ?? '';
 
                   if (fulldata.isNotEmpty) {
                     return ListView.builder(
