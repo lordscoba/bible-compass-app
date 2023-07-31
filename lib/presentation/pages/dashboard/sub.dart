@@ -106,24 +106,30 @@ class TopHomeSub extends ConsumerWidget {
                 AsyncSnapshot<SubscriptionState> snapshot) {
               if (snapshot.hasData) {
                 // debugPrint(snapshot.data?.data['data'].toString());
-                final fulldata = snapshot.data?.data['data'];
+                final fulldata = snapshot.data?.data['data'] ?? '';
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     TopHomeChildren(
                       icons: Icons.payment,
                       title: 'Total Sub',
-                      total: fulldata['total_subscription'].toString(),
+                      total: fulldata.isNotEmpty
+                          ? fulldata['total_subscription'].toString()
+                          : '',
                     ),
                     TopHomeChildren(
                       icons: Icons.payment,
                       title: 'Active Sub',
-                      total: fulldata['active_subscription'].toString(),
+                      total: fulldata.isNotEmpty
+                          ? fulldata['active_subscription'].toString()
+                          : '',
                     ),
                     TopHomeChildren(
                       icons: Icons.payment,
                       title: 'Inactive Sub',
-                      total: fulldata['inactive_subscription'].toString(),
+                      total: fulldata.isNotEmpty
+                          ? fulldata['inactive_subscription'].toString()
+                          : '',
                     ),
                   ],
                 );
@@ -182,7 +188,7 @@ class InnerClayListCategory extends ConsumerWidget {
                             AsyncSnapshot<SubscriptionState> snapshot) {
                           if (snapshot.hasData) {
                             // debugPrint(snapshot.data?.data['data'].toString());
-                            final fulldata = snapshot.data?.data['data'];
+                            final fulldata = snapshot.data?.data['data'] ?? '';
 
                             return ListView.builder(
                               itemCount: fulldata.length,

@@ -2,11 +2,12 @@
 
 import 'package:bible_compass_app/domain/models/user/user.dart';
 import 'package:bible_compass_app/domain/providers/authproviders.dart';
-import 'package:bible_compass_app/utils/checkauth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../utils/checkauth.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
@@ -17,13 +18,13 @@ class SplashScreen extends ConsumerStatefulWidget {
 
 class _SplashScreenState extends ConsumerState<SplashScreen> {
   late UserModel user;
-  // late UserState userstate;
+  late AuthState userstate;
 
   @override
   void initState() {
     super.initState();
     user = UserModel();
-    // userstate = const UserState();
+    userstate = const AuthState();
     // Initialize the variable in initState
   }
 
@@ -39,7 +40,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    checkAuth(ref, user);
+    checkAuth(ref, user, userstate);
 
     return Scaffold(
       body: Container(
@@ -75,6 +76,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                   shadowColor: Colors.grey[800],
                   elevation: 6),
               onPressed: () {
+                // debugPrint("hi");
+                // debugPrint(isAuthenticated.toString());
                 ref.watch(isAuthenticated)
                     ? Future.delayed(const Duration(milliseconds: 300), () {
                         if (ref

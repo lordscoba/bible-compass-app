@@ -22,7 +22,6 @@ import 'package:bible_compass_app/presentation/pages/dashboard/sub.dart';
 import 'package:bible_compass_app/presentation/pages/dashboard/userverse.dart';
 import 'package:bible_compass_app/presentation/pages/error.dart';
 import 'package:bible_compass_app/presentation/pages/splash.dart';
-import 'package:bible_compass_app/utils/checkauth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,6 +30,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../presentation/pages/dashboard/home.dart';
+import '../utils/checkauth.dart';
 
 class MyRouter extends ConsumerStatefulWidget {
   const MyRouter({super.key});
@@ -40,6 +40,10 @@ class MyRouter extends ConsumerStatefulWidget {
 }
 
 class _MyRouterState extends ConsumerState<MyRouter> {
+  late UserModel user;
+  late AuthState userstate;
+
+// for pdf
   String pathAcknowledgement = "";
   String pathPrivacy = "";
   String pathTerms = "";
@@ -47,7 +51,11 @@ class _MyRouterState extends ConsumerState<MyRouter> {
   @override
   void initState() {
     super.initState();
+    user = UserModel();
+    userstate = const AuthState();
+    // Initialize the variable in initState
 
+// for pdf
     fromAsset('assets/pdfs/Acknowledgement.pdf', 'Acknowledgement.pdf')
         .then((f) {
       setState(() {
@@ -95,8 +103,7 @@ class _MyRouterState extends ConsumerState<MyRouter> {
       if (status == false) {
         return '/login';
       } else {
-        UserModel user = UserModel();
-        checkAuth(ref, user);
+        checkAuth(ref, user, userstate);
         return null;
       }
     }

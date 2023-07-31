@@ -169,7 +169,8 @@ class HomeScreen extends ConsumerWidget {
                           if (snapshot.hasData) {
                             // debugPrint(snapshot.data.toString());
                             // debugPrint(snapshot.data?.data['data'].toString());
-                            final fulldata = snapshot.data?.data['data'];
+                            final dynamic fulldata =
+                                snapshot.data?.data['data'] ?? '';
 
                             // debugPrint(fulldata.toString());
 
@@ -243,7 +244,7 @@ class HomeScreen extends ConsumerWidget {
                                         textAlign: TextAlign.center,
                                       ),
                                       subtitle: Text(
-                                        "Try making some keywords your favorite",
+                                        "ops! its either your internet is off or you have no favorite keywords",
                                         style: TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.w300,
