@@ -178,7 +178,8 @@ class _LikeButtonState extends ConsumerState<LikeButton> {
   @override
   @override
   Widget build(BuildContext context) {
-    final statsfuture = Future.delayed(const Duration(seconds: 1), () async {
+    final statsfuture =
+        Future.delayed(const Duration(milliseconds: 500), () async {
       final statscalled = await ref
           .watch(favProviderstatus.notifier)
           .perfromGetStatusRequest(widget.keyword, widget.email);
@@ -195,20 +196,20 @@ class _LikeButtonState extends ConsumerState<LikeButton> {
           if (fulldata.isNotEmpty) {
             return IconButton(
               onPressed: () async {
-                // if (mounted) {
-                if (fulldata['status'] ?? false) {
+                if (mounted) {
+                  if (fulldata['status']) {
+                    await ref
+                        .read(favProvider.notifier)
+                        .perfromUnLikeRequest(widget.keyword, widget.email);
+                  } else {
+                    await ref
+                        .read(favProvider.notifier)
+                        .perfromLikeRequest(widget.keyword, widget.email);
+                  }
                   await ref
-                      .read(favProvider.notifier)
-                      .perfromLikeRequest(widget.keyword, widget.email);
-                } else {
-                  await ref
-                      .read(favProvider.notifier)
-                      .perfromUnLikeRequest(widget.keyword, widget.email);
+                      .refresh(favProviderstatus.notifier)
+                      .perfromGetStatusRequest(widget.keyword, widget.email);
                 }
-                await ref
-                    .refresh(favProviderstatus.notifier)
-                    .perfromGetStatusRequest(widget.keyword, widget.email);
-                // }
               },
               icon: fulldata['status'] ?? false
                   ? const Icon(
