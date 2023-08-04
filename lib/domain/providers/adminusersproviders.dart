@@ -3,7 +3,7 @@ import 'package:bible_compass_app/domain/models/user/user.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final adminUserProvider =
-    StateNotifierProvider.autoDispose<AdminUserNotifier, UserState>((ref) {
+    StateNotifierProvider<AdminUserNotifier, UserState>((ref) {
   return AdminUserNotifier();
 });
 

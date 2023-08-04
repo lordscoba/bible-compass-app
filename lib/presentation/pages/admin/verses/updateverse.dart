@@ -98,9 +98,10 @@ class _UpdateVerseState extends ConsumerState<UpdateVerse> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       InputField(
-                        controller: TextEditingController(
-                          text: fulldata['bible_verse'].toString(),
-                        ),
+                        initialValue: fulldata['bible_verse'].toString(),
+                        // controller: TextEditingController(
+                        //   text: fulldata['bible_verse'].toString(),
+                        // ),
                         hintText: " Enter bible verse",
                         validation: (value) {
                           if (value == null || value.isEmpty) {

@@ -188,8 +188,8 @@ class InnerClayListVerse extends ConsumerWidget {
                                   return ListTile(
                                     title: Text(
                                         fulldata[index]['bible_verse'] ?? "N"),
-                                    subtitle:
-                                        const Text("Not a registered user"),
+                                    // subtitle:
+                                    // const Text("Not a registered user"),
                                     trailing: Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [

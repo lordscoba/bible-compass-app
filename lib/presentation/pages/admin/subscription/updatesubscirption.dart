@@ -110,9 +110,10 @@ class _UpdateSubscriprionState extends ConsumerState<AdminUpdateSubscriprion> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       InputField(
-                        controller: TextEditingController(
-                          text: fulldata['type'].toString(),
-                        ),
+                        initialValue: fulldata['type'].toString(),
+                        // controller: TextEditingController(
+                        //   text: fulldata['type'].toString(),
+                        // ),
                         hintText: "Enter Sub Name",
                         validation: (value) {
                           if (value == null || value.isEmpty) {
@@ -125,9 +126,10 @@ class _UpdateSubscriprionState extends ConsumerState<AdminUpdateSubscriprion> {
                         },
                       ),
                       InputField(
-                        controller: TextEditingController(
-                          text: fulldata['amount'].toString(),
-                        ),
+                        initialValue: fulldata['amount'].toString(),
+                        // controller: TextEditingController(
+                        //   text: fulldata['amount'].toString(),
+                        // ),
                         hintText: "Enter Amount",
                         validation: (value) {
                           if (value == null || value.isEmpty) {

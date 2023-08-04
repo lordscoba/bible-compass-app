@@ -100,9 +100,10 @@ class _UpdateProfileState extends ConsumerState<UpdateProfile> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       InputField(
-                        controller: TextEditingController(
-                          text: fulldata['username'].toString(),
-                        ),
+                        initialValue: fulldata['username'].toString(),
+                        // controller: TextEditingController(
+                        //   text: fulldata['username'].toString(),
+                        // ),
                         hintText: " Enter username",
                         validation: (value) {
                           if (value == null || value.isEmpty) {
@@ -115,9 +116,10 @@ class _UpdateProfileState extends ConsumerState<UpdateProfile> {
                         },
                       ),
                       InputField(
-                        controller: TextEditingController(
-                          text: fulldata['name'].toString(),
-                        ),
+                        initialValue: fulldata['name'].toString(),
+                        // controller: TextEditingController(
+                        //   text: fulldata['name'].toString(),
+                        // ),
                         hintText: " Enter name",
                         validation: (value) {
                           if (value == null || value.isEmpty) {
@@ -130,9 +132,10 @@ class _UpdateProfileState extends ConsumerState<UpdateProfile> {
                         },
                       ),
                       InputField(
-                        controller: TextEditingController(
-                          text: fulldata['email'].toString(),
-                        ),
+                        initialValue: fulldata['email'].toString(),
+                        // controller: TextEditingController(
+                        //   text: fulldata['email'].toString(),
+                        // ),
                         hintText: " Enter your email",
                         validation: (value) {
                           if (value == null || value.isEmpty) {

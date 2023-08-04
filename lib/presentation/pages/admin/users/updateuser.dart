@@ -20,6 +20,7 @@ class UpdateUsers extends ConsumerStatefulWidget {
 class _UpdateUsersState extends ConsumerState<UpdateUsers> {
   late UserModel user;
   late UserState userstate;
+  // late Future<UserState> userscalled;
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -28,6 +29,9 @@ class _UpdateUsersState extends ConsumerState<UpdateUsers> {
     user = UserModel();
     userstate = const UserState();
     // Initialize the variable in initState
+    // userscalled = ref
+    //     .read(adminUserProvider.notifier)
+    //     .perfromGetSingleUserRequest(widget.userId);
   }
 
   final List<Map<String, dynamic>> _items = [
@@ -83,7 +87,7 @@ class _UpdateUsersState extends ConsumerState<UpdateUsers> {
     });
 
     final dynamic usersfuturesingle =
-        Future.delayed(const Duration(seconds: 2), () {
+        Future.delayed(const Duration(seconds: 1), () {
       final userscalled = ref
           .read(adminUserProvider.notifier)
           .perfromGetSingleUserRequest(widget.userId);
@@ -121,9 +125,10 @@ class _UpdateUsersState extends ConsumerState<UpdateUsers> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       InputField(
-                        controller: TextEditingController(
-                          text: fulldata['username'].toString(),
-                        ),
+                        // controller: TextEditingController(
+                        //   text: fulldata['username'].toString(),
+                        // ),
+                        initialValue: fulldata['username'].toString(),
                         hintText: " Enter username",
                         validation: (value) {
                           if (value == null || value.isEmpty) {
@@ -136,9 +141,10 @@ class _UpdateUsersState extends ConsumerState<UpdateUsers> {
                         },
                       ),
                       InputField(
-                        controller: TextEditingController(
-                          text: fulldata['name'].toString(),
-                        ),
+                        initialValue: fulldata['name'].toString(),
+                        // controller: TextEditingController(
+                        //   text: fulldata['name'].toString(),
+                        // ),
                         hintText: " Enter name",
                         validation: (value) {
                           if (value == null || value.isEmpty) {
@@ -151,9 +157,10 @@ class _UpdateUsersState extends ConsumerState<UpdateUsers> {
                         },
                       ),
                       InputField(
-                        controller: TextEditingController(
-                          text: fulldata['email'].toString(),
-                        ),
+                        initialValue: fulldata['email'].toString(),
+                        // controller: TextEditingController(
+                        //   text: fulldata['email'].toString(),
+                        // ),
                         hintText: " Enter your email",
                         validation: (value) {
                           if (value == null || value.isEmpty) {

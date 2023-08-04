@@ -45,10 +45,18 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
 
   @override
   Widget build(BuildContext context) {
-    final catsfuture = Future.delayed(const Duration(milliseconds: 200), () {
-      final catscalled =
-          ref.watch(categoryProvider.notifier).perfromGetCatgeoriesRequest();
-      return catscalled;
+    final catsfuture =
+        Future.delayed(const Duration(milliseconds: 200), () async {
+      final CategoryState catscalled;
+      if (ref.watch(categoryProvider).data.isNotEmpty) {
+        catscalled = ref.watch(categoryProvider);
+        return catscalled;
+      } else {
+        catscalled = await ref
+            .watch(categoryProvider.notifier)
+            .perfromGetCatgeoriesRequest();
+        return catscalled;
+      }
     });
     final AuthState auth = ref.watch(loginProvider);
     var authData = auth.data['data'];

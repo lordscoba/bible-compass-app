@@ -25,8 +25,22 @@ class KeywordPage extends ConsumerWidget {
     final AuthState auth = ref.watch(loginProvider);
     var authData = auth.data['data'];
     // debugPrint(authData.toString());
-    final keywfuture = Future.delayed(const Duration(milliseconds: 10), () {
-      final keywcalled = ref
+    // final keywfuture =
+    //     Future.delayed(const Duration(milliseconds: 200), () async {
+    //   final KeywordState keywcalled;
+    //   if (ref.watch(keywordProvider).data.isNotEmpty) {
+    //     keywcalled = ref.watch(keywordProvider);
+    //     return keywcalled;
+    //   } else {
+    //     keywcalled = await ref
+    //         .read(keywordProvider.notifier)
+    //         .perfromGetKeywordsRequest(catId, search: ref.watch(searchKeyText));
+    //     return keywcalled;
+    //   }
+    // });
+    final keywfuture =
+        Future.delayed(const Duration(milliseconds: 100), () async {
+      final keywcalled = await ref
           .watch(keywordProvider.notifier)
           .perfromGetKeywordsRequest(catId, search: ref.watch(searchKeyText));
       return keywcalled;
@@ -75,22 +89,22 @@ class KeywordPage extends ConsumerWidget {
                           AsyncSnapshot<KeywordState> snapshot) {
                         if (snapshot.hasData) {
                           // debugPrint(snapshot.data?.data['data'].toString());
-                          final fulldata = snapshot.data?.data['data'];
+                          final fulldata = snapshot.data?.data['data'] ?? [];
 
                           return Wrap(
                             spacing: 5.0, // horizontal spacing between items
                             runSpacing: 5.0, // vertical spacing between lines
-                            children: fulldata.map<Widget>(
+                            children: fulldata?.map<Widget>(
                               (item) {
-                                final idx = fulldata.indexOf(item);
+                                // final idx = fulldata.indexOf(item);
                                 return FadeIn(
-                                  duration: Duration(
-                                      milliseconds: 300 + (300 * idx as int)),
+                                  duration: const Duration(milliseconds: 300),
                                   curve: Curves.easeIn,
                                   child: MyChip(
-                                    text: item['keyword'].toString(),
+                                    text: item['keyword']?.toString() ?? "",
                                     onTap: () {
-                                      if (item['for_subscribers'] == true) {
+                                      if (item['for_subscribers'] ??
+                                          false == true) {
                                         if (authData['upgrade'] == true) {
                                           context.push("/verse/${item['id']}");
                                         } else {
@@ -101,12 +115,13 @@ class KeywordPage extends ConsumerWidget {
                                         context.push("/verse/${item['id']}");
                                       }
                                     },
+                                    // favButton: const Text("1"),
                                     favButton: LikeButton(
-                                      email: authData['email'],
-                                      keyword: item['keyword'],
+                                      email: authData['email'] ?? "",
+                                      keyword: item['keyword'] ?? "",
                                       catId: catId,
                                     ),
-                                    colors: item['for_subscribers']
+                                    colors: item['for_subscribers'] ?? false
                                         ? const [
                                             Color.fromARGB(255, 4, 82, 64),
                                             Color.fromARGB(255, 4, 44, 31),
@@ -163,8 +178,8 @@ class _LikeButtonState extends ConsumerState<LikeButton> {
   @override
   @override
   Widget build(BuildContext context) {
-    final statsfuture = Future.delayed(const Duration(milliseconds: 100), () {
-      final statscalled = ref
+    final statsfuture = Future.delayed(const Duration(seconds: 1), () async {
+      final statscalled = await ref
           .watch(favProviderstatus.notifier)
           .perfromGetStatusRequest(widget.keyword, widget.email);
 
@@ -175,11 +190,13 @@ class _LikeButtonState extends ConsumerState<LikeButton> {
       builder: (BuildContext context, AsyncSnapshot<FavoriteState> snapshot) {
         if (snapshot.hasData) {
           // debugPrint(snapshot.data?.data['data'].toString());
-          final fulldata = snapshot.data?.data['data'];
-          return IconButton(
-            onPressed: () async {
-              if (mounted) {
-                if (!fulldata['status']) {
+          final fulldata = snapshot.data?.data['data'] ?? "";
+
+          if (fulldata.isNotEmpty) {
+            return IconButton(
+              onPressed: () async {
+                // if (mounted) {
+                if (fulldata['status'] ?? false) {
                   await ref
                       .read(favProvider.notifier)
                       .perfromLikeRequest(widget.keyword, widget.email);
@@ -191,20 +208,33 @@ class _LikeButtonState extends ConsumerState<LikeButton> {
                 await ref
                     .refresh(favProviderstatus.notifier)
                     .perfromGetStatusRequest(widget.keyword, widget.email);
-              }
-            },
-            icon: fulldata['status']
-                ? const Icon(
-                    Icons.favorite,
-                    color: Colors.white,
-                  )
-                : const Icon(
-                    Icons.favorite_border,
-                    color: Colors.white,
-                  ),
-          );
+                // }
+              },
+              icon: fulldata['status'] ?? false
+                  ? const Icon(
+                      Icons.favorite,
+                      color: Colors.white,
+                    )
+                  : const Icon(
+                      Icons.favorite_border,
+                      color: Colors.white,
+                    ),
+            );
+          } else {
+            return IconButton(
+              onPressed: () async {},
+              icon: const Icon(
+                Icons.favorite_border,
+                color: Colors.white,
+              ),
+            );
+          }
         } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
+          // return Text('Error: ${snapshot.error}');
+          return const Icon(
+            Icons.favorite_border,
+            color: Colors.white,
+          );
         } else {
           // return const CircularProgressIndicator();
           return const Icon(

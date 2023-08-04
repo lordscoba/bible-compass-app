@@ -30,6 +30,7 @@ class CategoryNotifier extends StateNotifier<CategoryState> {
       // Make the POST request
       final response = await dio
           .post(EnvironmentCategoryConfig.adminCreateCategoryUrl, data: ref);
+
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Request successful
         state = state.copyWith(
@@ -107,7 +108,7 @@ class CategoryNotifier extends StateNotifier<CategoryState> {
       // decode header
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final String? token = prefs.getString('token');
-      bool hasExpired = JwtDecoder.isExpired(token!);
+      bool hasExpired = JwtDecoder.isExpired(token ?? '');
       if (!hasExpired) {
         dio.options.headers["bearer"] = token.toString();
       } else {
@@ -124,6 +125,7 @@ class CategoryNotifier extends StateNotifier<CategoryState> {
         //   },
         // ),
       );
+      dio.close();
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Request successful
         state = state.copyWith(
@@ -169,6 +171,7 @@ class CategoryNotifier extends StateNotifier<CategoryState> {
       // Make the POST request
       final response =
           await dio.get(EnvironmentCategoryConfig.adminGetCategoryByIdUrl + id);
+      dio.close();
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Request successful
         state = state.copyWith(
@@ -257,6 +260,7 @@ class CategoryNotifier extends StateNotifier<CategoryState> {
       // Make the POST request
       final response =
           await dio.get(EnvironmentCategoryConfig.adminGetCategoryInfoUrl);
+      dio.close();
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Request successful
         state = state.copyWith(

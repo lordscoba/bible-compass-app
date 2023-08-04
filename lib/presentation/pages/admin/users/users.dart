@@ -219,7 +219,7 @@ class InnerClayListUser extends ConsumerWidget {
                               itemBuilder: (context, index) {
                                 return ListTile(
                                   title: Text(fulldata[index]['username']),
-                                  subtitle: const Text("Not a registered user"),
+                                  // subtitle: const Text("Not a registered user"),
                                   trailing: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [

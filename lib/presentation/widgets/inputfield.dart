@@ -8,6 +8,7 @@ class InputField extends StatelessWidget {
   final TextEditingController? controller;
   final bool? obscureText;
   final bool? readOnly;
+  final String? initialValue;
   const InputField({
     super.key,
     required this.hintText,
@@ -16,6 +17,7 @@ class InputField extends StatelessWidget {
     this.controller,
     this.obscureText,
     this.readOnly,
+    this.initialValue,
   });
 
   @override
@@ -23,6 +25,7 @@ class InputField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
       child: TextFormField(
+        initialValue: initialValue,
         readOnly: readOnly ?? false,
         obscureText: obscureText ?? false,
         decoration: InputDecoration(

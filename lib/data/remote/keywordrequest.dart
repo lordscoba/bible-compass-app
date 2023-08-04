@@ -30,6 +30,7 @@ class KeywordNotifier extends StateNotifier<KeywordState> {
       final response = await dio.post(
           EnvironmentKeywordConfig.adminCreateKeywordUrl + catId,
           data: ref);
+      dio.close();
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Request successful
         state = state.copyWith(
@@ -74,6 +75,7 @@ class KeywordNotifier extends StateNotifier<KeywordState> {
       final response = await dio.patch(
           EnvironmentKeywordConfig.adminUpdateKeywordUrl + id,
           data: data);
+      dio.close();
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Request successful
         state = state.copyWith(
@@ -118,6 +120,7 @@ class KeywordNotifier extends StateNotifier<KeywordState> {
       // Make the POST request
       final response = await dio.get(
           "${EnvironmentKeywordConfig.adminGetKeywordsUrl}$catId?keyword=$search");
+      dio.close();
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Request successful
         state = state.copyWith(
@@ -162,6 +165,7 @@ class KeywordNotifier extends StateNotifier<KeywordState> {
       // Make the POST request
       final response =
           await dio.get(EnvironmentKeywordConfig.adminGetKeywordByIdUrl + id);
+      dio.close();
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Request successful
         state = state.copyWith(
@@ -206,6 +210,7 @@ class KeywordNotifier extends StateNotifier<KeywordState> {
       // Make the POST request
       final response =
           await dio.delete(EnvironmentKeywordConfig.adminDeleteKeywordUrl + id);
+      dio.close();
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Request successful
         state = state.copyWith(
@@ -250,6 +255,7 @@ class KeywordNotifier extends StateNotifier<KeywordState> {
       // Make the POST request
       final response =
           await dio.get(EnvironmentKeywordConfig.adminGetKeywordsInfoUrl);
+      dio.close();
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Request successful
         state = state.copyWith(

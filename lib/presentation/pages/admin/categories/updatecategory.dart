@@ -109,9 +109,10 @@ class _UpdateCategoryState extends ConsumerState<UpdateCategory> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       InputField(
-                        controller: TextEditingController(
-                          text: fulldata['category_name'].toString(),
-                        ),
+                        initialValue: fulldata['category_name'].toString(),
+                        // controller: TextEditingController(
+                        //   text: fulldata['category_name'].toString(),
+                        // ),
                         hintText: " Enter category name",
                         validation: (value) {
                           if (value == null || value.isEmpty) {
