@@ -28,7 +28,7 @@ class SnackBarClass {
         elevation: 0,
         behavior: SnackBarBehavior.floating,
         backgroundColor: Colors.transparent,
-        duration: const Duration(seconds: 2),
+        duration: const Duration(seconds: 4),
         content: AwesomeSnackbarContent(
           title: "Congrats",
           message: message,

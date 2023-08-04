@@ -144,7 +144,7 @@ class InnerClayListCategory extends ConsumerWidget {
           .perfromGetCatgeoriesRequest(search: ref.watch(searchText));
       return catscalled;
     });
-    double listSize = 350;
+    double listSize = 450;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 18.0),
       child: Align(
@@ -177,7 +177,7 @@ class InnerClayListCategory extends ConsumerWidget {
                               itemBuilder: (context, index) {
                                 return ListTile(
                                   title: Text(fulldata[index]['category_name']),
-                                  subtitle: const Text("Not a registered user"),
+                                  // subtitle: const Text("Not a registered user"),
                                   trailing: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [

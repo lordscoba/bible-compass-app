@@ -110,9 +110,10 @@ class _UpdateKeywordState extends ConsumerState<UpdateKeyword> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       InputField(
-                        controller: TextEditingController(
-                          text: fulldata['keyword'].toString(),
-                        ),
+                        initialValue: fulldata['keyword'].toString(),
+                        // controller: TextEditingController(
+                        //   text: fulldata['keyword'].toString(),
+                        // ),
                         hintText: " Enter Keyword name",
                         validation: (value) {
                           if (value == null || value.isEmpty) {

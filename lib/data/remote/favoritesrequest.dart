@@ -29,6 +29,7 @@ class FavoriteNotifier extends StateNotifier<FavoriteState> {
       // Make the POST request
       final response = await dio
           .get("${EnvironmentFavConfig.userLikeKeyword}$keyword/$email");
+      dio.close();
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Request successful
         state = state.copyWith(
@@ -74,6 +75,7 @@ class FavoriteNotifier extends StateNotifier<FavoriteState> {
       // Make the POST request
       final response = await dio
           .get("${EnvironmentFavConfig.userUnlikeKeyword}$keyword/$email");
+      dio.close();
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Request successful
         state = state.copyWith(
@@ -117,8 +119,15 @@ class FavoriteNotifier extends StateNotifier<FavoriteState> {
       //end decode header
 
       // Make the POST request
-      final response = await dio.get(
-          "${EnvironmentFavConfig.userGetFavStatus}$keyword/${email.trim()}");
+      final Response<dynamic> response;
+      // dio.re
+      response = await dio.get(
+        "${EnvironmentFavConfig.userGetFavStatus}$keyword/${email.trim()}",
+      );
+      dio.interceptors
+          .add(LogInterceptor(requestBody: true, responseBody: true));
+
+      dio.close();
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Request successful
         state = state.copyWith(
@@ -163,6 +172,9 @@ class FavoriteNotifier extends StateNotifier<FavoriteState> {
       // Make the POST request
       final response =
           await dio.get("${EnvironmentFavConfig.userGetKeywords}$email");
+      dio.interceptors
+          .add(LogInterceptor(requestBody: true, responseBody: true));
+      dio.close();
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Request successful
         state = state.copyWith(
