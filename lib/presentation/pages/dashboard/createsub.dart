@@ -6,6 +6,7 @@ import 'package:bible_compass_app/presentation/pages/dashboard/verifysub.dart';
 import 'package:bible_compass_app/presentation/widgets/inputfield.dart';
 import 'package:bible_compass_app/presentation/widgets/snacksbar.dart';
 import 'package:bible_compass_app/presentation/widgets/themebutton.dart';
+import 'package:bible_compass_app/presentation/widgets/widgets.dart';
 import 'package:bible_compass_app/utils/validation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,17 +31,6 @@ class _CreateSubState extends ConsumerState<CreateSub> {
     substate = const SubscriptionState();
     // Initialize the variable in initState
   }
-
-  // final List<Map<String, dynamic>> _items = [
-  //   {
-  //     'value': 'true',
-  //     'label': 'True',
-  //   },
-  //   {
-  //     'value': 'false',
-  //     'label': 'False',
-  //   },
-  // ];
 
   void message() {
     final String message;
@@ -106,6 +96,17 @@ class _CreateSubState extends ConsumerState<CreateSub> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                const SizedBox(height: 200, child: CompassTop()),
+                const Padding(
+                  padding: EdgeInsets.all(15.0),
+                  child: Text(
+                    "You are about to make a Payment of \$2 for your Upgrade, Click Initialize to continue",
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black54),
+                  ),
+                ),
                 InputField(
                   readOnly: true,
                   controller: TextEditingController(

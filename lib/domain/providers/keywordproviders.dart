@@ -4,5 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final keywordProvider =
     StateNotifierProvider.autoDispose<KeywordNotifier, KeywordState>((ref) {
+  // ref.keepAlive();
   return KeywordNotifier();
 });
+
+final userKeywordSearchProvider =
+    StateProvider.autoDispose<String>((ref) => "");

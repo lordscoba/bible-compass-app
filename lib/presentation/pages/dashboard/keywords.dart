@@ -1,7 +1,6 @@
-import 'package:bible_compass_app/domain/models/favourites/favorite.dart';
-import 'package:bible_compass_app/domain/models/keyword/keyword.dart';
+import 'package:bible_compass_app/data/remote/favoritesrequest.dart';
+import 'package:bible_compass_app/data/remote/keywordrequest.dart';
 import 'package:bible_compass_app/domain/models/user/user.dart';
-import 'package:bible_compass_app/domain/providers/adminusersproviders.dart';
 import 'package:bible_compass_app/domain/providers/authproviders.dart';
 import 'package:bible_compass_app/domain/providers/favproviders.dart';
 import 'package:bible_compass_app/domain/providers/keywordproviders.dart';
@@ -15,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tuple/tuple.dart';
 
 class KeywordPage extends ConsumerWidget {
   final String catId;
@@ -24,28 +24,12 @@ class KeywordPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final AuthState auth = ref.watch(loginProvider);
     var authData = auth.data['data'];
-    // debugPrint(authData.toString());
-    // final keywfuture =
-    //     Future.delayed(const Duration(milliseconds: 200), () async {
-    //   final KeywordState keywcalled;
-    //   if (ref.watch(keywordProvider).data.isNotEmpty) {
-    //     keywcalled = ref.watch(keywordProvider);
-    //     return keywcalled;
-    //   } else {
-    //     keywcalled = await ref
-    //         .read(keywordProvider.notifier)
-    //         .perfromGetKeywordsRequest(catId, search: ref.watch(searchKeyText));
-    //     return keywcalled;
-    //   }
-    // });
-    final keywfuture =
-        Future.delayed(const Duration(milliseconds: 100), () async {
-      final keywcalled = await ref
-          .watch(keywordProvider.notifier)
-          .perfromGetKeywordsRequest(catId, search: ref.watch(searchKeyText));
-      return keywcalled;
-    });
-    // debugPrint(keywfuture.toString());
+
+    final search = ref.watch(userKeywordSearchProvider);
+    var t = Tuple2<String, String>(catId, search);
+
+    final keywfuture = ref.watch(keywordApiProvider(t));
+
     return Scaffold(
       appBar: const Header(
         title: 'Keywords',
@@ -76,77 +60,69 @@ class KeywordPage extends ConsumerWidget {
             SearchTextUserKeyword(
               catId: catId,
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height - 265,
-              // height: 500,
+            Expanded(
               child: CupertinoScrollbar(
                 child: SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.all(8),
-                    child: FutureBuilder<KeywordState>(
-                      future: keywfuture,
-                      builder: (BuildContext context,
-                          AsyncSnapshot<KeywordState> snapshot) {
-                        if (snapshot.hasData) {
-                          // debugPrint(snapshot.data?.data['data'].toString());
-                          final fulldata = snapshot.data?.data['data'] ?? [];
-
-                          return Wrap(
-                            spacing: 5.0, // horizontal spacing between items
-                            runSpacing: 5.0, // vertical spacing between lines
-                            children: fulldata?.map<Widget>(
-                              (item) {
-                                // final idx = fulldata.indexOf(item);
-                                return FadeIn(
-                                  duration: const Duration(milliseconds: 300),
-                                  curve: Curves.easeIn,
-                                  child: MyChip(
-                                    text: item['keyword']?.toString() ?? "",
-                                    onTap: () {
-                                      if (item['for_subscribers'] ??
-                                          false == true) {
-                                        if (authData['upgrade'] == true) {
-                                          context.push("/verse/${item['id']}");
-                                        } else {
-                                          showSnackBar(context,
-                                              "You are not subscribed, Please Upgrade to use");
-                                        }
-                                      } else {
+                    child: keywfuture.when(
+                      data: (item) {
+                        final fulldata = item['data'] ?? [];
+                        return Wrap(
+                          spacing: 5.0, // horizontal spacing between items
+                          runSpacing: 5.0, // vertical spacing between lines
+                          children: fulldata?.map<Widget>(
+                            (item) {
+                              final int idx = fulldata.indexOf(item);
+                              return FadeIn(
+                                duration:
+                                    Duration(milliseconds: (200 + (100 * idx))),
+                                curve: Curves.easeIn,
+                                child: MyChip(
+                                  text: item['keyword']?.toString() ?? "",
+                                  onTap: () {
+                                    if (item['for_subscribers'] ??
+                                        false == true) {
+                                      if (authData['upgrade'] == true) {
                                         context.push("/verse/${item['id']}");
+                                      } else {
+                                        showSnackBar(context,
+                                            "You are not subscribed, Please Upgrade to use");
                                       }
-                                    },
-                                    // favButton: const Text("1"),
-                                    favButton: LikeButton(
-                                      email: authData['email'] ?? "",
-                                      keyword: item['keyword'] ?? "",
-                                      catId: catId,
-                                    ),
-                                    colors: item['for_subscribers'] ?? false
-                                        ? const [
-                                            Color.fromARGB(255, 4, 82, 64),
-                                            Color.fromARGB(255, 4, 44, 31),
-                                            Color.fromARGB(255, 3, 47, 34),
-                                          ]
-                                        : const [
-                                            Color(0xFF0BA37F),
-                                            Color.fromARGB(255, 9, 144, 99),
-                                            Color.fromARGB(255, 3, 47, 34),
-                                          ],
+                                    } else {
+                                      context.push("/verse/${item['id']}");
+                                    }
+                                  },
+                                  // favButton: const Text("1"),
+                                  favButton: LikeButton(
+                                    email: authData['email'] ?? "",
+                                    keyword: item['keyword'] ?? "",
+                                    catId: catId,
                                   ),
-                                );
-                              },
-                            ).toList(),
-                          );
-                        } else if (snapshot.hasError) {
-                          return Text('Error: ${snapshot.error}');
-                        } else {
-                          return const Center(
-                            child: CupertinoActivityIndicator(
-                              radius: 50,
-                            ),
-                          );
-                        }
+                                  colors: item['for_subscribers'] ?? false
+                                      ? const [
+                                          Color.fromARGB(255, 4, 82, 64),
+                                          Color.fromARGB(255, 4, 44, 31),
+                                          Color.fromARGB(255, 3, 47, 34),
+                                        ]
+                                      : const [
+                                          Color(0xFF0BA37F),
+                                          Color.fromARGB(255, 9, 144, 99),
+                                          Color.fromARGB(255, 3, 47, 34),
+                                        ],
+                                ),
+                              );
+                            },
+                          ).toList(),
+                        );
                       },
+                      loading: () => const Center(
+                        child: CupertinoActivityIndicator(
+                          radius: 50,
+                        ),
+                      ),
+                      error: (error, stackTrace) =>
+                          Text('Error: ${error.toString()}'),
                     ),
                   ),
                 ),
@@ -176,79 +152,53 @@ class LikeButton extends ConsumerStatefulWidget {
 
 class _LikeButtonState extends ConsumerState<LikeButton> {
   @override
-  @override
   Widget build(BuildContext context) {
-    final statsfuture =
-        Future.delayed(const Duration(milliseconds: 500), () async {
-      final statscalled = await ref
-          .watch(favProviderstatus.notifier)
-          .perfromGetStatusRequest(widget.keyword, widget.email);
-
-      return statscalled;
-    });
-    return FutureBuilder<FavoriteState>(
-      future: statsfuture,
-      builder: (BuildContext context, AsyncSnapshot<FavoriteState> snapshot) {
-        if (snapshot.hasData) {
-          // debugPrint(snapshot.data?.data['data'].toString());
-          final fulldata = snapshot.data?.data['data'] ?? "";
-
-          if (fulldata.isNotEmpty) {
-            return IconButton(
-              onPressed: () async {
-                if (mounted) {
-                  if (fulldata['status']) {
-                    await ref
-                        .read(favProvider.notifier)
-                        .perfromUnLikeRequest(widget.keyword, widget.email);
-                  } else {
-                    await ref
-                        .read(favProvider.notifier)
-                        .perfromLikeRequest(widget.keyword, widget.email);
-                  }
-                  await ref
-                      .refresh(favProviderstatus.notifier)
-                      .perfromGetStatusRequest(widget.keyword, widget.email);
-                }
-              },
-              icon: fulldata['status'] ?? false
-                  ? const Icon(
-                      Icons.favorite,
-                      color: Colors.white,
-                    )
-                  : const Icon(
-                      Icons.favorite_border,
-                      color: Colors.white,
-                    ),
-            );
-          } else {
-            return IconButton(
-              onPressed: () async {},
-              icon: const Icon(
-                Icons.favorite_border,
-                color: Colors.white,
-              ),
-            );
-          }
-        } else if (snapshot.hasError) {
-          // return Text('Error: ${snapshot.error}');
-          return const Icon(
-            Icons.favorite_border,
-            color: Colors.white,
-          );
-        } else {
-          // return const CircularProgressIndicator();
-          return const Icon(
-            Icons.favorite_border,
-            color: Colors.white,
-          );
-        }
+    var t = Tuple2<String, String>(widget.keyword, widget.email);
+    final statsfuture = ref.watch(favoriteApiProvider(t));
+    return statsfuture.when(
+      data: (item) {
+        final fulldata = item['data'] ?? "";
+        return IconButton(
+          onPressed: () async {
+            if (mounted) {
+              if (fulldata['status']) {
+                await ref
+                    .read(favProvider.notifier)
+                    .perfromUnLikeRequest(widget.keyword, widget.email);
+              } else {
+                await ref
+                    .read(favProvider.notifier)
+                    .perfromLikeRequest(widget.keyword, widget.email);
+              }
+              // ignore: unused_result
+              await ref.refresh(favoriteApiProvider(t).future);
+            }
+          },
+          icon: fulldata['status'] ?? false
+              ? const Icon(
+                  Icons.favorite,
+                  color: Colors.white,
+                )
+              : const Icon(
+                  Icons.favorite_border,
+                  color: Colors.white,
+                ),
+        );
       },
+      loading: () => const Icon(
+        Icons.favorite_border,
+        color: Colors.white,
+      ),
+      // error: (error, stackTrace) => Text('Error: ${error.toString()}'),
+      error: (error, stackTrace) => const Icon(
+        Icons.favorite_border,
+        color: Colors.white,
+      ),
     );
   }
 }
 
-class MyChip extends StatelessWidget {
+class MyChip extends StatefulWidget {
   final String text;
   final void Function()? onTap;
   final Widget? favButton;
@@ -262,9 +212,14 @@ class MyChip extends StatelessWidget {
   });
 
   @override
+  State<MyChip> createState() => _MyChipState();
+}
+
+class _MyChipState extends State<MyChip> {
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: widget.onTap,
       child: IntrinsicWidth(
         child: Container(
           decoration: BoxDecoration(
@@ -273,7 +228,7 @@ class MyChip extends StatelessWidget {
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: colors,
+              colors: widget.colors,
             ),
           ),
           width: double.infinity,
@@ -283,13 +238,13 @@ class MyChip extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text(
-                text,
+                widget.text,
                 style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                     fontSize: 18),
               ),
-              favButton!,
+              widget.favButton!,
             ],
           ),
         ),
@@ -312,10 +267,12 @@ class _SearchTextUserKeywordState extends ConsumerState<SearchTextUserKeyword> {
   Widget build(BuildContext context) {
     return SearchInputField(
       onChanged: (value) async {
-        ref.read(searchKeyText.notifier).state = value;
-        await ref.refresh(keywordProvider.notifier).perfromGetKeywordsRequest(
-            widget.catId,
-            search: ref.watch(searchKeyText));
+        if (mounted) {
+          ref.read(userKeywordSearchProvider.notifier).state = value.trim();
+          final search = ref.watch(userKeywordSearchProvider);
+          var t = Tuple2<String, String>(widget.catId, search);
+          ref.read(keywordApiProvider(t));
+        }
       },
     );
   }
