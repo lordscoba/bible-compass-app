@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tuple/tuple.dart';
 
 class FavoriteNotifier extends StateNotifier<FavoriteState> {
   FavoriteNotifier() : super(const FavoriteState());
@@ -199,3 +200,45 @@ class FavoriteNotifier extends StateNotifier<FavoriteState> {
     return state;
   }
 }
+
+final favoriteApiProvider = FutureProvider.family
+    .autoDispose<Map<String, dynamic>, Tuple2<String, String>>(
+        (ref, tuple) async {
+  try {
+    final dio = Dio();
+
+    // decode header
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? token = prefs.getString('token');
+    bool hasExpired = JwtDecoder.isExpired(token!);
+    if (!hasExpired) {
+      dio.options.headers["bearer"] = token.toString();
+    } else {
+      throw Exception('token has expired');
+    }
+    //end decode header
+
+    final response = await dio.get(
+      "${EnvironmentFavConfig.userGetFavStatus}${tuple.item1}/${tuple.item2.trim()}",
+    );
+    dio.interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
+
+    dio.close();
+
+    if (response.statusCode == 200) {
+      return response.data as Map<String, dynamic>;
+    } else {
+      throw Exception('Failed to fetch map data');
+    }
+  } on DioException catch (e) {
+    if (e.response != null) {
+      // debugPrint("hi1");
+      debugPrint(e.response?.data.toString());
+      return e.response?.data;
+    } else {
+      // debugPrint("hi2");
+      debugPrint(e.message.toString());
+      return throw Exception("Failed to fetch map data error: ${e.message}");
+    }
+  }
+});
