@@ -73,6 +73,8 @@ class FavoriteNotifier extends StateNotifier<FavoriteState> {
       }
       //end decode header
 
+      debugPrint("$keyword $email");
+
       // Make the POST request
       final response = await dio
           .get("${EnvironmentFavConfig.userUnlikeKeyword}$keyword/$email");
@@ -83,12 +85,12 @@ class FavoriteNotifier extends StateNotifier<FavoriteState> {
             isLoading: false,
             data: response.data as Map<String, dynamic>,
             error: '');
-        // debugPrint(response.data.toString());
+        debugPrint(response.data.toString());
       }
     } on DioException catch (e) {
       // debugPrint(e.toString());
       if (e.response != null) {
-        // debugPrint(e.response?.data['message'].toString());
+        debugPrint(e.response?.data['message'].toString());
         state = state.copyWith(
             isLoading: false, error: e.response?.data['message']);
       } else {
