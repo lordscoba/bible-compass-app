@@ -98,6 +98,9 @@ class KeywordPage extends ConsumerWidget {
                                     email: authData['email'] ?? "",
                                     keyword: item['keyword'] ?? "",
                                     catId: catId,
+                                    forSubscribers:
+                                        item['for_subscribers'] ?? false,
+                                    upgrade: authData['upgrade'] ?? false,
                                   ),
                                   colors: item['for_subscribers'] ?? false
                                       ? const [
@@ -137,9 +140,13 @@ class KeywordPage extends ConsumerWidget {
 
 class LikeButton extends ConsumerStatefulWidget {
   final String keyword;
+  final bool forSubscribers;
+  final bool upgrade;
   final String email;
   final String catId;
   const LikeButton({
+    required this.upgrade,
+    required this.forSubscribers,
     required this.catId,
     required this.keyword,
     required this.email,
@@ -160,18 +167,25 @@ class _LikeButtonState extends ConsumerState<LikeButton> {
         final fulldata = item['data'] ?? "";
         return IconButton(
           onPressed: () async {
-            if (mounted) {
-              if (fulldata['status']) {
-                await ref
-                    .read(favProvider.notifier)
-                    .perfromUnLikeRequest(widget.keyword, widget.email);
-              } else {
-                await ref
-                    .read(favProvider.notifier)
-                    .perfromLikeRequest(widget.keyword, widget.email);
+            if ((widget.forSubscribers && widget.upgrade) ||
+                (!widget.forSubscribers)) {
+              if (mounted) {
+                if (fulldata['status']) {
+                  debugPrint(widget.keyword);
+                  await ref
+                      .read(favProvider.notifier)
+                      .perfromUnLikeRequest(widget.keyword, widget.email);
+                } else {
+                  await ref
+                      .read(favProvider.notifier)
+                      .perfromLikeRequest(widget.keyword, widget.email);
+                }
+                // ignore: unused_result
+                await ref.refresh(favoriteApiProvider(t).future);
               }
-              // ignore: unused_result
-              await ref.refresh(favoriteApiProvider(t).future);
+            } else {
+              showSnackBar(context,
+                  "You are not subscribed, Please Upgrade to use like button");
             }
           },
           icon: fulldata['status'] ?? false
