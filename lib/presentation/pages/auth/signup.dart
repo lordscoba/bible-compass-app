@@ -93,7 +93,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       return null;
                     },
                     onSaved: (value) {
-                      user = user.copyWith(username: value!.trim());
+                      user =
+                          user.copyWith(username: value!.trim().toLowerCase());
                     },
                   ),
                   InputField(
@@ -102,7 +103,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       if (value == null || value.isEmpty) {
                         return 'Enter something';
                       }
-                      if (!validateEmail(value.trim())) {
+                      if (!validateEmail(value.trim().toLowerCase())) {
                         return 'Enter valid email';
                       }
                       return null;

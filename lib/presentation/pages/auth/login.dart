@@ -98,7 +98,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       if (value == null || value.isEmpty) {
                         return 'Enter something';
                       }
-                      if (!validateEmail(value.trim())) {
+                      if (!validateEmail(value.trim().toLowerCase())) {
                         return 'Enter valid email';
                       }
                       return null;

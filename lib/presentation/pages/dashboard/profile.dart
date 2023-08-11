@@ -35,12 +35,12 @@ class ProfilePage extends ConsumerWidget {
       bottomNavigationBar: const BottomBar(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       backgroundColor: const Color(0xFFF6F8FF),
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("assets/images/wallpaper1.jpeg"),
-              fit: BoxFit.cover),
-        ),
+      body: SizedBox(
+        // decoration: const BoxDecoration(
+        //   image: DecorationImage(
+        //       image: AssetImage("assets/images/wallpaper1.jpeg"),
+        //       fit: BoxFit.cover),
+        // ),
         height: double.infinity,
         // height: 1200,
         width: double.infinity,
@@ -76,10 +76,14 @@ class ProfilePage extends ConsumerWidget {
                             )
                           : const Text("none"),
                       !(authData.toString() == 'null')
-                          ? Text(
-                              authData['name'].toString(),
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 25),
+                          ? SizedBox(
+                              width: 200,
+                              child: Text(
+                                authData['name'].toString(),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 25),
+                                textAlign: TextAlign.center,
+                              ),
                             )
                           : const Text("none"),
                       const SizedBox(
@@ -121,7 +125,7 @@ class ProfilePage extends ConsumerWidget {
                 ClayContainer(
                     borderRadius: 30,
                     width: MediaQuery.of(context).size.width - 30,
-                    height: 300,
+                    height: 400,
                     child: ListView(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 30, vertical: 60),
@@ -164,7 +168,9 @@ class ProfilePage extends ConsumerWidget {
                             style: TextStyle(color: Colors.black45),
                           ),
                           trailing: !(authData.toString() == 'null')
-                              ? Text(authData['name'].toString())
+                              ? SizedBox(
+                                  width: 100,
+                                  child: Text(authData['name'].toString()))
                               : const Text("none"),
                         ),
                         ListTile(

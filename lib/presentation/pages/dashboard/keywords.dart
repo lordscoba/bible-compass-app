@@ -171,7 +171,6 @@ class _LikeButtonState extends ConsumerState<LikeButton> {
                 (!widget.forSubscribers)) {
               if (mounted) {
                 if (fulldata['status']) {
-                  debugPrint(widget.keyword);
                   await ref
                       .read(favProvider.notifier)
                       .perfromUnLikeRequest(widget.keyword, widget.email);
