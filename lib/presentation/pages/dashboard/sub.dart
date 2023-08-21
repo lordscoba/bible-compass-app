@@ -244,7 +244,7 @@ class InnerClayListCategory extends ConsumerWidget {
 
                                 return ListTile(
                                   title: Text(
-                                    "${(index + 1).toString()}, ${fulldata[index]['type'].toUpperCase()},  Amount: # ${fulldata[index]['amount'].toString()}",
+                                    "${(index + 1).toString()}, ${fulldata[index]['type'].toUpperCase()},  Amount: \$ ${fulldata[index]['amount'].toString()}",
                                     style: const TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
