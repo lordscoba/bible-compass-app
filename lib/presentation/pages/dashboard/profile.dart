@@ -1,3 +1,4 @@
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:bible_compass_app/domain/models/user/user.dart';
 import 'package:bible_compass_app/domain/providers/authproviders.dart';
 import 'package:bible_compass_app/presentation/pages/dashboard/editprofile.dart';
@@ -56,19 +57,28 @@ class ProfilePage extends ConsumerWidget {
                 ClayContainer(
                   borderRadius: 30,
                   width: MediaQuery.of(context).size.width - 30,
-                  height: 300,
+                  height: 350,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Image(
-                        image: AssetImage(
-                          "assets/images/avatar.png",
+                      const AvatarGlow(
+                        glowColor: Colors.greenAccent,
+                        endRadius: 100.0,
+                        duration: Duration(milliseconds: 2000),
+                        repeat: true,
+                        showTwoGlows: true,
+                        repeatPauseDuration: Duration(milliseconds: 100),
+                        child: Image(
+                          image: AssetImage(
+                            "assets/images/avatar.png",
+                          ),
+                          width: 120,
+                          color: Color(0xFF0BA37F),
+                          colorBlendMode: BlendMode.srcIn,
                         ),
-                        width: 120,
-                        color: Color(0xFF0BA37F),
-                        colorBlendMode: BlendMode.srcIn,
                       ),
+                      // const ,
                       !(authData.toString() == 'null')
                           ? Text(
                               "@${authData['username']}",
