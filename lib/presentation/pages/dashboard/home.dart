@@ -98,6 +98,19 @@ class HomeScreen extends ConsumerWidget {
                     letterSpacing: 0.02,
                     wordSpacing: .05),
               ),
+              Container(
+                padding: const EdgeInsets.all(8),
+                width: 350,
+                child: const Text(
+                  "With Bible Compass, you can search the categories and keywords for Related bible verses for your sermon topics, it also has other features like bookmarking your favorites keywords and online bible, which are made to ease your scripture navigation.",
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black54,
+                      letterSpacing: 0.02,
+                      wordSpacing: .05),
+                ),
+              ),
               const HorizontalSpace(),
               const HorizontalSpace(),
               Wrap(
