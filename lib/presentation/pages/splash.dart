@@ -113,6 +113,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             const SizedBox(
               height: 15,
             ),
+            // TextButton(
+            //   onPressed: () => throw Exception(),
+            //   child: const Text("Throw Test Exception"),
+            // ),
             TextButton(
               onPressed: _launchUrl,
               child: const Text(
