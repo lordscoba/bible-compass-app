@@ -62,7 +62,7 @@ class _CreateUsersState extends ConsumerState<CreateUsers> {
     });
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Update Users'),
+        title: const Text('Create Users'),
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () {

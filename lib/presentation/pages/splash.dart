@@ -43,6 +43,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     checkAuth(ref, user, userstate);
 
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Bible Compass Overview"),
+      ),
       body: Container(
         height: double.infinity,
         width: double.infinity,
@@ -92,8 +95,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                   shadowColor: Colors.grey[800],
                   elevation: 6),
               onPressed: () {
-                // debugPrint("hi");
-                // debugPrint(isAuthenticated.toString());
                 ref.watch(isAuthenticated)
                     ? Future.delayed(const Duration(milliseconds: 300), () {
                         if (ref
@@ -113,10 +114,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             const SizedBox(
               height: 15,
             ),
-            // TextButton(
-            //   onPressed: () => throw Exception(),
-            //   child: const Text("Throw Test Exception"),
-            // ),
             TextButton(
               onPressed: _launchUrl,
               child: const Text(

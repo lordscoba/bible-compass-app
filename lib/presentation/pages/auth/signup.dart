@@ -65,6 +65,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     });
 
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Account Sign Up"),
+      ),
       body: Container(
         height: double.infinity,
         width: double.infinity,

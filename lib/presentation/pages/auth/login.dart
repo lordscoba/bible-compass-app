@@ -75,6 +75,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     });
 
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Account Login"),
+      ),
       body: Container(
         height: double.infinity,
         width: double.infinity,
