@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "488717454819",
+    "project_id": "bible-compass",
+    "storage_bucket": "bible-compass.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:488717454819:android:c130e0893e75c3a6b164d6",
+        "android_client_info": {
+          "package_name": "com.snappyfix.bible_compass_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "488717454819-qlc4k304v91k4l202s51qn72tuvud01u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkAJ8ODyDhMq5YPPEX664gwWtE2Z0JgpM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "488717454819-qlc4k304v91k4l202s51qn72tuvud01u.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "488717454819-6nuhrv7hq9e06ft3rdq3ce37f670npmt.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.bibleCompassApp.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
