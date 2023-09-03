@@ -64,6 +64,9 @@ class _VerifyUserScreenState extends ConsumerState<VerifyUserScreen> {
       }
     });
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Account Forgot Password"),
+      ),
       body: Container(
         height: double.infinity,
         width: double.infinity,

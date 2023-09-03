@@ -241,6 +241,17 @@ class _MyRouterState extends ConsumerState<MyRouter> {
     );
 
     return MaterialApp.router(
+      builder: (BuildContext context, Widget? child) {
+        // Set the desired text scale factor here (adjust as needed)
+        const double desiredTextScaleFactor = 1;
+
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(
+            textScaleFactor: desiredTextScaleFactor,
+          ),
+          child: child!,
+        );
+      },
       theme: ThemeData(
         visualDensity: VisualDensity.adaptivePlatformDensity,
         textTheme: GoogleFonts.latoTextTheme(
