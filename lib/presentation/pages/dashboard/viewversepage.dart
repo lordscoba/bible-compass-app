@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../widgets/RateUs.dart';
+
 class ViewVerseDetails extends ConsumerWidget {
   final String keywid;
   final String vsId;
@@ -179,6 +181,7 @@ class ViewVerseDetails extends ConsumerWidget {
                               ],
                             )
                           : const SizedBox(),
+                      ShowRateUs(),
                     ],
                   ),
                 );

@@ -79,6 +79,19 @@ class _BibleApiState extends ConsumerState<BibleApi> {
                               Column(
                                 children: book.map<Widget>((dynamic item) {
                                   Map<dynamic, dynamic> verse = item['chapter'];
+
+                                  // Convert keys to numbers and sort in ascending order
+                                  var sortedKeys = verse.keys.toList()
+                                    ..sort((a, b) =>
+                                        int.parse(a).compareTo(int.parse(b)));
+
+                                  Map<String, dynamic> sortedMap = {};
+
+                                  for (var key in sortedKeys) {
+                                    sortedMap[key] = verse[key];
+                                  }
+                                  // Convert keys to numbers and sort in ascending order ends
+
                                   // debugPrint(verse.toString());
                                   return Container(
                                     decoration: BoxDecoration(
@@ -112,7 +125,8 @@ class _BibleApiState extends ConsumerState<BibleApi> {
                                           height: 15,
                                         ),
                                         Column(
-                                          children: verse.entries
+                                          // children: verse.entries
+                                          children: sortedMap.entries
                                               .map<Widget>((entry) {
                                             String key = entry.key.toString();
                                             String value =

@@ -4,6 +4,7 @@ import 'package:bible_compass_app/domain/providers/keywordproviders.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Draw extends ConsumerStatefulWidget {
   const Draw({super.key});
@@ -20,6 +21,17 @@ class _DrawState extends ConsumerState<Draw> {
 // }
 // class Draw extends ConsumerWidget {
 //   const Draw({super.key});
+
+  final Uri _url = Uri.parse(
+      'https://play.google.com/store/apps/details?id=com.snappyfix.bible_compass_app');
+  Future<void> _launchUrl() async {
+    if (!await launchUrl(
+      _url,
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw Exception('Could not launch $_url');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +85,11 @@ class _DrawState extends ConsumerState<Draw> {
             onTap: () {
               context.push('/profile');
             },
+          ),
+          DrawerPart(
+            icon: Icons.rate_review_outlined,
+            text: 'Rate Us',
+            onTap: _launchUrl,
           ),
           DrawerPart(
             icon: Icons.logout_outlined,
@@ -162,13 +179,6 @@ class AdminDraw extends ConsumerWidget {
               context.push('/admin/categories');
             },
           ),
-          // DrawerPart(
-          //   icon: Icons.category_outlined,
-          //   text: 'keywords',
-          //   onTap: () {
-          //     context.go('/admin/keywords');
-          //   },
-          // ),
           DrawerPart(
             icon: Icons.money,
             text: 'Subscription',

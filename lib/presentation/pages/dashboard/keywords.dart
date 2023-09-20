@@ -8,6 +8,7 @@ import 'package:bible_compass_app/presentation/widgets/drawer.dart';
 import 'package:bible_compass_app/presentation/widgets/header.dart';
 import 'package:bible_compass_app/presentation/widgets/inputfield.dart';
 import 'package:bible_compass_app/presentation/widgets/navigations.dart';
+import 'package:bible_compass_app/presentation/widgets/upgradeModal.dart';
 import 'package:bible_compass_app/utils/snacksbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -86,8 +87,15 @@ class KeywordPage extends ConsumerWidget {
                                       if (authData['upgrade'] == true) {
                                         context.push("/verse/${item['id']}");
                                       } else {
-                                        showSnackBar(context,
-                                            "You are not subscribed, Please Upgrade to use");
+                                        // showSnackBar(context,
+                                        //     "You are not subscribed, Please Upgrade to use");
+                                        showDialog(
+                                          context: context,
+                                          barrierDismissible: true,
+                                          builder: (BuildContext context) {
+                                            return const UserUpgradeModal();
+                                          },
+                                        );
                                       }
                                     } else {
                                       context.push("/verse/${item['id']}");

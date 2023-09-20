@@ -86,120 +86,124 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
               fit: BoxFit.cover),
         ),
         height: double.infinity,
-        // height: 1200,
         width: double.infinity,
         child: SingleChildScrollView(
           child: SizedBox(
-            height: MediaQuery.of(context).size.height - 80,
-            child: FutureBuilder<CategoryState>(
-              future: catsfuture,
-              builder: (BuildContext context,
-                  AsyncSnapshot<CategoryState> snapshot) {
-                if (snapshot.hasData) {
-                  // debugPrint(snapshot.data?.data['data'].toString());
-                  final fulldata = snapshot.data?.data['data'] ?? '';
+            height: MediaQuery.of(context).size.height - 150,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: FutureBuilder<CategoryState>(
+                future: catsfuture,
+                builder: (BuildContext context,
+                    AsyncSnapshot<CategoryState> snapshot) {
+                  if (snapshot.hasData) {
+                    // debugPrint(snapshot.data?.data['data'].toString());
+                    final fulldata = snapshot.data?.data['data'] ?? '';
 
-                  if (fulldata.isNotEmpty) {
-                    return ListView.builder(
-                      itemCount: fulldata.length,
-                      itemBuilder: (context, index) {
-                        return FadeIn(
-                          duration: Duration(milliseconds: 300 + (400 * index)),
-                          curve: Curves.slowMiddle,
-                          child: GestureDetector(
-                            onTap: () {
-                              if (fulldata[index]['for_subscribers'] == true) {
-                                if (authData['upgrade'] == true) {
+                    if (fulldata.isNotEmpty) {
+                      return ListView.builder(
+                        itemCount: fulldata.length,
+                        itemBuilder: (context, index) {
+                          return FadeIn(
+                            duration:
+                                Duration(milliseconds: 300 + (400 * index)),
+                            curve: Curves.slowMiddle,
+                            child: GestureDetector(
+                              onTap: () {
+                                if (fulldata[index]['for_subscribers'] ==
+                                    true) {
+                                  if (authData['upgrade'] == true) {
+                                    context.push(
+                                        "/keywords/${fulldata[index]['id']}");
+                                  } else {
+                                    showSnackBar(context,
+                                        "You are not subscribed, Please Upgrade to use");
+                                  }
+                                } else {
                                   context.push(
                                       "/keywords/${fulldata[index]['id']}");
-                                } else {
-                                  showSnackBar(context,
-                                      "You are not subscribed, Please Upgrade to use");
                                 }
-                              } else {
-                                context
-                                    .push("/keywords/${fulldata[index]['id']}");
-                              }
-                            },
-                            child: Container(
-                              margin: const EdgeInsets.symmetric(
-                                  vertical: 3, horizontal: 10),
-                              decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(15.0)),
-                                gradient: fulldata[index]['for_subscribers']
-                                    ? const LinearGradient(
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                        colors: [
-                                          Color.fromARGB(255, 4, 82, 64),
-                                          Color.fromARGB(255, 4, 44, 31),
-                                          Color.fromARGB(255, 3, 47, 34),
-                                        ],
-                                      )
-                                    : const LinearGradient(
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                        colors: [
-                                          Color(0xFF0BA37F),
-                                          Color.fromARGB(255, 9, 144, 99),
-                                          Color.fromARGB(255, 3, 47, 34),
-                                        ],
-                                      ),
-                              ),
-                              child: ListTile(
-                                title: Text(
-                                  fulldata[index]['category_name'],
-                                  style: const TextStyle(
-                                      color: Colors.white, fontSize: 25),
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.symmetric(
+                                    vertical: 3, horizontal: 10),
+                                decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(15.0)),
+                                  gradient: fulldata[index]['for_subscribers']
+                                      ? const LinearGradient(
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter,
+                                          colors: [
+                                            Color.fromARGB(255, 4, 82, 64),
+                                            Color.fromARGB(255, 4, 44, 31),
+                                            Color.fromARGB(255, 3, 47, 34),
+                                          ],
+                                        )
+                                      : const LinearGradient(
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter,
+                                          colors: [
+                                            Color(0xFF0BA37F),
+                                            Color.fromARGB(255, 9, 144, 99),
+                                            Color.fromARGB(255, 3, 47, 34),
+                                          ],
+                                        ),
                                 ),
-                                trailing: const Icon(
-                                  Icons.arrow_forward_ios,
-                                  color: Colors.white,
-                                  size: 30,
+                                child: ListTile(
+                                  title: Text(
+                                    fulldata[index]['category_name'],
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 25),
+                                  ),
+                                  trailing: const Icon(
+                                    Icons.arrow_forward_ios,
+                                    color: Colors.white,
+                                    size: 30,
+                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 16.0, vertical: 20),
+                                  enabled: true,
                                 ),
-                                contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 16.0, vertical: 20),
-                                enabled: true,
                               ),
                             ),
+                          );
+                        },
+                      );
+                    } else {
+                      return Center(
+                        child: Container(
+                          height: 300,
+                          width: 300,
+                          decoration: const BoxDecoration(color: Colors.white),
+                          child: const Center(
+                            child: Text(
+                              "switch on your internet",
+                              style: TextStyle(
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.w500,
+                                  fontStyle: FontStyle.italic,
+                                  color: Colors.black),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
-                        );
-                      },
-                    );
+                        ),
+                      );
+                    }
+                    // return const Text("hello hasdata");
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
                   } else {
-                    return Center(
-                      child: Container(
-                        height: 300,
-                        width: 300,
-                        decoration: const BoxDecoration(color: Colors.white),
-                        child: const Center(
-                          child: Text(
-                            "switch on your internet",
-                            style: TextStyle(
-                                fontSize: 30,
-                                fontWeight: FontWeight.w500,
-                                fontStyle: FontStyle.italic,
-                                color: Colors.black),
-                            textAlign: TextAlign.center,
-                          ),
+                    return const Scaffold(
+                      body: Center(
+                        child: CupertinoActivityIndicator(
+                          radius: 50,
                         ),
                       ),
                     );
                   }
-                  // return const Text("hello hasdata");
-                } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                } else {
-                  return const Scaffold(
-                    body: Center(
-                      child: CupertinoActivityIndicator(
-                        radius: 50,
-                      ),
-                    ),
-                  );
-                }
-              },
+                },
+              ),
             ),
           ),
         ),
