@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:bible_compass_app/domain/models/user/user.dart';
 import 'package:bible_compass_app/domain/providers/authproviders.dart';
@@ -10,7 +9,6 @@ import 'package:bible_compass_app/presentation/pages/admin/subscription/subscrip
 import 'package:bible_compass_app/presentation/pages/admin/users/users.dart';
 import 'package:bible_compass_app/presentation/pages/admin/verses/verse.dart';
 import 'package:bible_compass_app/presentation/pages/auth/login.dart';
-import 'package:bible_compass_app/presentation/pages/auth/pdf.dart';
 import 'package:bible_compass_app/presentation/pages/auth/signup.dart';
 import 'package:bible_compass_app/presentation/pages/auth/verify.dart';
 import 'package:bible_compass_app/presentation/pages/dashboard/bible.dart';
@@ -23,11 +21,9 @@ import 'package:bible_compass_app/presentation/pages/dashboard/userverse.dart';
 import 'package:bible_compass_app/presentation/pages/error.dart';
 import 'package:bible_compass_app/presentation/pages/splash.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:path_provider/path_provider.dart';
 
 import '../presentation/pages/dashboard/home.dart';
 import '../utils/checkauth.dart';
@@ -43,54 +39,11 @@ class _MyRouterState extends ConsumerState<MyRouter> {
   late UserModel user;
   late AuthState userstate;
 
-// for pdf
-  String pathAcknowledgement = "";
-  String pathPrivacy = "";
-  String pathTerms = "";
-
   @override
   void initState() {
     super.initState();
     user = UserModel();
     userstate = const AuthState();
-    // Initialize the variable in initState
-
-// for pdf
-    fromAsset('assets/pdfs/Acknowledgement.pdf', 'Acknowledgement.pdf')
-        .then((f) {
-      setState(() {
-        pathAcknowledgement = f.path;
-      });
-    });
-    fromAsset('assets/pdfs/Privacy-Policy.pdf', 'Privacy-Policy.pdf').then((f) {
-      setState(() {
-        pathPrivacy = f.path;
-      });
-    });
-    fromAsset('assets/pdfs/Terms-of-Service.pdf', 'Terms-of-Service.pdf')
-        .then((f) {
-      setState(() {
-        pathTerms = f.path;
-      });
-    });
-  }
-
-  Future<File> fromAsset(String asset, String filename) async {
-    // To open from assets, you can copy them to the app storage folder, and the access them "locally"
-    Completer<File> completer = Completer();
-
-    try {
-      var dir = await getApplicationDocumentsDirectory();
-      File file = File("${dir.path}/$filename");
-      var data = await rootBundle.load(asset);
-      var bytes = data.buffer.asUint8List();
-      await file.writeAsBytes(bytes, flush: true);
-      completer.complete(file);
-    } catch (e) {
-      throw Exception('Error parsing asset file!');
-    }
-
-    return completer.future;
   }
 
   @override
@@ -132,18 +85,6 @@ class _MyRouterState extends ConsumerState<MyRouter> {
         GoRoute(
           path: '/verify',
           builder: (context, state) => const VerifyUserScreen(),
-        ),
-        GoRoute(
-          path: '/pdf/acknowledgement',
-          builder: (context, state) => PDFScreen(path: pathAcknowledgement),
-        ),
-        GoRoute(
-          path: '/pdf/privacy',
-          builder: (context, state) => PDFScreen(path: pathPrivacy),
-        ),
-        GoRoute(
-          path: '/pdf/terms',
-          builder: (context, state) => PDFScreen(path: pathTerms),
         ),
 
         // dashboard screen

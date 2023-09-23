@@ -162,6 +162,33 @@ class InnerClayListCategory extends ConsumerWidget {
           ref.watch(subProvider.notifier).perfromGetUserSubsRequests(userId);
       return subcalled;
     });
+
+    Future<void> updateUpgradeAuth() async {
+      final prefs = await ref.watch(sharedPrefProvider);
+      // iterate through array
+      subfuture.then(
+        (result) async {
+          bool itemExists = false;
+          for (Map<String, dynamic> content in result.data["data"]) {
+            if (content['status'] &&
+                !content['processing'] &&
+                DateTime.parse(content['date_created'])
+                    .isAfter(DateTime.parse(content['date_expiring'])) &&
+                !content['failed']) {
+              itemExists = true;
+              break;
+            }
+          }
+          if (itemExists) {
+            await prefs.setBool('upgrade', true);
+          } else {
+            await prefs.setBool('upgrade', false);
+          }
+        },
+      );
+    }
+
+    updateUpgradeAuth();
     double listSize = 350;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 18.0),

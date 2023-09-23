@@ -111,6 +111,7 @@ class LoginNotifier extends StateNotifier<AuthState> {
             'token', response.data['data']['token'].toString());
         await prefs.setString(
             'token_type', response.data['data']['token_type'].toString());
+        await prefs.setBool('upgrade', response.data['data']['upgrade']);
         await prefs.setBool('status', true);
 
         // end set login state

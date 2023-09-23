@@ -31,6 +31,14 @@ class KeywordPage extends ConsumerWidget {
 
     final keywfuture = ref.watch(keywordApiProvider(t));
 
+    bool upgrade = false;
+    Future<void> updateUpgradeAuth() async {
+      final prefs = await ref.watch(sharedPrefProvider);
+      upgrade = prefs.getBool('upgrade') ?? false;
+    }
+
+    updateUpgradeAuth();
+
     return Scaffold(
       appBar: const Header(
         title: 'Keywords',
@@ -84,7 +92,8 @@ class KeywordPage extends ConsumerWidget {
                                   onTap: () {
                                     if (item['for_subscribers'] ??
                                         false == true) {
-                                      if (authData['upgrade'] == true) {
+                                      if (authData['upgrade'] == true ||
+                                          upgrade) {
                                         context.push("/verse/${item['id']}");
                                       } else {
                                         // showSnackBar(context,

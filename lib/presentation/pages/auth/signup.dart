@@ -6,6 +6,7 @@ import 'package:bible_compass_app/utils/validation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../domain/models/user/user.dart';
 import '../../widgets/inputfield.dart';
@@ -48,6 +49,18 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     displaymessage.snackBarMade(context, message, error);
   }
 
+  final Uri _urlPrivacyPolicy =
+      Uri.parse('https://www.bible-compass.com/privacy');
+
+  Future<void> _launchUrl(Uri url) async {
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final UserState checkState = ref.watch(signUpProvider);
@@ -71,11 +84,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
       body: Container(
         height: double.infinity,
         width: double.infinity,
-        decoration: BoxDecoration(color: Colors.grey.shade200
-            // image: DecorationImage(
-            //     image: AssetImage("assets/images/wallpaper1.jpeg"),
-            //     fit: BoxFit.cover),
-            ),
+        decoration: BoxDecoration(color: Colors.grey.shade200),
         child: SingleChildScrollView(
           child: SizedBox(
             height: MediaQuery.of(context).size.height,
@@ -154,8 +163,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                         },
                       ),
                       TextButton(
-                        onPressed: () {
-                          context.push('/pdf/terms');
+                        onPressed: () async {
+                          await _launchUrl(_urlPrivacyPolicy);
                         },
                         child: const Text(
                           "Agree to Our Terms and Conditions",

@@ -176,16 +176,20 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
                           height: 300,
                           width: 300,
                           decoration: const BoxDecoration(color: Colors.white),
-                          child: const Center(
-                            child: Text(
-                              "switch on your internet",
-                              style: TextStyle(
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.w500,
-                                  fontStyle: FontStyle.italic,
-                                  color: Colors.black),
-                              textAlign: TextAlign.center,
-                            ),
+                          child: const Wrap(
+                            children: [
+                              Center(
+                                child: Text(
+                                  "switch on your internet",
+                                  style: TextStyle(
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.w500,
+                                      fontStyle: FontStyle.italic,
+                                      color: Colors.black),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       );
@@ -194,11 +198,14 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
                   } else if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   } else {
-                    return const Scaffold(
-                      body: Center(
-                        child: CupertinoActivityIndicator(
-                          radius: 50,
-                        ),
+                    return const Center(
+                      child: Wrap(
+                        children: [
+                          CupertinoActivityIndicator(
+                            radius: 50,
+                            color: Colors.white,
+                          ),
+                        ],
                       ),
                     );
                   }
