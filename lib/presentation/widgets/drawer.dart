@@ -4,6 +4,7 @@ import 'package:bible_compass_app/domain/providers/keywordproviders.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Draw extends ConsumerStatefulWidget {
   const Draw({super.key});
@@ -13,13 +14,23 @@ class Draw extends ConsumerStatefulWidget {
 }
 
 class _DrawState extends ConsumerState<Draw> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container();
-//   }
-// }
-// class Draw extends ConsumerWidget {
-//   const Draw({super.key});
+  final Uri _urlRateUs = Uri.parse(
+      'https://play.google.com/store/apps/details?id=com.snappyfix.bible_compass_app');
+  final Uri _urlTermsOfService =
+      Uri.parse('https://www.bible-compass.com/terms');
+  final Uri _urlPrivacyPolicy =
+      Uri.parse('https://www.bible-compass.com/privacy');
+  final Uri _urlAcknowledgement =
+      Uri.parse('https://www.bible-compass.com/acknowledgement');
+
+  Future<void> _launchUrl(Uri url) async {
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw Exception('Could not launch $url');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +86,13 @@ class _DrawState extends ConsumerState<Draw> {
             },
           ),
           DrawerPart(
+            icon: Icons.rate_review_outlined,
+            text: 'Rate Us',
+            onTap: () async {
+              await _launchUrl(_urlRateUs);
+            },
+          ),
+          DrawerPart(
             icon: Icons.logout_outlined,
             text: 'logout',
             onTap: () async {
@@ -96,22 +114,22 @@ class _DrawState extends ConsumerState<Draw> {
           DrawerPart(
             icon: Icons.picture_as_pdf_outlined,
             text: 'Acknowledgements',
-            onTap: () {
-              context.push('/pdf/acknowledgement');
+            onTap: () async {
+              await _launchUrl(_urlAcknowledgement);
             },
           ),
           DrawerPart(
             icon: Icons.picture_as_pdf_outlined,
             text: 'Privacy Policy',
-            onTap: () {
-              context.push('/pdf/privacy');
+            onTap: () async {
+              await _launchUrl(_urlPrivacyPolicy);
             },
           ),
           DrawerPart(
             icon: Icons.picture_as_pdf_outlined,
             text: 'Terms of Services',
-            onTap: () {
-              context.push('/pdf/terms');
+            onTap: () async {
+              await _launchUrl(_urlTermsOfService);
             },
           ),
         ],
@@ -162,13 +180,6 @@ class AdminDraw extends ConsumerWidget {
               context.push('/admin/categories');
             },
           ),
-          // DrawerPart(
-          //   icon: Icons.category_outlined,
-          //   text: 'keywords',
-          //   onTap: () {
-          //     context.go('/admin/keywords');
-          //   },
-          // ),
           DrawerPart(
             icon: Icons.money,
             text: 'Subscription',

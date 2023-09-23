@@ -8,6 +8,7 @@ import 'package:bible_compass_app/presentation/widgets/drawer.dart';
 import 'package:bible_compass_app/presentation/widgets/header.dart';
 import 'package:bible_compass_app/presentation/widgets/inputfield.dart';
 import 'package:bible_compass_app/presentation/widgets/navigations.dart';
+import 'package:bible_compass_app/presentation/widgets/upgradeModal.dart';
 import 'package:bible_compass_app/utils/snacksbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +30,14 @@ class KeywordPage extends ConsumerWidget {
     var t = Tuple2<String, String>(catId, search);
 
     final keywfuture = ref.watch(keywordApiProvider(t));
+
+    bool upgrade = false;
+    Future<void> updateUpgradeAuth() async {
+      final prefs = await ref.watch(sharedPrefProvider);
+      upgrade = prefs.getBool('upgrade') ?? false;
+    }
+
+    updateUpgradeAuth();
 
     return Scaffold(
       appBar: const Header(
@@ -83,11 +92,19 @@ class KeywordPage extends ConsumerWidget {
                                   onTap: () {
                                     if (item['for_subscribers'] ??
                                         false == true) {
-                                      if (authData['upgrade'] == true) {
+                                      if (authData['upgrade'] == true ||
+                                          upgrade) {
                                         context.push("/verse/${item['id']}");
                                       } else {
-                                        showSnackBar(context,
-                                            "You are not subscribed, Please Upgrade to use");
+                                        // showSnackBar(context,
+                                        //     "You are not subscribed, Please Upgrade to use");
+                                        showDialog(
+                                          context: context,
+                                          barrierDismissible: true,
+                                          builder: (BuildContext context) {
+                                            return const UserUpgradeModal();
+                                          },
+                                        );
                                       }
                                     } else {
                                       context.push("/verse/${item['id']}");

@@ -82,7 +82,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                       color: Colors.black.withOpacity(0.65),
                       fontWeight: FontWeight.w700,
                       fontSize: 18),
-                  "Bible Compass was built to make it hassle free finding related bible verses for your sermon topics, it also has other cool features, You can now focus other tasks involved in preparing for your sermons!"),
+                  "Bible Compass was built to make it hassle free finding related bible verses for your sermon topics, it also has other cool features, You can now focus on other tasks involved in preparing for your sermons!"),
             ),
             const Spacer(
               flex: 1,
