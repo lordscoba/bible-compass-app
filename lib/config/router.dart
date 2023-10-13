@@ -13,6 +13,7 @@ import 'package:bible_compass_app/presentation/pages/auth/signup.dart';
 import 'package:bible_compass_app/presentation/pages/auth/verify.dart';
 import 'package:bible_compass_app/presentation/pages/dashboard/bible.dart';
 import 'package:bible_compass_app/presentation/pages/dashboard/category.dart';
+import 'package:bible_compass_app/presentation/pages/dashboard/faq.dart';
 import 'package:bible_compass_app/presentation/pages/dashboard/favorite.dart';
 import 'package:bible_compass_app/presentation/pages/dashboard/keywords.dart';
 import 'package:bible_compass_app/presentation/pages/dashboard/profile.dart';
@@ -145,6 +146,11 @@ class _MyRouterState extends ConsumerState<MyRouter> {
           path: '/favorite',
           builder: (context, state) => const FavouritePage(),
           redirect: redirectStrict,
+        ),
+        GoRoute(
+          path: '/faq',
+          builder: (context, state) => const FaqPage(),
+          redirect: redirectNotStrict,
         ),
 
         // admin screen

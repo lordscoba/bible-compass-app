@@ -3,12 +3,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final bibleApiProvider = FutureProvider.family
-    .autoDispose<Map<String, dynamic>, String>((ref, query) async {
+final remoteApiProvider =
+    FutureProvider.autoDispose<Map<String, dynamic>>((ref) async {
   try {
     final dio = Dio();
 
-    final response = await dio.get(EnvironmentVerseConfig.aiBible + query);
+    final response = await dio.get(EnvironmentVerseConfig.randomBible);
     if (response.statusCode == 200) {
       return response.data as Map<String, dynamic>;
     } else {
