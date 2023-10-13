@@ -1,12 +1,10 @@
-// import 'dart:js_interop';
-
 import 'package:bible_compass_app/domain/models/user/user.dart';
-import 'package:bible_compass_app/domain/providers/authproviders.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../domain/providers/authproviders.dart';
 import '../../utils/checkauth.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
@@ -40,7 +38,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // checking authentication
     checkAuth(ref, user, userstate);
+    final bool isProjectAuthenticated = ref.watch(isAuthenticated);
 
     return Scaffold(
       appBar: AppBar(
@@ -95,20 +95,27 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                   shadowColor: Colors.grey[800],
                   elevation: 6),
               onPressed: () {
-                ref.watch(isAuthenticated)
-                    ? Future.delayed(const Duration(milliseconds: 300), () {
-                        if (ref
-                                .watch(loginProvider)
-                                .data['data']['type']
-                                .toString() ==
-                            "admin") {
-                          context.push('/admin');
-                        } else {
-                          context.push('/home');
-                        }
-                      })
-                    : context.go("/login");
+                isProjectAuthenticated
+                    ? {
+                        Future.delayed(const Duration(milliseconds: 800), () {
+                          if (ref
+                                  .watch(loginProvider)
+                                  .data['data']['type']
+                                  .toString() ==
+                              "admin") {
+                            context.push('/admin');
+                          } else {
+                            context.push('/home');
+                          }
+                        })
+                      }
+                    : {context.push('/home')};
               },
+              // onPressed: () {
+              //   checkAuth(ref, user, userstate);
+              //   context.push('/home');
+              //   // debugPrint(isProjectAuthenticated(ref).toString());
+              // },
               child: const Text("Get Started"),
             ),
             const SizedBox(

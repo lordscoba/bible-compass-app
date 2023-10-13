@@ -17,20 +17,25 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tuple/tuple.dart';
 
+import '../../widgets/signInCheckModal.dart';
+
 class KeywordPage extends ConsumerWidget {
   final String catId;
   const KeywordPage({required this.catId, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // auth variables that checks authentication
+    final bool isProjectAuthenticated = ref.watch(isAuthenticated);
     final AuthState auth = ref.watch(loginProvider);
     var authData = auth.data['data'];
 
+    // variables that enables the search input
     final search = ref.watch(userKeywordSearchProvider);
     var t = Tuple2<String, String>(catId, search);
-
     final keywfuture = ref.watch(keywordApiProvider(t));
 
+    // variables for checking upgrade status
     bool upgrade = false;
     Future<void> updateUpgradeAuth() async {
       final prefs = await ref.watch(sharedPrefProvider);
@@ -62,7 +67,6 @@ class KeywordPage extends ConsumerWidget {
               image: AssetImage("assets/images/jesus1.jpg"), fit: BoxFit.cover),
         ),
         height: double.infinity,
-        // height: 1200,
         width: double.infinity,
         child: Column(
           children: [
@@ -92,33 +96,54 @@ class KeywordPage extends ConsumerWidget {
                                   onTap: () {
                                     if (item['for_subscribers'] ??
                                         false == true) {
-                                      if (authData['upgrade'] == true ||
-                                          upgrade) {
-                                        context.push("/verse/${item['id']}");
+                                      // check user auth start
+                                      if (isProjectAuthenticated) {
+                                        // check user upgrade start
+                                        if (authData['upgrade'] == true ||
+                                            upgrade) {
+                                          context.push("/verse/${item['id']}");
+                                        } else {
+                                          showDialog(
+                                            context: context,
+                                            barrierDismissible: true,
+                                            builder: (BuildContext context) {
+                                              return const UserUpgradeModal();
+                                            },
+                                          );
+                                        }
+                                        // check user upgrade ends
                                       } else {
-                                        // showSnackBar(context,
-                                        //     "You are not subscribed, Please Upgrade to use");
                                         showDialog(
                                           context: context,
                                           barrierDismissible: true,
                                           builder: (BuildContext context) {
-                                            return const UserUpgradeModal();
+                                            return const SignInCheckModal();
                                           },
                                         );
                                       }
+                                      // check user auth start
                                     } else {
                                       context.push("/verse/${item['id']}");
                                     }
                                   },
-                                  // favButton: const Text("1"),
-                                  favButton: LikeButton(
-                                    email: authData['email'] ?? "",
-                                    keyword: item['keyword'] ?? "",
-                                    catId: catId,
-                                    forSubscribers:
-                                        item['for_subscribers'] ?? false,
-                                    upgrade: authData['upgrade'] ?? false,
-                                  ),
+                                  favButton: isProjectAuthenticated
+                                      ? LikeButton(
+                                          email: authData['email'] ?? "",
+                                          keyword: item['keyword'] ?? "",
+                                          catId: catId,
+                                          forSubscribers:
+                                              item['for_subscribers'] ?? false,
+                                          upgrade: authData['upgrade'] ?? false,
+                                        )
+                                      : const SizedBox(
+                                          child: Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: Icon(
+                                              Icons.self_improvement,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
                                   colors: item['for_subscribers'] ?? false
                                       ? const [
                                           Color.fromARGB(255, 4, 82, 64),

@@ -34,6 +34,8 @@ class _DrawState extends ConsumerState<Draw> {
 
   @override
   Widget build(BuildContext context) {
+    // checking authentication
+    final bool isProjectAuthenticated = ref.watch(isAuthenticated);
     return Drawer(
       width: 300,
       // backgroundColor: Colors.black.withOpacity(0.6),
@@ -92,22 +94,30 @@ class _DrawState extends ConsumerState<Draw> {
               await _launchUrl(_urlRateUs);
             },
           ),
-          DrawerPart(
-            icon: Icons.logout_outlined,
-            text: 'logout',
-            onTap: () async {
-              ref.invalidate(loginProvider);
-              ref.invalidate(categoryProvider);
-              ref.invalidate(keywordProvider);
-              context.go('/login');
-              // final SharedPreferences prefs =
-              //     await SharedPreferences.getInstance();
-              final prefs = await ref.watch(sharedPrefProvider);
-              await prefs.clear();
-              final String? username = prefs.getString('username');
-              debugPrint(username);
-            },
-          ),
+          isProjectAuthenticated
+              ? DrawerPart(
+                  icon: Icons.logout_outlined,
+                  text: 'logout',
+                  onTap: () async {
+                    ref.invalidate(loginProvider);
+                    ref.invalidate(categoryProvider);
+                    ref.invalidate(keywordProvider);
+                    context.go('/login');
+                    // final SharedPreferences prefs =
+                    //     await SharedPreferences.getInstance();
+                    final prefs = await ref.watch(sharedPrefProvider);
+                    await prefs.clear();
+                    final String? username = prefs.getString('username');
+                    debugPrint(username);
+                  },
+                )
+              : DrawerPart(
+                  icon: Icons.login,
+                  text: 'Log in',
+                  onTap: () async {
+                    context.push("/login");
+                  },
+                ),
           const SizedBox(
             height: 40,
           ),

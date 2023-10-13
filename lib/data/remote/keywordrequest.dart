@@ -292,16 +292,16 @@ final keywordApiProvider = FutureProvider.family
   try {
     final dio = Dio();
 
-    // decode header
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? token = prefs.getString('token');
-    bool hasExpired = JwtDecoder.isExpired(token!);
-    if (!hasExpired) {
-      dio.options.headers["bearer"] = token.toString();
-    } else {
-      throw Exception('token has expired');
-    }
-    //end decode header
+    // // decode header
+    // final SharedPreferences prefs = await SharedPreferences.getInstance();
+    // final String? token = prefs.getString('token');
+    // bool hasExpired = JwtDecoder.isExpired(token!);
+    // if (!hasExpired) {
+    //   dio.options.headers["bearer"] = token.toString();
+    // } else {
+    //   throw Exception('token has expired');
+    // }
+    // //end decode header
 
     // final response = await dio.get(EnvironmentVerseConfig.aiBible + query);
     // Make the POST request

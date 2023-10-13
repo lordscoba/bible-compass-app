@@ -5,12 +5,14 @@ import 'package:bible_compass_app/domain/providers/categoryproviders.dart';
 import 'package:bible_compass_app/presentation/widgets/drawer.dart';
 import 'package:bible_compass_app/presentation/widgets/header.dart';
 import 'package:bible_compass_app/presentation/widgets/navigations.dart';
-import 'package:bible_compass_app/utils/snacksbar.dart';
+import 'package:bible_compass_app/presentation/widgets/signInCheckModal.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../widgets/upgradeModal.dart';
 
 class CategoryPage extends ConsumerStatefulWidget {
   const CategoryPage({super.key});
@@ -29,7 +31,7 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
         context: context,
         builder: (context) => AlertDialog(
           title: const Text('Welcome to Catgeory page'),
-          content: const Text('The dark green catgeories are for premium plan'),
+          content: const Text('The dark green categories are for premium plan'),
           actions: [
             TextButton(
               child: const Text('Close'),
@@ -58,6 +60,9 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
         return catscalled;
       }
     });
+
+    // auth variables
+    final bool isProjectAuthenticated = ref.watch(isAuthenticated);
     final AuthState auth = ref.watch(loginProvider);
     var authData = auth.data['data'];
     // debugPrint(authData.toString());
@@ -112,13 +117,34 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
                               onTap: () {
                                 if (fulldata[index]['for_subscribers'] ==
                                     true) {
-                                  if (authData['upgrade'] == true) {
-                                    context.push(
-                                        "/keywords/${fulldata[index]['id']}");
+                                  // check user auth start
+                                  if (isProjectAuthenticated) {
+                                    // check user upgrade start
+                                    if (authData['upgrade'] == true) {
+                                      context.push(
+                                          "/keywords/${fulldata[index]['id']}");
+                                    } else {
+                                      // showSnackBar(context,
+                                      //     "You are not subscribed, Please Upgrade to use");
+                                      showDialog(
+                                        context: context,
+                                        barrierDismissible: true,
+                                        builder: (BuildContext context) {
+                                          return const UserUpgradeModal();
+                                        },
+                                      );
+                                    }
+                                    // check user upgrade ends
                                   } else {
-                                    showSnackBar(context,
-                                        "You are not subscribed, Please Upgrade to use");
+                                    showDialog(
+                                      context: context,
+                                      barrierDismissible: true,
+                                      builder: (BuildContext context) {
+                                        return const SignInCheckModal();
+                                      },
+                                    );
                                   }
+                                  // check user auth start
                                 } else {
                                   context.push(
                                       "/keywords/${fulldata[index]['id']}");

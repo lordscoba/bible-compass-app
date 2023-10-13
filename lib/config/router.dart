@@ -48,17 +48,25 @@ class _MyRouterState extends ConsumerState<MyRouter> {
 
   @override
   Widget build(BuildContext context) {
-    FutureOr<String?> redirect1(
+    FutureOr<String?> redirectStrict(
         BuildContext context, GoRouterState state) async {
+      checkAuth(ref, user, userstate);
+
+      // get status
       final prefs = await ref.watch(sharedPrefProvider);
-      // get token
       final bool status = prefs.getBool('status') ?? false;
+
       if (status == false) {
         return '/login';
       } else {
-        checkAuth(ref, user, userstate);
         return null;
       }
+    }
+
+    FutureOr<String?> redirectNotStrict(
+        BuildContext context, GoRouterState state) async {
+      checkAuth(ref, user, userstate);
+      return null;
     }
 
     // GoRouter configuration
@@ -91,17 +99,17 @@ class _MyRouterState extends ConsumerState<MyRouter> {
         GoRoute(
           path: '/home',
           builder: (context, state) => const HomeScreen(),
-          redirect: redirect1,
+          redirect: redirectNotStrict,
         ),
         GoRoute(
           path: '/category',
           builder: (context, state) => const CategoryPage(),
-          redirect: redirect1,
+          redirect: redirectNotStrict,
         ),
         GoRoute(
           path: '/bible',
           builder: (context, state) => const BibleApi(),
-          redirect: redirect1,
+          redirect: redirectNotStrict,
         ),
         GoRoute(
           path: '/keywords/:catid',
@@ -111,7 +119,7 @@ class _MyRouterState extends ConsumerState<MyRouter> {
               catId: catid!,
             );
           },
-          redirect: redirect1,
+          redirect: redirectNotStrict,
         ),
         GoRoute(
           path: '/verse/:keywid',
@@ -121,39 +129,39 @@ class _MyRouterState extends ConsumerState<MyRouter> {
               keywId: keywid!,
             );
           },
-          redirect: redirect1,
+          redirect: redirectNotStrict,
         ),
         GoRoute(
           path: '/profile',
           builder: (context, state) => const ProfilePage(),
-          redirect: redirect1,
+          redirect: redirectStrict,
         ),
         GoRoute(
           path: '/sub',
           builder: (context, state) => const SubPage(),
-          redirect: redirect1,
+          redirect: redirectStrict,
         ),
         GoRoute(
           path: '/favorite',
           builder: (context, state) => const FavouritePage(),
-          redirect: redirect1,
+          redirect: redirectStrict,
         ),
 
         // admin screen
         GoRoute(
           path: '/admin',
           builder: (context, state) => const AdminHome(),
-          redirect: redirect1,
+          redirect: redirectStrict,
         ),
         GoRoute(
           path: '/admin/users',
           builder: (context, state) => const AdminUsers(),
-          redirect: redirect1,
+          redirect: redirectStrict,
         ),
         GoRoute(
           path: '/admin/categories',
           builder: (context, state) => const AdminCategory(),
-          redirect: redirect1,
+          redirect: redirectStrict,
         ),
         GoRoute(
           path: '/admin/keywords/:catid',
@@ -161,12 +169,12 @@ class _MyRouterState extends ConsumerState<MyRouter> {
             final catid = state.pathParameters['catid'];
             return AdminKeyword(catId: catid);
           },
-          redirect: redirect1,
+          redirect: redirectStrict,
         ),
         GoRoute(
           path: '/admin/subscription',
           builder: (context, state) => const AdminSubscription(),
-          redirect: redirect1,
+          redirect: redirectStrict,
         ),
         GoRoute(
           path: '/admin/verses/:keywid',
@@ -176,7 +184,7 @@ class _MyRouterState extends ConsumerState<MyRouter> {
               keywid: keywid,
             );
           },
-          redirect: redirect1,
+          redirect: redirectStrict,
         ),
       ],
     );
