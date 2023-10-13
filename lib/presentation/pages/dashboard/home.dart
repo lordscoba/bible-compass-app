@@ -1,4 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:bible_compass_app/data/remote/remotebible.dart';
 import 'package:bible_compass_app/domain/models/favourites/favorite.dart';
 import 'package:bible_compass_app/domain/models/user/user.dart';
 import 'package:bible_compass_app/domain/providers/authproviders.dart';
@@ -10,6 +11,7 @@ import 'package:bible_compass_app/presentation/widgets/widgets.dart';
 import 'package:clay_containers/widgets/clay_container.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,7 +23,6 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final AuthState auth = ref.watch(loginProvider);
     var authData = auth.data['data'];
-    // final bool isProjectAuthenticated = ref.watch(isAuthenticated);
     final favsfuture =
         Future.delayed(const Duration(milliseconds: 100), () async {
       FavoriteState favscalled = const FavoriteState();
@@ -92,28 +93,8 @@ class HomeScreen extends ConsumerWidget {
                 ),
               ),
               const HorizontalSpace(),
-              const Text(
-                "what do you want to do today?",
-                style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black54,
-                    letterSpacing: 0.02,
-                    wordSpacing: .05),
-              ),
-              Container(
-                padding: const EdgeInsets.all(8),
-                width: 350,
-                child: const Text(
-                  "With Bible Compass, you can search the categories and keywords for Related bible verses for your sermon topics, it also has other features like bookmarking your favorites keywords and online bible, which are made to ease your scripture navigation.",
-                  style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black54,
-                      letterSpacing: 0.02,
-                      wordSpacing: .05),
-                ),
-              ),
+              // daily bible verse
+              const DailyBibleVerse(),
               const HorizontalSpace(),
               const HorizontalSpace(),
               Wrap(
@@ -337,6 +318,98 @@ class HomeScreen extends ConsumerWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class DailyBibleVerse extends ConsumerWidget {
+  const DailyBibleVerse({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final remotebibleapi = ref.watch(remoteApiProvider);
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 25, bottom: 15),
+              child: TextButton(
+                onPressed: () {
+                  context.push("/faq");
+                },
+                child: const Text(
+                  "Frequently asked Questions?",
+                  style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      decoration: TextDecoration.underline,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: Color.fromARGB(135, 236, 14, 14),
+                      letterSpacing: 0.02,
+                      wordSpacing: .05),
+                ),
+              ),
+            ),
+          ],
+        ),
+        remotebibleapi.when(
+          data: (bible) {
+            return Column(
+              children: [
+                const Text(
+                  "Verse of the day",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black54,
+                      letterSpacing: 0.02,
+                      wordSpacing: .05),
+                ),
+                FadeIn(
+                  duration: const Duration(seconds: 2),
+                  curve: Curves.easeIn,
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    width: 350,
+                    child: Text(
+                      bible['data']['verse']['details']['text'],
+                      style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black54,
+                          letterSpacing: 0.02,
+                          wordSpacing: .05),
+                    ),
+                  ),
+                ),
+                Text(
+                  bible['data']['verse']['details']['reference'],
+                  style: const TextStyle(
+                      fontStyle: FontStyle.italic,
+                      decoration: TextDecoration.underline,
+                      fontSize: 17,
+                      fontWeight: FontWeight.w300,
+                      color: Color(0xFF0BA37F),
+                      letterSpacing: 0.02,
+                      wordSpacing: .05),
+                ),
+              ],
+            );
+
+            // Render the data when available
+          },
+          loading: () => const Center(
+            child: CupertinoActivityIndicator(
+              radius: 50,
+            ),
+          ),
+          error: (error, stackTrace) => Text('Error: ${error.toString()}'),
+        ),
+      ],
     );
   }
 }

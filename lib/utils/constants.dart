@@ -109,6 +109,9 @@ class EnvironmentVerseConfig {
       "http$url/api/v1/admin/deleteverse/"; //keyword id && Bible Verse Id
   // ai bible
   static const String aiBible = "http$url/api/v1/aibible"; //query
+
+  //random bible
+  static const String randomBible = "http$url/api/v1/randombible";
 }
 
 class EnvironmentFavConfig {
