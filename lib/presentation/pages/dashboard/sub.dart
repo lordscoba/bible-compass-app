@@ -172,8 +172,8 @@ class InnerClayListCategory extends ConsumerWidget {
           for (Map<String, dynamic> content in result.data["data"]) {
             if (content['status'] &&
                 !content['processing'] &&
-                DateTime.parse(content['date_created'])
-                    .isAfter(DateTime.parse(content['date_expiring'])) &&
+                DateTime.parse(content['date_expiring'])
+                    .isAfter(DateTime.parse(content['date_created'])) &&
                 !content['failed']) {
               itemExists = true;
               break;
@@ -216,7 +216,6 @@ class InnerClayListCategory extends ConsumerWidget {
                           if (snapshot.hasData) {
                             // debugPrint(snapshot.data?.data['data'].toString());
                             final fulldata = snapshot.data?.data['data'] ?? '';
-
                             return ListView.builder(
                               itemCount: fulldata.length,
                               itemBuilder: (context, index) {

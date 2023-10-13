@@ -49,17 +49,25 @@ void checkAuth(dynamic ref, UserModel user, AuthState userstate) async {
   if (token.isNotEmpty) {
     hasExpired = JwtDecoder.isExpired(token);
   }
+
   // check if its authenticated
   if (!hasExpired && token.isNotEmpty) {
+    //important auth variable
     ref.watch(isAuthenticated.notifier).state = true;
-    // ref.watch(loginProvider.notifier).state = true;
+    await prefs.setBool('status', true);
+    //important ends
+
+    // since auth is active get details from cache and update provider
     final String details = prefs.getString('details') ?? '';
     Map<String, dynamic> details1 = jsonDecode(details);
-
     ref.read(loginProvider.notifier).state =
         userstate.copyWith(isLoading: false, data: details1, error: '');
   } else if (hasExpired && token.isNotEmpty) {
+    //important auth variable
     ref.watch(isAuthenticated.notifier).state = true;
+    await prefs.setBool('status', true);
+    //important ends
+
     // perform login if its not authenticated
     final String password = prefs.getString('password') ?? '';
     final String email = prefs.getString('email') ?? '';
@@ -71,7 +79,11 @@ void checkAuth(dynamic ref, UserModel user, AuthState userstate) async {
         await ref.read(loginProvider.notifier).performLogin(user.toJson());
       });
     }
+    // perform login ends
   } else {
+    //important auth variable
+    await prefs.setBool('status', false);
     ref.watch(isAuthenticated.notifier).state = false;
+    //important ends
   }
 }

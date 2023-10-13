@@ -105,16 +105,16 @@ class CategoryNotifier extends StateNotifier<CategoryState> {
       state = state.copyWith(isLoading: true, error: '');
       final dio = Dio();
 
-      // decode header
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final String? token = prefs.getString('token');
-      bool hasExpired = JwtDecoder.isExpired(token ?? '');
-      if (!hasExpired) {
-        dio.options.headers["bearer"] = token.toString();
-      } else {
-        state = state.copyWith(isLoading: false, error: "token has expired");
-      }
-      //end decode header
+      // // decode header
+      // final SharedPreferences prefs = await SharedPreferences.getInstance();
+      // final String? token = prefs.getString('token');
+      // bool hasExpired = JwtDecoder.isExpired(token ?? '');
+      // if (!hasExpired) {
+      //   dio.options.headers["bearer"] = token.toString();
+      // } else {
+      //   state = state.copyWith(isLoading: false, error: "token has expired");
+      // }
+      // //end decode header
 
       // Make the POST request
       final response = await dio.get(
@@ -125,7 +125,7 @@ class CategoryNotifier extends StateNotifier<CategoryState> {
         //   },
         // ),
       );
-      dio.close();
+      // dio.close();
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Request successful
         state = state.copyWith(

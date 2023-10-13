@@ -21,12 +21,15 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final AuthState auth = ref.watch(loginProvider);
     var authData = auth.data['data'];
-
+    // final bool isProjectAuthenticated = ref.watch(isAuthenticated);
     final favsfuture =
         Future.delayed(const Duration(milliseconds: 100), () async {
-      final favscalled = await ref
-          .watch(favProvider.notifier)
-          .perfromGetFavsRequest(authData["email"]);
+      FavoriteState favscalled = const FavoriteState();
+      if (!authData.isEmpty) {
+        favscalled = await ref
+            .watch(favProvider.notifier)
+            .perfromGetFavsRequest(authData["email"]);
+      }
       return favscalled;
     });
 
@@ -78,7 +81,7 @@ class HomeScreen extends ConsumerWidget {
                         animatedTexts: [
                           !(authData.toString() == 'null')
                               ? WavyAnimatedText("Hi ${authData['username']}")
-                              : WavyAnimatedText("No name"),
+                              : WavyAnimatedText("Bible Lover"),
                           WavyAnimatedText('Welcome'),
                           //   WavyAnimatedText('Welcome'),
                         ],
@@ -187,7 +190,7 @@ class HomeScreen extends ConsumerWidget {
 
                             // debugPrint(fulldata.toString());
 
-                            if (fulldata.isNotEmpty) {
+                            if (fulldata.isNotEmpty || fulldata.isNull) {
                               return SizedBox(
                                 height: 330,
                                 child: ListView.builder(
@@ -273,8 +276,50 @@ class HomeScreen extends ConsumerWidget {
 
                             // return const Text("hello hasdata");
                           } else if (snapshot.hasError) {
-                            // debugPrint(snapshot.error.toString());
-                            return Text('Error: ${snapshot.error}');
+                            // return Text('Error: ${snapshot.error}');
+                            return SizedBox(
+                              height: 330,
+                              child: ListView(
+                                children: [
+                                  const SizedBox(
+                                    height: 50,
+                                  ),
+                                  const ListTile(
+                                    title: Text(
+                                      "You are not logged in, Log in to see favorites",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        fontStyle: FontStyle.italic,
+                                        color: Color(0xFF0BA37F),
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 45),
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              const Color(0xFF0BA37F),
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 20, horizontal: 48.0),
+                                          shadowColor: Colors.grey[800],
+                                          elevation: 6),
+                                      onPressed: () {
+                                        context.go("/login");
+                                      },
+                                      child: const Text("Go to Login Page...",
+                                          style: TextStyle(fontSize: 18)),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
                           } else {
                             return const Center(
                               child: CupertinoActivityIndicator(

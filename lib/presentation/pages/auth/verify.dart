@@ -65,6 +65,12 @@ class _VerifyUserScreenState extends ConsumerState<VerifyUserScreen> {
     });
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            context.push("/home");
+          },
+          icon: const Icon(Icons.home),
+        ),
         title: const Text("Account Forgot Password"),
       ),
       body: Container(

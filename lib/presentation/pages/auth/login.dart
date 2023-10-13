@@ -76,6 +76,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            context.push("/home");
+          },
+          icon: const Icon(Icons.home),
+        ),
         title: const Text("Account Login"),
       ),
       body: Container(
