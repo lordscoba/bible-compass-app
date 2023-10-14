@@ -55,11 +55,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
               image: AssetImage("assets/images/snow.jpg"),
               fit: BoxFit.cover),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
           children: [
-            const Spacer(
-              flex: 1,
+            const SizedBox(
+              height: 25,
             ),
             const Center(
               child: Image(
@@ -68,8 +68,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                 fit: BoxFit.cover,
               ),
             ),
-            const Spacer(
-              flex: 1,
+            const SizedBox(
+              height: 50,
             ),
             Container(
               padding: const EdgeInsets.all(15),
@@ -82,10 +82,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                       color: Colors.black.withOpacity(0.65),
                       fontWeight: FontWeight.w700,
                       fontSize: 18),
-                  "Bible Compass was built to make it hassle free finding related bible verses for your sermon topics, it also has other cool features, You can now focus on other tasks involved in preparing for your sermons!"),
+                  "Bible Compass was built for your benefit in studying the bible and having in-depth knowledge of bible verses relating to different asopects of our life"),
             ),
-            const Spacer(
-              flex: 1,
+            const SizedBox(
+              height: 50,
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
@@ -119,7 +119,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
               child: const Text("Get Started"),
             ),
             const SizedBox(
-              height: 15,
+              height: 40,
             ),
             TextButton(
               onPressed: _launchUrl,
