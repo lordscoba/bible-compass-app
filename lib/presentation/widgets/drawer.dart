@@ -94,6 +94,13 @@ class _DrawState extends ConsumerState<Draw> {
               await _launchUrl(_urlRateUs);
             },
           ),
+          DrawerPart(
+            icon: Icons.question_answer_outlined,
+            text: 'Faq',
+            onTap: () {
+              context.push('/faq');
+            },
+          ),
           isProjectAuthenticated
               ? DrawerPart(
                   icon: Icons.logout_outlined,
