@@ -313,7 +313,31 @@ class HomeScreen extends ConsumerWidget {
                     ],
                   ),
                 ),
-              )
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 25, bottom: 15),
+                    child: TextButton(
+                      onPressed: () {
+                        context.push("/faq");
+                      },
+                      child: const Text(
+                        "Frequently asked Questions?",
+                        style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            decoration: TextDecoration.underline,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                            color: Color.fromARGB(135, 236, 14, 14),
+                            letterSpacing: 0.02,
+                            wordSpacing: .05),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
@@ -332,36 +356,12 @@ class DailyBibleVerse extends ConsumerWidget {
     final remotebibleapi = ref.watch(remoteApiProvider);
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 25, bottom: 15),
-              child: TextButton(
-                onPressed: () {
-                  context.push("/faq");
-                },
-                child: const Text(
-                  "Frequently asked Questions?",
-                  style: TextStyle(
-                      fontStyle: FontStyle.italic,
-                      decoration: TextDecoration.underline,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                      color: Color.fromARGB(135, 236, 14, 14),
-                      letterSpacing: 0.02,
-                      wordSpacing: .05),
-                ),
-              ),
-            ),
-          ],
-        ),
         remotebibleapi.when(
           data: (bible) {
             return Column(
               children: [
                 const Text(
-                  "Verse of the day",
+                  "Daily Capsule",
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
