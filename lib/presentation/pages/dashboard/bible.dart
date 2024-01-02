@@ -63,8 +63,11 @@ class _BibleApiState extends ConsumerState<BibleApi> {
                 bibleapi.when(
                   data: (bible) {
                     // debugPrint(user['data'].toString());
-                    dynamic book = bible['data']?['book'] ?? [];
                     // debugPrint(bibleapi.asData?.value['message'].toString());
+
+                    // dynamic book = bible['data']?['book'] ?? [];
+                    dynamic book = bible['data']?['verses'] ?? [];
+                    // debugPrint(bible['data']?['verses'].toString());
 
                     return book == null || book.isEmpty
                         ? const Center(
@@ -76,23 +79,14 @@ class _BibleApiState extends ConsumerState<BibleApi> {
                         : Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
+                              Text(
+                                // "Book: ${bible['data']?['book_name'].toString()}",
+                                "Book: ${bible['data']?['ref'][0].toString()}",
+                                style: const TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
                               Column(
                                 children: book.map<Widget>((dynamic item) {
-                                  Map<dynamic, dynamic> verse = item['chapter'];
-
-                                  // Convert keys to numbers and sort in ascending order
-                                  var sortedKeys = verse.keys.toList()
-                                    ..sort((a, b) =>
-                                        int.parse(a).compareTo(int.parse(b)));
-
-                                  Map<String, dynamic> sortedMap = {};
-
-                                  for (var key in sortedKeys) {
-                                    sortedMap[key] = verse[key];
-                                  }
-                                  // Convert keys to numbers and sort in ascending order ends
-
-                                  // debugPrint(verse.toString());
                                   return Container(
                                     decoration: BoxDecoration(
                                       color: Colors.white,
@@ -105,39 +99,31 @@ class _BibleApiState extends ConsumerState<BibleApi> {
                                     ),
                                     width:
                                         MediaQuery.of(context).size.width - 50,
+                                    margin:
+                                        const EdgeInsets.symmetric(vertical: 4),
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 20, vertical: 10),
                                     child: Column(
                                       children: [
                                         Text(
-                                          "Book: ${item['book_name'].toString()}",
-                                          style: const TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          "Chapter: ${item['chapter_nr'].toString()}",
+                                          "Chapter: ${item['chapter'].toString()}",
                                           style: const TextStyle(
                                               fontSize: 15,
                                               fontWeight: FontWeight.w400),
                                         ),
                                         const SizedBox(
-                                          height: 15,
+                                          height: 10,
                                         ),
                                         Column(
-                                          // children: verse.entries
-                                          children: sortedMap.entries
-                                              .map<Widget>((entry) {
-                                            String key = entry.key.toString();
-                                            String value =
-                                                entry.value['verse'].toString();
-                                            return Column(
-                                              children: [
-                                                Text("Verse: $key"),
-                                                Text(value)
-                                              ],
-                                            );
-                                          }).toList(),
+                                          children: [
+                                            Text(
+                                              "Verse: ${item['verse'].toString()}",
+                                              style: const TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w400),
+                                            ),
+                                            Text(item["text"].toString()),
+                                          ],
                                         )
                                       ],
                                     ),
