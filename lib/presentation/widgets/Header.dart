@@ -10,8 +10,11 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    final currentRoute = GoRouter.of(context).location;
+  Widget build(
+    BuildContext context,
+  ) {
+    final currentRoute =
+        GoRouter.of(context).routeInformationProvider.value.location;
     return AppBar(
       title: Text(
         title,
@@ -28,7 +31,7 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
                       context.pop();
                     } else {
                       debugPrint("cannot pop");
-                      debugPrint(currentRoute);
+                      // debugPrint(currentRoute);
                       // context.pop();
                     }
                   },
@@ -59,7 +62,9 @@ class AdminHeader extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentRoute = GoRouter.of(context).location;
+    // final currentRoute = Navigator.of(context).currentRoute;
+    final currentRoute =
+        GoRouter.of(context).routeInformationProvider.value.location;
     return AppBar(
       title: Text(
         title,

@@ -62,14 +62,15 @@ class ProfilePage extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const AvatarGlow(
+                      AvatarGlow(
+                        // elevation: 8.0,
                         glowColor: Colors.greenAccent,
-                        endRadius: 100.0,
-                        duration: Duration(milliseconds: 2000),
+                        // endRadius: 100.0,
+                        duration: const Duration(milliseconds: 2000),
                         repeat: true,
-                        showTwoGlows: true,
-                        repeatPauseDuration: Duration(milliseconds: 100),
-                        child: Image(
+                        // showTwoGlows: true,
+                        // repeatPauseDuration: const Duration(milliseconds: 100),
+                        child: const Image(
                           image: AssetImage(
                             "assets/images/avatar.png",
                           ),

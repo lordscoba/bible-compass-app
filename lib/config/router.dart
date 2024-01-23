@@ -71,7 +71,7 @@ class _MyRouterState extends ConsumerState<MyRouter> {
     }
 
     // GoRouter configuration
-    final router = GoRouter(
+    final GoRouter router = GoRouter(
       initialLocation: '/splash',
       errorBuilder: (context, state) => const ErrorScreen(),
       // initialLocation: '/signup',
@@ -202,7 +202,7 @@ class _MyRouterState extends ConsumerState<MyRouter> {
 
         return MediaQuery(
           data: MediaQuery.of(context).copyWith(
-            textScaleFactor: desiredTextScaleFactor,
+            textScaler: const TextScaler.linear(desiredTextScaleFactor),
           ),
           child: child!,
         );
