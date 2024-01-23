@@ -61,11 +61,11 @@ class UserVersePage extends ConsumerWidget {
                     // debugPrint(snapshot.data?.data['data'].toString());
                     final fulldata = snapshot.data?.data['data'];
                     if (fulldata == null) {
-                      return Center(
+                      return const Center(
                           child: ClayContainer(
                               width: 200,
                               height: 200,
-                              child: const Center(
+                              child: Center(
                                 child: Text(
                                   "No verse",
                                   style: TextStyle(
